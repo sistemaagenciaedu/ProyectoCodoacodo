@@ -54,6 +54,7 @@ private OpcionAlumService ops;
         formAlum=saveForm(formAlum);
         for(PreguntaDTO preg:formDTO.getPreguntas()){
             PreguntaAlum preguntaAlum=new PreguntaAlum();
+            preguntaAlum.setIdPregunta(preg.getId());
             preguntaAlum.setDescripcion(preg.getDescripcion());
             preguntaAlum.setEnunciado(preg.getEnunciado());
             preguntaAlum.setTipo(preg.getTipo());

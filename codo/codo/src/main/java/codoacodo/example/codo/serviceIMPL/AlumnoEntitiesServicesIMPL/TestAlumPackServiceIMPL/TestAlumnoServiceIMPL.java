@@ -64,6 +64,7 @@ private TestAOpcionService ops;
        for (MateriaTestDTO materiaTestDTO:testDTO.getMaterias()){
            TestAMateria testAMateria=new TestAMateria();
            testAMateria.setNombre(materiaTestDTO.getNombre());
+           testAMateria.setMateriaId(materiaTestDTO.getId());
            testAMateria.setFechaM(new Date().toString());
            testAMateria.setnPreguntas(materiaTestDTO.getnPreguntas());
            testAMateria.setTestalumno(testAlumno);

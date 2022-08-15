@@ -1,6 +1,8 @@
 package codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack;
 
 
+import codoacodo.example.codo.Entities.AlumnoEntities.FormAlumPack.PreguntaAlum;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,13 +11,14 @@ import java.util.List;
 @Entity
 
 @Table(name = "testamateria")
-public class TestAMateria {
+public class TestAMateria implements Comparable<TestAMateria>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
     private String fechaM=new Date().toGMTString();
     private Integer nPreguntas;
+    private Long materiaId;
     private Boolean estado=false;
     private Integer puntos=0;
     @OneToMany(mappedBy = "materiaalumno",cascade = CascadeType.ALL)
@@ -28,11 +31,12 @@ public class TestAMateria {
     public TestAMateria() {
     }
 
-    public TestAMateria(Long id, String nombre, String fechaM, Integer nPreguntas, Boolean estado, Integer puntos, List<TestAPregunta> preguntasAlumno, TestAlumno testalumno) {
+    public TestAMateria(Long id, String nombre, String fechaM, Integer nPreguntas, Long materiaId, Boolean estado, Integer puntos, List<TestAPregunta> preguntasAlumno, TestAlumno testalumno) {
         this.id = id;
         this.nombre = nombre;
         this.fechaM = fechaM;
         this.nPreguntas = nPreguntas;
+        this.materiaId = materiaId;
         this.estado = estado;
         this.puntos = puntos;
         this.preguntasAlumno = preguntasAlumno;
@@ -71,6 +75,14 @@ public class TestAMateria {
         this.nPreguntas = nPreguntas;
     }
 
+    public Long getMateriaId() {
+        return materiaId;
+    }
+
+    public void setMateriaId(Long materiaId) {
+        this.materiaId = materiaId;
+    }
+
     public Boolean getEstado() {
         return estado;
     }
@@ -101,5 +113,9 @@ public class TestAMateria {
 
     public void setTestalumno(TestAlumno testalumno) {
         this.testalumno = testalumno;
+    }
+
+    public int compareTo(TestAMateria o) {
+        return (int) (materiaId - o.materiaId);
     }
 }

@@ -20,9 +20,12 @@ import codoacodo.example.codo.service.DTOSServices.PTestDtoService.MateriaTestDT
 import codoacodo.example.codo.service.DTOSServices.PTestDtoService.OpcionTestDTOService;
 import codoacodo.example.codo.service.DTOSServices.PTestDtoService.PreguntaTestDTOService;
 import codoacodo.example.codo.service.DTOSServices.PTestDtoService.TestDTOService;
+import codoacodo.example.codo.service.IngresanteService;
 import codoacodo.example.codo.service.editabilidadServices.*;
+import codoacodo.example.codo.utiles.ExcelFileExporter;
 import codoacodo.example.codo.utiles.GenerarListaConTexto;
 import codoacodo.example.codo.utiles.Listas;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +35,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.TreeSet;
 
 @Controller
 
@@ -69,6 +77,8 @@ public class AdminController {
     private PreguntaTestDTOService ptests;
     @Autowired
     private OpcionTestDTOService optestdtos;
+    @Autowired
+    private IngresanteService ingres;
 //controlador panel de administracion
     @GetMapping("")
     public String panelAdmin(Model model, Ingresante ingresante){
@@ -380,8 +390,140 @@ public String listar(Long idMat,Long idTest,Long idPreg , Model model,String tOp
         return "redirect:/admin/opciontest/list?idMat="+idMat+"&idTest="+idTest+"&idPreg="+idPreg+"&tOpcion="+tOpcion;
     }
 
+//controlador de filtrado de ingresantes
+@GetMapping("/filtrar")
+public String exportar(Model model,
+                       @RequestParam(required = false, name = "desde") String desde,
+                       @RequestParam(required = false, name = "query") String query,
+                       @RequestParam(required = false, name = "hasta") String hasta,
+                       @RequestParam(required = false, name = "genero") String genero,
+                       @RequestParam(required = false, name = "encuesta") String encuesta,
+                       @RequestParam(required = false, name = "tIngles") String tIngles,
+                       @RequestParam(required = false, name = "tProgramacion") String tProgramacion,
+                       @RequestParam(required = false, name = "tLogica") String tLogica,
+                       @RequestParam(required = false, defaultValue = "ASC") String order,
+                       @RequestParam(required = false,  defaultValue = "no") String no
 
+) {
+    List<Ingresante> lista = new ArrayList<>();
+    if(no.equalsIgnoreCase("no")){
 
+    }else{
+        if (query.equalsIgnoreCase("") && desde.equalsIgnoreCase("") && hasta.equalsIgnoreCase("") && genero.equalsIgnoreCase("") && encuesta.equalsIgnoreCase("") && tIngles.equalsIgnoreCase("")  && tLogica.equalsIgnoreCase("")   && tProgramacion.equalsIgnoreCase("")   ) {
+            lista = ingres.findAllIngresante();
+        } else {
+
+            if (encuesta.equalsIgnoreCase("")) {
+                encuesta = null;
+            }
+            if (tIngles.equalsIgnoreCase("")) {
+                tIngles = null;
+            }
+            if (tProgramacion.equalsIgnoreCase("")) {
+                tProgramacion = null;
+            }
+
+            if (tLogica.equalsIgnoreCase("")) {
+                tLogica = null;
+            }
+            if (genero.equalsIgnoreCase(" ")) {
+                genero = null;
+            }
+            System.out.println(desde);
+            System.out.println(hasta);
+            lista = ingres.getByFilter(query, desde,  hasta,  genero,  encuesta,tIngles, tProgramacion,tLogica , order);
+        }
+    }
+
+    model.addAttribute("ingre", lista);
+    model.addAttribute("quer", query);
+    model.addAttribute("des", desde);
+    model.addAttribute("has", hasta);
+    model.addAttribute("gen", genero);
+    model.addAttribute("enc", encuesta);
+    model.addAttribute("tIng", tIngles);
+    model.addAttribute("tPro", tProgramacion);
+    model.addAttribute("tLog", tLogica);
+    model.addAttribute("ord", order);
+
+    return "tablaingresantes";
+}
+//Controlador de exportacion a excel
+@GetMapping("/filtrar/ing.xlsx")
+    public void downloadCsvFiltrado(
+        HttpServletResponse response, @RequestParam(required = false, name = "num")Long num,
+        @RequestParam(required = false, name = "desde") String desde,
+        @RequestParam(required = false, name = "query") String query,
+        @RequestParam(required = false, name = "hasta") String hasta,
+        @RequestParam(required = false, name = "genero") String genero,
+        @RequestParam(required = false, name = "encuesta") String encuesta,
+        @RequestParam(required = false, name = "tIngles") String tIngles,
+        @RequestParam(required = false, name = "tProgramacion") String tProgramacion,
+        @RequestParam(required = false, name = "tLogica") String tLogica,
+        @RequestParam(required = false, defaultValue = "ASC") String order,
+        @RequestParam(required = false,  defaultValue = "no") String no
+
+    ) throws IOException {
+        List<Ingresante> lista = new ArrayList<>();
+        if(no.equalsIgnoreCase("no")){
+
+        }else{
+            if (query.equalsIgnoreCase("") && desde.equalsIgnoreCase("") && hasta.equalsIgnoreCase("") && genero.equalsIgnoreCase("") && encuesta.equalsIgnoreCase("") && tIngles.equalsIgnoreCase("")  && tLogica.equalsIgnoreCase("")   && tProgramacion.equalsIgnoreCase("")   ) {
+                lista = ingres.findAllIngresante();
+            } else {
+
+                if (encuesta.equalsIgnoreCase("")) {
+                    encuesta = null;
+                }
+                if (tIngles.equalsIgnoreCase("")) {
+                    tIngles = null;
+                }
+                if (tProgramacion.equalsIgnoreCase("")) {
+                    tProgramacion = null;
+                }
+
+                if (tLogica.equalsIgnoreCase("")) {
+                    tLogica = null;
+                }
+                if (genero.equalsIgnoreCase(" ")) {
+                    genero = null;
+                }
+                if(desde.equalsIgnoreCase("")){
+                    desde=null;
+                }
+                if(hasta.equalsIgnoreCase("")){
+                    hasta=null;
+                }
+                System.out.println(desde);
+                System.out.println(hasta);
+                lista = ingres.getByFilter(query, desde,  hasta,  genero,  encuesta,tIngles, tProgramacion,tLogica , order);
+            }
+        }
+
+//            model.addAttribute("preguntas",preguntas);
+        List<Ingresante> ingresantex=new ArrayList<>();
+        for (Ingresante in: lista) {
+            if (in.getFormAlum()!=null){
+                Ingresante ingre=new Ingresante();
+                ingre=in;
+
+                ingresantex.add(in);
+            }
+        }
+//            model.addAttribute("ingre",ingresantex);
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=ing.xlsx");
+
+//            ByteArrayInputStream stream = ExcelFileExporter.ingresantesExcelExpoter(preguntas,ingresantex);
+        XSSFWorkbook workbook= ExcelFileExporter.ingresantesExcelExpoter(tdtos.findTestById(1L),fs.findFormById(1L),ingresantex);
+
+//            System.out.println("llego");
+//            workbook.write(response.getOutputStream());
+        ServletOutputStream outputStream = response.getOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
 
     //controladores que inicializa las provincias
     @GetMapping("/inicializarelproyecto")

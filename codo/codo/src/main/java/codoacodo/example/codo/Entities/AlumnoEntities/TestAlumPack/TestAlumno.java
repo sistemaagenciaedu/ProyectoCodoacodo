@@ -3,9 +3,7 @@ package codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 
@@ -20,12 +18,12 @@ public class TestAlumno {
     private Boolean estado=false;
     private Integer puntos=0;
     @OneToMany(mappedBy = "testalumno",cascade = CascadeType.ALL)
-    private List<TestAMateria> materiasAlumno=new ArrayList<>();
+    private Set<TestAMateria> materiasAlumno=new TreeSet<>();
 
     public TestAlumno() {
     }
 
-    public TestAlumno(Long id, String nombre, String fechaM, Integer tiempo, Boolean estado, Integer puntos, List<TestAMateria> materiasAlumno) {
+    public TestAlumno(Long id, String nombre, String fechaM, Integer tiempo, Boolean estado, Integer puntos, Set<TestAMateria> materiasAlumno) {
         this.id = id;
         this.nombre = nombre;
         this.fechaM = fechaM;
@@ -83,11 +81,11 @@ public class TestAlumno {
         this.puntos = puntos;
     }
 
-    public List<TestAMateria> getMateriasAlumno() {
+    public Set<TestAMateria> getMateriasAlumno() {
         return materiasAlumno;
     }
 
-    public void setMateriasAlumno(List<TestAMateria> materiasAlumno) {
+    public void setMateriasAlumno(Set<TestAMateria> materiasAlumno) {
         this.materiasAlumno = materiasAlumno;
     }
 }

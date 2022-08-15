@@ -6,7 +6,7 @@ import java.util.*;
 @Entity
 
 @Table(name = "materiatestdto")
-public class MateriaTestDTO {
+public class MateriaTestDTO implements Comparable<MateriaTestDTO>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -79,5 +79,8 @@ public class MateriaTestDTO {
 
     public void setTest(TestDTO test) {
         this.test = test;
+    }
+    public int compareTo(MateriaTestDTO o) {
+        return (int) (id - o.id);
     }
 }

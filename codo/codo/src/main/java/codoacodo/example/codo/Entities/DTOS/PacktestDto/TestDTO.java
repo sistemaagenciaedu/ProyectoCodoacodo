@@ -14,12 +14,12 @@ public class TestDTO {
 private Integer tiempo;
 
     @OneToMany(mappedBy = "test",cascade = CascadeType.ALL)
-    private List<MateriaTestDTO> materias=new ArrayList<>();
+    private Set<MateriaTestDTO> materias=new TreeSet<>();
 
     public TestDTO() {
     }
 
-    public TestDTO(Long id, String nombre, String fechaM, Integer tiempo, List<MateriaTestDTO> materias) {
+    public TestDTO(Long id, String nombre, String fechaM, Integer tiempo, Set<MateriaTestDTO> materias) {
         this.id = id;
         this.nombre = nombre;
         this.fechaM = fechaM;
@@ -59,11 +59,11 @@ private Integer tiempo;
         this.tiempo = tiempo;
     }
 
-    public List<MateriaTestDTO> getMaterias() {
+    public Set<MateriaTestDTO> getMaterias() {
         return materias;
     }
 
-    public void setMaterias(List<MateriaTestDTO> materias) {
+    public void setMaterias(Set<MateriaTestDTO> materias) {
         this.materias = materias;
     }
 }

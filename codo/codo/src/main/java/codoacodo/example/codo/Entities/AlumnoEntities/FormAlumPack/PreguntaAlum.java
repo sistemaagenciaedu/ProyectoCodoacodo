@@ -12,6 +12,8 @@ public class PreguntaAlum implements Comparable<PreguntaAlum>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long idPregunta;
+    private String respuesta;
     private String descripcion;
     private String enunciado;
     private String tipo;
@@ -31,8 +33,10 @@ public class PreguntaAlum implements Comparable<PreguntaAlum>{
     public PreguntaAlum() {
     }
 
-    public PreguntaAlum(Long id, String descripcion, String enunciado, String tipo, String fechaM, Long asociacionId, List<OpcionAlum> opciones, FormAlum formulario) {
+    public PreguntaAlum(Long id, Long idPregunta, String respuesta, String descripcion, String enunciado, String tipo, String fechaM, Long asociacionId, List<OpcionAlum> opciones, FormAlum formulario) {
         this.id = id;
+        this.idPregunta = idPregunta;
+        this.respuesta = respuesta;
         this.descripcion = descripcion;
         this.enunciado = enunciado;
         this.tipo = tipo;
@@ -48,6 +52,22 @@ public class PreguntaAlum implements Comparable<PreguntaAlum>{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdPregunta() {
+        return idPregunta;
+    }
+
+    public void setIdPregunta(Long idPregunta) {
+        this.idPregunta = idPregunta;
+    }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
     }
 
     public String getDescripcion() {
@@ -107,6 +127,6 @@ public class PreguntaAlum implements Comparable<PreguntaAlum>{
     }
 
     public int compareTo(PreguntaAlum o) {
-        return (int) (id - o.id);
+        return (int) (idPregunta - o.idPregunta);
     }
 }
