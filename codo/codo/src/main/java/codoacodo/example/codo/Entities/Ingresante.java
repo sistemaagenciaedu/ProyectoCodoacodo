@@ -1,7 +1,7 @@
 package codoacodo.example.codo.Entities;
 
 import codoacodo.example.codo.Entities.AlumnoEntities.FormAlumPack.FormAlum;
-
+import codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack.TestAlumno;
 
 
 import javax.persistence.*;
@@ -46,11 +46,12 @@ public class Ingresante {
 
     @OneToOne(cascade = CascadeType.ALL)
     private FormAlum formAlum;
-
+@OneToOne(cascade = CascadeType.ALL)
+private TestAlumno testAlumno;
     public Ingresante() {
     }
 
-    public Ingresante(Long id, String mail, Long celu, String tDoc, String numDoc, String apellido, String nombre, String fNacimiento, String genero, String nacionalidad, String pais, String provincia, String localidadResi, String domicilio, String rol, Boolean encuesta, Boolean tIngles, Boolean tProgramacion, Boolean tLogica, int ingles, int programacion, int logica, int totalpuntos, Date fechaEncuenta, FormAlum formAlum) {
+    public Ingresante(Long id, String mail, Long celu, String tDoc, String numDoc, String apellido, String nombre, String fNacimiento, String genero, String nacionalidad, String pais, String provincia, String localidadResi, String domicilio, String rol, Boolean encuesta, Boolean tIngles, Boolean tProgramacion, Boolean tLogica, int ingles, int programacion, int logica, int totalpuntos, Date fechaEncuenta, FormAlum formAlum, TestAlumno testAlumno) {
         this.id = id;
         this.mail = mail;
         this.celu = celu;
@@ -76,6 +77,7 @@ public class Ingresante {
         this.totalpuntos = totalpuntos;
         this.fechaEncuenta = fechaEncuenta;
         this.formAlum = formAlum;
+        this.testAlumno = testAlumno;
     }
 
     public Long getId() {
@@ -276,5 +278,13 @@ public class Ingresante {
 
     public void setFormAlum(FormAlum formAlum) {
         this.formAlum = formAlum;
+    }
+
+    public TestAlumno getTestAlumno() {
+        return testAlumno;
+    }
+
+    public void setTestAlumno(TestAlumno testAlumno) {
+        this.testAlumno = testAlumno;
     }
 }

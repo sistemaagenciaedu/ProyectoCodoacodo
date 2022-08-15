@@ -15,7 +15,9 @@ public class TestAMateria {
     private Long id;
     private String nombre;
     private String fechaM=new Date().toGMTString();
-
+    private Integer nPreguntas;
+    private Boolean estado=false;
+    private Integer puntos=0;
     @OneToMany(mappedBy = "materiaalumno",cascade = CascadeType.ALL)
     private List<TestAPregunta> preguntasAlumno=new ArrayList<>();
 
@@ -26,10 +28,13 @@ public class TestAMateria {
     public TestAMateria() {
     }
 
-    public TestAMateria(Long id, String nombre, String fechaM, List<TestAPregunta> preguntasAlumno, TestAlumno testalumno) {
+    public TestAMateria(Long id, String nombre, String fechaM, Integer nPreguntas, Boolean estado, Integer puntos, List<TestAPregunta> preguntasAlumno, TestAlumno testalumno) {
         this.id = id;
         this.nombre = nombre;
         this.fechaM = fechaM;
+        this.nPreguntas = nPreguntas;
+        this.estado = estado;
+        this.puntos = puntos;
         this.preguntasAlumno = preguntasAlumno;
         this.testalumno = testalumno;
     }
@@ -56,6 +61,30 @@ public class TestAMateria {
 
     public void setFechaM(String fechaM) {
         this.fechaM = fechaM;
+    }
+
+    public Integer getnPreguntas() {
+        return nPreguntas;
+    }
+
+    public void setnPreguntas(Integer nPreguntas) {
+        this.nPreguntas = nPreguntas;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public Integer getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(Integer puntos) {
+        this.puntos = puntos;
     }
 
     public List<TestAPregunta> getPreguntasAlumno() {

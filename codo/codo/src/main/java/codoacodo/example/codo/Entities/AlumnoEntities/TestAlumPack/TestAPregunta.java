@@ -23,7 +23,9 @@ public class TestAPregunta {
     @OneToOne(cascade = CascadeType.ALL)
     private Imagen portadaImagen;
     private Long portadaImaId;
-
+    private Boolean estado=false;
+    private Long respuesta;
+    private Integer punto=0;
     @OneToMany(mappedBy = "preguntastestalumno",cascade = CascadeType.ALL)
     private List<TestAOpcion> opcionestestalumno=new ArrayList<>();
 
@@ -34,7 +36,7 @@ public class TestAPregunta {
     public TestAPregunta() {
     }
 
-    public TestAPregunta(Long id, String titulo, String pregunta, String tipoPortada, String tipoOpcion, String portadaVideo, Imagen portadaImagen, Long portadaImaId, List<TestAOpcion> opcionestestalumno, TestAMateria materiaalumno) {
+    public TestAPregunta(Long id, String titulo, String pregunta, String tipoPortada, String tipoOpcion, String portadaVideo, Imagen portadaImagen, Long portadaImaId, Boolean estado, Long respuesta, Integer punto, List<TestAOpcion> opcionestestalumno, TestAMateria materiaalumno) {
         this.id = id;
         this.titulo = titulo;
         this.pregunta = pregunta;
@@ -43,6 +45,9 @@ public class TestAPregunta {
         this.portadaVideo = portadaVideo;
         this.portadaImagen = portadaImagen;
         this.portadaImaId = portadaImaId;
+        this.estado = estado;
+        this.respuesta = respuesta;
+        this.punto = punto;
         this.opcionestestalumno = opcionestestalumno;
         this.materiaalumno = materiaalumno;
     }
@@ -109,6 +114,30 @@ public class TestAPregunta {
 
     public void setPortadaImaId(Long portadaImaId) {
         this.portadaImaId = portadaImaId;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public Long getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(Long respuesta) {
+        this.respuesta = respuesta;
+    }
+
+    public Integer getPunto() {
+        return punto;
+    }
+
+    public void setPunto(Integer punto) {
+        this.punto = punto;
     }
 
     public List<TestAOpcion> getOpcionestestalumno() {

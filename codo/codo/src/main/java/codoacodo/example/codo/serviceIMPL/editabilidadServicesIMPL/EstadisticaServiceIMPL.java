@@ -1,7 +1,9 @@
 package codoacodo.example.codo.serviceIMPL.editabilidadServicesIMPL;
 
 
+import codoacodo.example.codo.Entities.Ingresante;
 import codoacodo.example.codo.Entities.editabilidad.Estadistica;
+import codoacodo.example.codo.Entities.editabilidad.Provincia;
 import codoacodo.example.codo.repositories.editabilidadRepositories.EstadisticaRepository;
 import codoacodo.example.codo.service.editabilidadServices.EstadisticaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +32,21 @@ public class EstadisticaServiceIMPL implements EstadisticaService {
     @Override
     public Estadistica findEstadisticaById(Long id) {
         return er.findById(id).orElse(null);
+    }
+
+    @Override
+    public void sumarIngresantes(Ingresante ingre) {
+        Estadistica estadistica=findEstadisticaById(1L);
+      estadistica.setRegistrosTotales(estadistica.getRegistrosTotales()+1);
+       if (ingre.getGenero().equalsIgnoreCase("Masculino")){
+                    estadistica.setMasculino(estadistica.getMasculino()+1);
+       }else   if (ingre.getGenero().equalsIgnoreCase("Femenino")){
+                    estadistica.setFemenino(estadistica.getFemenino()+1);
+
+        }else{
+         estadistica.setNoBinario(estadistica.getNoBinario()+1);
+        }
+       saveEstadistica(estadistica);
+
     }
 }

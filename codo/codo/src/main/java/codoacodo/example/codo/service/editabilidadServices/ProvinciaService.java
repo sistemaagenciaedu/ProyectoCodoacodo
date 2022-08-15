@@ -1,6 +1,7 @@
 package codoacodo.example.codo.service.editabilidadServices;
 
 
+import codoacodo.example.codo.Entities.Ingresante;
 import codoacodo.example.codo.Entities.editabilidad.Provincia;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface ProvinciaService {
     public List<Provincia> findAllProvincia();
 
     public Provincia findProvinciaById(Long id);
+    public void sumarIngresantes(Ingresante ingre);
 }
