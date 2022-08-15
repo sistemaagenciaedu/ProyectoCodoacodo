@@ -1,0 +1,230 @@
+html{
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+@media(max-width:990px) {
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.footer-web{
+    display: none;
+}
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', sans-serif ;
+        text-decoration: none;
+    }
+
+    .footer-mobile {
+
+        background-color: #333;
+        min-width: 100%;
+        min-height: max-content;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        overflow-y: hidden;
+        
+
+    }
+    .footer-mobile hr {
+
+       width: 90%;
+       margin-bottom: 1em;
+       margin-top: 1em;
+
+    }
+
+    .footer-img-vamosba {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        overflow: hidden;
+
+    }
+
+    .footer-img-vamosba img {
+        display: flex;
+    }
+
+    .footer-telefonos-utiles {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        overflow: hidden;
+        width: 100%;
+
+    }
+
+    .footer-telefonos-utiles p {
+        color: white;
+        font-size: 24px;
+        font-weight: 300;
+
+    }
+
+    .footer-telefonos-utiles-numeros {
+        display: flex;
+width: 100%;
+        justify-content: center;
+
+        margin-top: 1em;
+        margin-bottom: 1em;
+        overflow: hidden;
+        flex-wrap: wrap;
+        
+    }
+
+    .footer-tel-item-num {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        overflow: hidden;
+        width: 100px;
+        flex-wrap: wrap;
+
+    }
+
+    .footer-tel-item-num p {
+        display: flex;
+        width: 95%;
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 0.8rem;
+        color:#c5c3c2 ;
+    }
+
+    .footer-tel-item-num a {
+       cursor: pointer;        
+    }
+    .footer-tel-item-num a span {
+        display: flex;
+        width: 95%;
+        justify-content: center;
+        color: white !important;
+        font-size: 2em;
+        font-weight: bold;
+        
+    }
+    .footer-tel-item-num a span:hover {
+       transform: scale(1.1);
+        
+    }
+    .footer-ver-todos-tel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        overflow: hidden;
+        text-align: center;
+
+    }
+
+    .footer-ver-todos-tel a span {
+        color: white !important;
+        font-size: 24px;
+        font-weight:  300;
+        border-bottom: 1px solid white;
+
+    }
+   .footer-redes{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+   }
+   .footer-redes p{
+    color: white !important;
+    font-size: 24px;
+    font-weight:  300;
+   }
+   .redes-iconos{
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    overflow: hidden;
+    
+   
+   }
+     
+   .redes-iconos a {
+    margin-left: auto;
+    margin-right: auto;
+   }
+   .redes-iconos a img{
+    width:40px;
+   }
+   .footer-legales{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+   }
+   .footer-legales img{
+    width: 250px;
+    margin-bottom: 2em;
+   }
+   .footer-legales p{
+    width: 90%;
+    color: #c5c3c2;
+    margin-bottom: 1em;
+   }
+   .footer-legales-items{
+    width: 100%;
+    display: flex;
+  justify-content: center;
+  flex-wrap: wrap; 
+  margin-top: 1em;
+  margin-bottom: 1em;
+       
+   }
+   .footer-legales-items a {
+ color: white !important;
+ width: 100px;
+ overflow: hidden;
+ margin: auto;
+ margin-bottom: 1em;
+
+
+   }
+   .footer-legales-items a span{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+ color: white !important;
+ text-align: center;
+   }
+
+}

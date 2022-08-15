@@ -1,0 +1,420 @@
+.container-estadistica{
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.flex-container-estadisticas{
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.titEsta{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 200px;
+    margin-bottom: 3em;
+    margin-top: 2em;
+}
+.titEsta p:first-child{
+   font-weight: bold;
+   font-size: 50px;
+}
+
+.estadisticas{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+.card-provincia{
+    display: flex;
+    flex-direction: column;
+    
+    width: 230px;
+  flex-wrap: wrap;
+  
+  
+}
+.card-provincia img{
+    max-width: 200px;
+    margin: auto !important;
+}
+.card-provincia p{
+   margin-left: 1em;
+}
+.card-pro-titulo{
+font-weight: 600;
+text-align: center;
+margin: 0 !important;
+}
+.barra-control{
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    height: auto !important;
+    justify-content: center;
+    gap: 10px;
+  
+}
+.crear-user-container{
+   position: fixed;
+   top: 0;
+   right: 0;
+   width: 100vw;
+   min-height: 100vh;
+   background-color: rgba(0, 0, 0, 0.815);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   align-content: center;
+  
+
+}
+.crear-user{
+    width: 65vw;
+   
+    min-height: 60vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.contenedor-fomulario{
+    padding-top: 1em;
+    padding-bottom: 1em;
+    display: flex;
+    align-items: center;
+    min-width: 100%;
+    justify-content: center;
+}
+.formu-registro{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    gap: 15px;
+}
+.formu-registro label,.formu-registro input::placeholder,.formu-registro select ,.formu-registro input{
+    font-size: 14px;
+    color: #717170;
+
+}
+.formu-registro input::placeholder{
+    padding-left: 0.4em;
+    font-size: small;
+
+}
+.formu-registro input,.formu-registro select, .formu-registro select option{
+    background:none;
+    outline: 0px;
+    border: 1px solid #717170;
+    border-radius: 4px;
+    height: 25px;
+    width: 100%;
+}
+.formu-registro select{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.campos{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.campos-dobles{
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+.requisitos{
+    margin-top: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    row-gap: 10px;
+    font-size: small;
+}
+
+.btn{
+    border: none !important;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+   height: 3em !important;
+   
+    border-radius: 0.3em;
+    color: black !important;
+
+
+}
+.amarillo{
+    background-color:#fcda59 !important  ;
+}
+.amarillo:hover{
+    font-weight: bold;
+    transition: all 0.4s;
+    background-color: #fdd306 !important;
+
+}
+
+.btn{
+    display: block;
+}
+.rojo2{
+    background-color: #e76056 !important;
+}
+.rojo2:hover{
+    font-weight: bold;
+    transition: all 0.4s;
+    background-color: #e74c3c !important;
+}
+.filtro-user{
+    display: flex;
+    width: 100%;
+    min-height: 85vh;
+    justify-content: center;
+    align-items: center;
+}
+/**********revisar**********/
+.acciones-exportar form,
+.acciones-agregar form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+}
+
+.acciones-exportar form label,
+.acciones-agregar form label {
+    font-size: 0.7em;
+    margin-top: 20px;
+}
+
+.acciones-exportar form label,
+.acciones-exportar form select,
+.acciones-exportar form input[type=date],
+.acciones-exportar form input,
+.acciones-agregar form label,
+.acciones-agregarform select,
+.acciones-agregar form input[type=date],
+.acciones-agregar form input {
+    color: #717170;
+    outline: 0px;
+
+
+}
+
+.acciones-exportar form select,
+.acciones-exportar form input[type=date],
+.acciones-exportar form input,
+.acciones-agregar form select,
+.acciones-agregar form input[type=date],
+.acciones-agregar form input {
+    color: #717170;
+    border: none;
+    outline: 0px !;
+    padding: 0.5em !;
+    border-bottom: 1px solid #717170;
+}
+
+#e_egresadoDe,
+#e_establecimiento {
+    color: #717170;
+    border: none;
+    outline: 0px;
+    padding: 0.5em;
+    border-bottom: 1px solid #717170;
+}
+
+.fechas {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.contenedor-desde,
+.contenedor-hasta {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+
+
+
+
+input[type=date]::-webkit-calendar-picker-indicator {
+    color: #717170;
+    opacity: 1;
+    font-size: x-large;
+
+
+
+}
+
+
+.botones-exportar {
+    margin-top: 30px;
+    display: flex;
+    width: 100%;
+    gap: 40px;
+    justify-content: center;
+}
+
+.botones-exportar input {
+    border: none !important;
+    padding: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    background: none;
+    border: none;
+    color: white !important;
+
+    border-radius: 5px;
+    box-shadow: 0 0 8px #c5c5c5;
+}
+.botones-exportar input {
+    border: none !important;
+    padding: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    background: none;
+    border: none;
+    color: white !important;
+
+    border-radius: 5px;
+    box-shadow: 0 0 8px #c5c5c5;
+}
+
+.verde {
+    background-color: #99c25f !important;
+
+}
+
+.rojo {
+    background-color: #e76056 !important;
+
+}
+
+.verde:hover {
+    background-color: #88bf48 !important;
+    transform: scale(1.1);
+    transition: all 0.5s;
+}
+
+.rojo:hover {
+    background-color: #e74c3c !important;
+    transform: scale(1.1);
+    transition: all 0.5s;
+}
+/************fin revisar***************/
+@media(max-width:500px){
+    .barra-control{
+        padding-top: 0.4em;
+        padding-bottom: 0.4em;
+      
+    }
+    .barra-control button{
+        width: calc(100% /2.5) !important;
+    }
+    .contenedor-fomulario{
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .logo-cac-form{
+        width: 100%;
+
+    }
+    
+    .crear-user-container{
+      
+        position: unset;
+        width: 100vw;
+        min-height: 100vh;
+        background-color: rgba(0, 0, 0, 0.555);
+      
+     }
+    .crear-user{
+        width: 100vw;
+       
+        min-height: 100vh;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        overflow: hidden;
+        border-radius: 0px;
+        padding-left: 1em;
+        padding-right: 1em;
+        padding-bottom: 2em;
+    }
+ 
+    .formu-registro{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+    }
+    .formu-registro label,.formu-registro input::placeholder,.formu-registro select ,.formu-registro input{
+        font-size: 14px;
+        color: #717170;
+
+    }
+    .formu-registro input::placeholder{
+        padding-left: 0.4em;
+        font-size: small;
+
+    }
+    .formu-registro input,.formu-registro select, .formu-registro select option{
+        background:none;
+        outline: 0px;
+        border: 1px solid #717170;
+        border-radius: 4px;
+        height: 25px;
+        width: 100%;
+    }
+    .formu-registro select{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .campos{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .campos-dobles{
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        width: 100%;
+        gap: 15px;
+    }
+    .requisitos{
+        margin-top: 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        row-gap: 10px;
+        font-size: small;
+    }
+}

@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif ;
+    text-decoration: none;
+ 
+}
+.container-cursos{
+    background-color: black ;
+    min-height: calc(100vh - 100px);
+    min-width: 100%;
+    display: flex;
+    
+    flex-direction: column;
+    align-items: center;
+
+    padding-bottom: 3em;
+  z-index: +1 !important;
+}
+.navbar-index{
+    width: 100%;
+    height: 100px;
+    background-color: #fdd306;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  
+   
+    overflow: hidden;
+}
+.logo-nav{height: 80%;
+overflow: hidden;
+margin-left: 1em;
+}
+
+.lista-formularios{
+    
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+     
+    
+}
+
+.barra-control{
+   
+    
+    background-color: #f0f0f1;
+    width: 100%;
+    height:80px;
+    display: flex;
+    align-items: center;
+}
+.btn-agragar-formulario{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:none;
+    border: none;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+    margin-left: 1em;
+}
+.btn-agragar-formulario span{
+    color: #333;
+    display: block;
+
+}
+.btn-agragar-formulario img{
+   height: 38px;
+   
+}
+.plus-verde{
+    display: none;
+    opacity: 0;
+}
+.btn-agragar-formulario:hover{
+    transition: all 3s ;
+  
+}
+.btn-agragar-formulario:hover .plus-verde{
+  display: block;
+  transform: scale(1.06);
+opacity:1 ;
+transition: all 3s ;
+  
+}
+.btn-agragar-formulario:hover .plus-azul{
+  display: none;
+  opacity: 0;
+}
+.listar-formularios{
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+   overflow: hidden;
+    
+}
+table,tr,th,td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    
+}
+tr{
+    height:40px;
+}
+
+.accion-ico{
+    width: 20px;
+    line-height: 40px;
+}
+.accion-ico-ingresar{
+    width: 25px;
+    
+}
+.acciones-tabla {
+  display: flex; 
+  border: none;
+  width: 100%;
+  min-height: 40px;
+  justify-content: space-around;
+  align-content: center;
+  align-items: center;
+}
+.acciones-tabla a{
+    display: inline-block;
+
+
+}
+.acciones-tabla a:hover{
+  transform: scale(1.1);
+
+}
+
+.form-creador{
+    min-width: 100%;
+    min-height:100%;
+    position: fixed;
+    top: 0;
+    z-index: +4 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    display: none;
+   
+}
+.form-creador form{
+    position: inherit;
+    width: 30%;
+    height: 45%;
+    background-color: #fdd306;
+    box-shadow: 0 0 100000px 1000000px   rgba(0, 0, 0, 0.863);
+    border-radius: 0.4em;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #333;
+   
+}
+.form-creador form div{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    gap: 10px;
+
+   
+}
+.form-creador form  input{
+   background: white ;
+   height: 25px;
+   border: none;
+   border-radius: 6px;   
+}
+.guardar{
+    background-color: #99c25f !important;
+}
+.guardar:hover{
+    background-color: #88bf48 !important;
+    font-weight: bold;
+}
+.cancelar{
+    background-color: #e76056 !important;
+    color: white !important;
+}
+.cancelar:hover{
+    background-color: #e74c3c !important;
+    font-weight: bold;
+}
+tbody tr:nth-child(odd) {
+background-color: #f0f0f1;
+}
+tbody tr:hover {
+    transition: all 0.4s;
+    background-color: #fcda59 !important;
+}
+td:hover {
+    background-color: #fdd306 !important;
+    font-weight: bold;
+    transition: all 0.4s;
+}
+@media(max-width: 990px){
+ 
+.logo-nav{
+    height: auto;
+    max-width: 260px;
+    overflow: hidden;
+}
+.cursos-logo-cac{
+    max-width: 280px;
+    margin-top: 3em;
+    overflow: hidden;
+}
+
+.form-creador form{
+    position: inherit;
+    width: 90%;
+    height: 40%;
+    background-color: #fdd306;
+    box-shadow: 0 0 100000px 1000000px  rgba(0, 0, 0, 0.863);
+    border-radius: 0.4em;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid #333;
+   
+}
+th{
+    min-width:100px ;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    
+}
+.listar-formularios{
+    overflow: scroll;
+}
+}

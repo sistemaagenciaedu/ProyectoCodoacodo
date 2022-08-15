@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <input type="password" name="" id="pass"  onchange="validarPass()">
+      
+        <div>
+      <p id="pass-8">Mas de 8 caracteres</p>
+      <p id="pass-mayus">Una mayúscula</p>
+      <p id="pass-Cespe">Un caracter especial</p>
+      <p id="pass-num">Al menos un número</p>      
+         </div>
+
+    </form>
+    <script>
+     function validarPass(){
+        let password=document.getElementById("pass").value
+        let passcontador=0
+        let min8=document.getElementById("pass-8")
+       let caracterEspe=document.getElementById("pass-Cespe")
+       
+        var testCaracter=/^(?=(?:.*[@$?¡\-_]){1})\S/;
+        if(testCaracter.test(password)){
+            caracterEspe.setAttribute("style","color:green")
+        }else{
+            caracterEspe.setAttribute("style","color:red") 
+        }
+
+     }
+
+//      function checkPassword(valor){
+//    var myregex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/; 
+ 
+//    if(myregex.test(valor)){
+//        alert(valor+" es valido :-) !");
+//        return true;        
+//    }else{
+//       alert(valor+" NO es valido!");
+//        return false;        
+//    }   
+ 
+    </script>
+</body>
+</html>

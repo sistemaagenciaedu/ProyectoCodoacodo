@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/css/crear-examen/estilostablasexamenes.css">
+<link rel="stylesheet" href="/static/css/crear-examen/formulario-examen.css">
+<link rel="stylesheet" href="/static/css/general/botones.css">
+    <title>Codo a Codo 4.0</title>
+</head>
+<style>
+   
+</style>
+<body>
+  
+<!-- Lista de examenes -->
+   <table th:fragment="listaExamenes">
+       <thead>
+           <tr>
+               <th>Id</th>
+               <th>Titulo</th>
+               <th>Eliminar</th>
+               <th>Editar</th>
+           </tr>
+       </thead>
+       <tbody>
+           <tr th:if="${examenes!=null and !examenes.isEmpty()}" th:each="exa ,num :${examenes}">
+               <td  th:text="${exa.id}">12</td>
+               <td th:text="${exa.titulo}">examen de ingles</td>
+               <td><button th:onclick="'eliminar(' + ${exa.id} + ')'"><img th:src="@{/img/iconos/eliminar.png}" alt=""></button></td>
+               <td><button th:onclick="'editar(' + ${exa.id} + ')'"><img th:src="@{/img/iconos/lapiz.png}" alt=""></button></td>
+           </tr>
+          <tr th:if="${ examenes.isEmpty()}">
+              <td></td>
+              <td>La Lista se Encuentra Vacia</td>
+              <td></td>
+          </tr>
+       </tbody>
+       
+   </table>
+<!-- Fin lista de examenes -->
+
+<!-- Formulario editar  -->
+<br>
+<br><br>
+<div th:fragment="agregar_editar_examen"  class="formu_examen_save">
+   
+    <form   th:object="${mex}" >
+        <label for="id-examen" >Id</label>
+        <input type="number" th:field="*{id}" id="id-examen" readonly placeholder="Campo no editable">
+        <label for="titulo">Titulo</label>
+        <input type="text" id="titulo-examen" th:field="*{titulo}" placeholder="Ingrese el título del Examen">
+        <input type="button" th:onclick="guardarexamenoeditar()" value="Guardar" class="btn primary" >
+        <!-- <button th:onclick="'materias(' + *{id} + ')'">Agregar Materias</button> -->
+        <a th:href="@{/materia/add(id=*{id})}" class="btn secondary">Agregar Materias</a>
+    </form>
+  
+</div>
+<!-- Editar examen -->
+
+
+</body>
+
+</html>

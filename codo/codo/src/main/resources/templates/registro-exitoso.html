@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doc</title>
+</head>
+
+<body>
+   
+  
+    <div class="cuerpoadvertencia">
+        
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+            *{
+                font-family: 'Montserrat', sans-serif !important;
+            }
+            .img{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: -2 !important;
+            }
+            .cuerpoadvertencia {
+                min-height: 100vh;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                align-content: center;
+                font-family: 'Montserrat', sans-serif;
+                font-size: small;
+                
+            }
+
+            #boton {
+                padding: 1em;
+                width: 40%;
+                border: none;
+                border-radius: 5px;
+                background-color: #fcda59;
+                color: black;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            a{
+                text-decoration: none;
+            }
+            #boton span{
+                color: black !important;
+                font-weight: bold;
+            }
+            #boton:hover {
+                background-color: #fdd306;
+            }
+
+            .titulos {
+                background-color: white;
+                display: flex;
+                flex-direction:column ;
+                gap: 15px;
+                width: 50%;
+                text-align: center;
+                font-family: 'Montserrat', sans-serif;
+                padding: 1em;
+                justify-content: center;
+                border-radius: 0.4em;
+                border: 1px solid black;
+            }
+            h1,h2,h3,h4{
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 400;
+            }
+            .listo{
+                width: 100px;
+                margin: auto;
+            }
+            h2{
+                font-size: x-large;
+            }
+            h3{
+                font-size:large;
+            }
+            @media(max-width:990px){
+                .titulos {
+                background-color: white;
+                display: flex;
+                flex-direction:column ;
+                gap: 15px;
+                width: 90%;
+                text-align: center;
+                font-family: 'Montserrat', sans-serif;
+                padding: 1em;
+                justify-content: center;
+                border-radius: 0.4em;
+                border: 1px solid black;
+            }
+            }
+        </style>
+        <!-- no borrar formulario -->
+       
+        <div class="titulos">
+            <h1 th:text="${usu.nombre}">Jorge martin Dominguez Diaz</h1>
+            <h2>¡Registro Exitoso!</h2>
+            <h3>Revisa tu correo electronico y activa tu cuenta</h3>
+           <img class="listo" th:src="@{/iconos/iconos-usabilidad/iconfinder-mail-4341305_120538.webp}" alt="">
+            <h3>Activa tu cuenta antes de las proximas 72hs</h3>
+            <div>
+                
+            <button id="boton"><a th:href="@{/ingresante/consulta}"><span>SALIR</span></a></button>
+            </div>
+        </div>
+    </div>
+    
+    </table>
+</body>
+
+</html>

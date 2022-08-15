@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../static/css/crear-examen/estilostablasexamenes.css">
+<link rel="stylesheet" href="../static/css/crear-examen/formulario-examen.css">
+<link rel="stylesheet" href="../static/css/general/botones.css">
+    <title>Codo a Codo 4.0</title>
+</head>
+<style>
+    .pregunta-c-imagen{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid black;
+        margin-top: 10px;
+        padding-top: 10px ;
+        padding-bottom: 30px ;
+        
+    }
+
+   .pregunta-imagen{
+       width: 200px;
+       height: 200px;
+       object-fit: cover;
+       object-position: center;
+   }
+   .pregunta-imagen-portada{
+       width: 350px;
+       height: 350px;
+       object-fit: cover;
+       object-position: center;
+   }
+   .pregunta-c-imagen-respuestas{
+       display: flex;
+       flex-direction: row;
+       flex-wrap: wrap;
+       justify-content: center;
+        align-items: center;
+        align-content: center;
+        gap: 10px;
+   }
+   .pregunta-c-imagen-opcion{
+       display: flex;
+       flex-direction: column;
+       width: 200px;
+       justify-content: center;
+       align-items: center;
+       align-content: center;
+       border:1px solid black;
+      padding: 5px;
+      border-radius: 10px;
+   }
+</style>
+<body>
+    <div  th:fragment="listaPreguntas2">
+        jorge
+        <div th:if="${preguntas!=null and !preguntas.isEmpty()}" th:each="pre ,num :${preguntas}">
+            <div class="pregunta-c-imagen" th:if="${pre.formatoPortada=='imagen'} and ${pre.formatoRespuesta=='texto'}">
+                <h3>pregunta con imagen y respuestas en texto</h3>
+                <img class="pregunta-imagen-portada" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+            <h4>¿Esta seria la pregunta?</h4>
+            <div class="pregunta-c-imagen-respuestas">
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 1</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 2</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 3</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 4</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 5</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 6</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 7</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 8</p>
+                    <input type="radio" name="" id="">
+                </div>
+            </div>
+            </div>
+            <!-- <div class="pregunta-c-imagen">
+                <h3>pregunta con imagen y respuestas en imagen</h3>
+                <img class="pregunta-imagen-portada" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+            <h4>¿Esta seria la pregunta?</h4>
+            <div class="pregunta-c-imagen-respuestas">
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+            </div>
+            </div>
+            <div class="pregunta-c-imagen">
+                <h3>pregunta con video y respuestas en texto</h3> 
+                <iframe width="80%" height="480" src="https://www.youtube.com/embed/cWVe76s9SFs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h4>¿Esta seria la pregunta?</h4>
+            <div class="pregunta-c-imagen-respuestas">
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 1</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 2</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 3</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 4</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 5</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 6</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 7</p>
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <p>Esta seria la opcion 8</p>
+                    <input type="radio" name="" id="">
+                </div>
+            </div>
+            </div>
+            <div class="pregunta-c-imagen">
+                <h3>pregunta con video y respuestas en imagen</h3> 
+                <iframe width="80%" height="480" src="https://www.youtube.com/embed/cWVe76s9SFs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h4>¿Esta seria la pregunta?</h4>
+            <div class="pregunta-c-imagen-respuestas">
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+                <div class="pregunta-c-imagen-opcion">
+                    <img class="pregunta-imagen" src="http://drive.google.com/uc?export=view&id=1UfLwA5bQfiFJd--pJXjRiaZMqXIf4n3t" alt=""> 
+                    <input type="radio" name="" id="">
+                </div>
+            </div>
+            </div> -->
+        </div>
+    </div>
+    <table th:fragment="listamaterias">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>N° Preguntas</th>
+                <th>Eliminar</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${preguntas!=null and !preguntas.isEmpty()}" th:each="mat ,num :${preguntas}">
+                <td  th:text="${mat.id}">12</td>
+                <td th:text="${mat.nombre}">materia pololo</td>
+                <td th:text="${mat.cantPreguntas}">N° Preguntas</td>
+                <td><button th:onclick="'eliminar(' + ${mat.id} + ')'"><img th:src="@{/img/iconos/eliminar.png}" alt=""></button></td>
+                <td><button th:onclick="'editar(' + ${mat.id} + ')'"><img th:src="@{/img/iconos/lapiz.png}" alt=""></button></td>
+            </tr>
+           <tr th:if="${ materias.isEmpty()}">
+               <td></td>
+               <td>La Lista se Encuentra Vacia</td>
+               <td></td>
+           </tr>
+        </tbody>
+        
+    </table>
+<!-- Lista de preguntas -->
+
+  
+<!-- Fin lista de examenes -->
+
+<!-- Formulario editar  -->
+<br>
+<br>
+<br>
+<div th:fragment="agregar_editar_pregunta"  class="formu_examen_save">
+   
+    <form   th:object="${pre}" >
+        <label for="id" >Id</label>
+        <input type="number" th:field="*{id}" id="id" readonly placeholder="Campo no editable">
+        <label for="tienePortada">¿Tiene Portada?</label>
+        <select th:field="*{tienePortada}" id="tienePortada">
+            <option value="" selected>Seleccione</option>
+            <option value="si">si</option>
+            <option value="no">no</option>
+        </select>
+        <label for="formatoPortada">¿Cual es el formato de portada?</label>
+        <select th:field="*{formatoPortada}" id="formatoPortada">
+            <option value="" selected>Seleccione</option>
+            <option value="imagen">Imagen</option>
+            <option value="video">Video</option>
+        </select>
+
+         <label for="audioP">¿Cual es la url del audio?</label>
+        <input type="text" id="audioP" th:field="*{audioP}" placeholder="Ingrese la url del audio">
+         <label for="imagenP">¿Cual es el codigo de la imagen?</label>
+        <input type="text" id="imagenP" th:field="*{imagenP}" placeholder="Ingrese el codigo de la imagen">
+         <label for="videoP">¿Cual es la url del video?</label>
+        <input type="text" id="videoP" th:field="*{videoP}" placeholder="Ingrese la url del video">
+         <label for="enunciado">¿Cual es el enunciado?</label>
+        <input type="text" id="enunciado" th:field="*{enunciado}" placeholder="Ingrese el enunciado">
+        <label for="formatoRespuesta">¿Cual es el formato de la respuesta?</label>
+        <select th:field="*{formatoRespuesta}" id="formatoRespuesta">
+            <option value="" selected>Seleccione</option>
+            <option value="imagen">Imagen</option>
+            <option value="texto">Texto</option>
+        </select>
+        <label for="">Ingrese las opciones maximo son 8</label>
+        
+        <input type="text" id="pos1" th:field="*{pos1}" placeholder="ingrese posibilidad 1 aqui">
+        
+        <input type="text" id="pos2" th:field="*{pos2}" placeholder="ingrese posibilidad 2 aqui">
+        
+        <input type="text" id="pos3" th:field="*{pos3}" placeholder="ingrese posibilidad 3 aqui">
+        
+        <input type="text" id="pos4" th:field="*{pos4}" placeholder="ingrese posibilidad 4 aqui">
+        
+        <input type="text" id="pos5" th:field="*{pos5}" placeholder="ingrese posibilidad 5 aqui">
+        
+        <input type="text" id="pos6" th:field="*{pos6}" placeholder="ingrese posibilidad 6 aqui">
+        
+        <input type="text" id="pos7" th:field="*{pos7}" placeholder="ingrese posibilidad 7 aqui">
+        
+        <input type="text" id="pos8" th:field="*{pos8}" placeholder="ingrese posibilidad 8 aqui">
+        <label for="">¿Cual es la respuesta Correcta?</label>
+        
+        <input type="text" id="correcta" th:field="*{correcta}" placeholder="ingrese correcta aqui">
+        <input type="button" th:onclick="guardarpreguntaeditar()" value="Guardar" class="btn primary" >
+        <!-- <button th:onclick="'materias(' + *{id} + ')'">Agregar Materias</button> -->
+        
+    </form>
+  
+</div>
+<!-- Editar examen -->
+
+
+</body>
+
+</html>

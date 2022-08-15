@@ -1,0 +1,58 @@
+.btn-1{
+    width:80px;
+    height: 30px;
+    font-size: larger;
+    background: none;
+    border:none;
+    border-radius: 10px;
+}
+.primary{
+    background-color: yellow;
+}
+.primary:hover{
+    background-color: rgb(212, 212, 26);
+}
+.secondary{
+    background-color: red;
+}
+.secondary:hover{
+    background-color: rgb(236, 111, 111);
+}
+.font-whithe{
+    color: white;
+}
+.container-examen{
+    display: flex;
+    width: 100%;
+    min-height: 75vh;
+    overflow: hidden;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    padding: 0;
+    margin:0;    
+    
+}
+.lista-examenes{
+    box-shadow: 0 0 8px;
+    min-width: 75%;
+    min-height: 73vh;
+    border-radius: 10px;
+    overflow: hidden;
+    
+    padding: 0;
+    margin:0;    
+}
+.form-cargar-exa{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    box-shadow: 0 0 8px;
+    min-width: 22%;
+    min-height: 73vh;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0;
+    margin:0;
+}

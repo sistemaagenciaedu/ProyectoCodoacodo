@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/css/crear-examen/estilostablasexamenes.css">
+<link rel="stylesheet" href="/static/css/crear-examen/formulario-examen.css">
+<script src="/static/js/pruebal.js"></script>
+
+<link rel="stylesheet" href="/static/css/general/botones.css">
+    <title>Codo a Codo 4.0</title>
+</head>
+<style>
+   
+</style>
+<body>
+  
+<!-- Lista de examenes -->
+   <table th:fragment="listamaterias">
+       <thead>
+           <tr>
+               <th>Id</th>
+               <th>Nombre</th>
+               <th>N° Preguntas</th>
+               <th>Eliminar</th>
+               <th>Editar</th>
+           </tr>
+       </thead>
+       <tbody>
+           <tr th:if="${materias!=null and !materias.isEmpty()}" th:each="mat ,num :${materias}">
+               <td  th:text="${mat.id}">12</td>
+               <td th:text="${mat.nombre}">materia pololo</td>
+               <td th:text="${mat.cantPreguntas}">N° Preguntas</td>
+               <td><button th:onclick="'eliminar(' + ${mat.id} + ')'"><img th:src="@{/img/iconos/eliminar.png}" alt=""></button></td>
+               <td><button th:onclick="'editar(' + ${mat.id} + ')'"><img th:src="@{/img/iconos/lapiz.png}" alt=""></button></td>
+           </tr>
+          <tr th:if="${ materias.isEmpty()}">
+              <td></td>
+              <td>La Lista se Encuentra Vacia</td>
+              <td></td>
+          </tr>
+       </tbody>
+       
+   </table>
+<!-- Fin lista de examenes -->
+
+<!-- Formulario editar  -->
+<br>
+<br><br>
+<div th:fragment="agregar_editar_materia"  class="formu_materia_save">
+   
+    <form   th:object="${mat}" >
+        
+
+        <label for="id-materia" >Id</label>
+        <input type="number" th:field="*{id}" id="id-materia" readonly placeholder="Campo no editable">
+
+        <label for="nombre-materia">Nombre</label>
+        <input type="text" id="nombre-materia" th:field="*{nombre}" placeholder="Ingrese el nombre de la Materia">
+        
+        <label for="cantPreguntas-materia" >N° preguntas asignadas</label>
+        <input type="number" th:field="*{cantPreguntas}" id="cantPreguntas-materia"  placeholder="Cuantas preguntas se le asignara">
+       
+        <input type="button" th:onclick="guardarmateriaeditar()" value="Guardar" class="btn primary" >
+        
+        <a th:href="@{/pregunta/add(id=*{id})}" class="btn secondary">Agregar preguntas</a>
+    </form>
+  
+</div>
+<!-- Editar examen -->
+
+
+</body>
+
+</html>
