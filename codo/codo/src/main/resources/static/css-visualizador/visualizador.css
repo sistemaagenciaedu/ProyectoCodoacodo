@@ -202,8 +202,27 @@ html{
     max-width: 400px;
     min-height: 300px;
 }
-
+.cronometro{
+    position: absolute;
+    top: 20px;
+    background-color: #9d6db6 ;
+    left: 30px;
+    width: 150px;
+    height: 150px;
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-weight: bold;
+    color: white;
+    border-radius: 10px;
+    gap: 10px;
+    overflow: hidden;
+}
 @media(max-width:600px){
+    
     .container-registro{
         display: flex;
         min-height: calc(100vh - 100px);
@@ -230,5 +249,25 @@ html{
         overflow: hidden;
         border-radius: 0px;
         position: relative;
+    }
+    .cronometro{
+        position: absolute;
+        top: 5px;
+        right: 5px !important;
+        left: unset !important;
+        background-color: #9d6db6 ;       
+        width: 150px;
+        height: 50px;
+        padding: 0.5em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        font-weight: bold;
+        color: white;
+        border-radius: 10px;
+        gap: 0px;
+        overflow: hidden;
     }
 }

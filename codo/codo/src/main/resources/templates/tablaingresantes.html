@@ -18,7 +18,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <title>Document</title>
+        <title>Codo a codo🚀</title>
 </head>
 
 <body>
@@ -49,32 +49,19 @@
                 <table>
                     <thead>
                         <tr>
-                            <!-- private Long id;
-                            private String mail;
-                            private Long celu;
-                            private String tDoc;
-                            private String numDoc;
-                            private String apellido;
-                            private String nombre;
-                            private String fNacimiento;
-                            private String genero;
-                            private String nacionalidad;
-                            private String pais;
-                            private String provincia;
-                            private String localidadResi;
-                            private String domicilio; -->
-                            <th>apellido</th>
-                            <th>nombre</th>
-                            <th>genero</th>
+                           <th>Acciones</th>
+                            <th>Apellido</th>
+                            <th>Nombre</th>
+                            <th>Genero</th>
                             <th>Mail</th>
-                            <th>celu</th>
-                            <th>tdoc</th>                        
-                            <th>Ndoc</th>                        
-                            <th>fnacimineto</th>                        
-                            <th>nacionalidad</th>
-                            <th>provincia</th>
-                            <th>localidadResi</th>
-                            <th>domicilio</th>
+                            <th>Celular</th>
+                            <th>Tipo de Documento</th>                        
+                            <th>N° documento </th>                        
+                            <th>Fecha naci</th>                        
+                            <th>Nacionalidad</th>
+                            <th>Provincia</th>
+                            <th>Localidad</th>
+                            <th>Domicilio</th>
                             
                             <!-- Esta Linea Corresponde a las preguntas del formulario -->
                             <!-- <th th:each="p, it : ${preguntas}" th:if="${preguntas != null}" th:text="${p.enunciado}">domicilio</th> -->
@@ -83,6 +70,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="in, it : ${ingre}" th:if="${ingre != null}">
+                            <td><a th:href="@{'/admin/ingresante/delete?id='+${in.id}}"><img class="accion-ico" th:src="@{/iconos/iconos-usabilidad/eliminar.webp}" alt=""></a></td>
                             <td th:text="${in.apellido}">apellido</td>
                             <td th:text="${in.nombre}">nombre</td>
                             <td th:text="${in.genero}">genero</td>
@@ -152,20 +140,20 @@
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </select>
-                    <label for="tIngles">Ingles Terminado</label>
-                    <select name="tIngles" id="tIngles">
+                    <label for="tIngles" style="display: none;">Ingles Terminado</label>
+                    <select name="tIngles" id="tIngles" style="display: none;">
                         <option selected value="">Seleccione</option>
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </select>
-                    <label for="tLogica">Logica Terminado</label>
-                    <select name="tLogica" id="tLogica">
+                    <label for="tLogica" style="display: none;">Logica Terminado</label>
+                    <select name="tLogica" id="tLogica" style="display: none;">
                         <option selected value="">Seleccione</option>
                         <option value="si">Si</option>
                         <option value="no">No</option>
                     </select>
-                    <label for="tProgramacion">Programacion Terminado</label>
-                    <select name="tProgramacion" id="tProgramacion">
+                    <label for="tProgramacion" style="display: none;">Programacion Terminado</label>
+                    <select name="tProgramacion" id="tProgramacion" style="display: none;">
                         <option selected value="">Seleccione</option>
                         <option value="si">Si</option>
                         <option value="no">No</option>

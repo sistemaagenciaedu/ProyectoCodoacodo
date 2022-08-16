@@ -125,7 +125,7 @@ public class PreguntaAlum implements Comparable<PreguntaAlum>{
     public void setFormulario(FormAlum formulario) {
         this.formulario = formulario;
     }
-
+    @Override
     public int compareTo(PreguntaAlum o) {
         return (int) (idPregunta - o.idPregunta);
     }

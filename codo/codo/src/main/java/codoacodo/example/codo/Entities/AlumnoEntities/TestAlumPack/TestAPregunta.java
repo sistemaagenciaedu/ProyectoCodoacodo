@@ -1,5 +1,6 @@
 package codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack;
 
+import codoacodo.example.codo.Entities.AlumnoEntities.FormAlumPack.PreguntaAlum;
 import codoacodo.example.codo.Entities.editabilidad.Imagen;
 
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Entity
 
 @Table(name = "testapregunta")
-public class TestAPregunta {
+public class TestAPregunta implements Comparable<TestAPregunta>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -154,5 +155,10 @@ public class TestAPregunta {
 
     public void setMateriaalumno(TestAMateria materiaalumno) {
         this.materiaalumno = materiaalumno;
+    }
+
+    @Override
+    public int compareTo(TestAPregunta o) {
+        return (int) (id- o.id);
     }
 }

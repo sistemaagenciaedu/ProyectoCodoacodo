@@ -17,9 +17,7 @@ import codoacodo.example.codo.service.AlumnoEntitiesServices.TestAlumPackService
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 
@@ -70,27 +68,47 @@ private TestAOpcionService ops;
            testAMateria.setTestalumno(testAlumno);
            testAMateria=ts.saveMateriaTest(testAMateria);
            ArrayList<Long>ids=new ArrayList<>();
-           for (int i = 0; i < materiaTestDTO.getnPreguntas(); i++) {
-               PreguntaTestDTO preguntaTestDTO=new PreguntaTestDTO();
+           int contador=0;
+//           ArrayList<Integer>aleatorios=new ArrayList<>();
+           Set<PreguntaTestDTO>setPreguntas=new TreeSet<>();
+           do {
                int tamanio=materiaTestDTO.getPreguntasTest().size()-1;
                int aleatorio=(int)(Math.random()*tamanio);
-               if (i==0){
-                   preguntaTestDTO=materiaTestDTO.getPreguntasTest().get(aleatorio);
-                   ids.add(preguntaTestDTO.getId());
-               }else{
-                   Boolean verificador=true;
-                   do {
-                       preguntaTestDTO=materiaTestDTO.getPreguntasTest().get(aleatorio);
-                       for (Long id:ids) {
-                           if(id!=preguntaTestDTO.getId()){
-                               verificador=false;
-                           }
-                       }
-                   }while (verificador);
+               PreguntaTestDTO preguntaTestDTO=materiaTestDTO.getPreguntasTest().get(aleatorio);
+               setPreguntas.add(preguntaTestDTO);
+           }while (setPreguntas.size()!=materiaTestDTO.getnPreguntas());
 
 
-               }
+//           for (int i = 0; i < materiaTestDTO.getnPreguntas(); i++) {
+//               System.out.println("se van a cargar "+materiaTestDTO.getnPreguntas());
+//               PreguntaTestDTO preguntaTestDTO=new PreguntaTestDTO();
+//               int tamanio=materiaTestDTO.getPreguntasTest().size()-1;
+//               boolean verificador=false;
+//               do {
+//                  verificador=false;
+//                   int aleatorio=(int)(Math.random()*tamanio);
+//                   System.out.println("El numero aleatorio es "+ aleatorio);
+//                   if (contador==0){
+//                       preguntaTestDTO=materiaTestDTO.getPreguntasTest().get(aleatorio);
+//                       aleatorios.add(aleatorio);
+//
+//                   }else{
+//                       for (Integer id:aleatorios){
+//                           if(id==aleatorio);
+//                           verificador=true;
+//                       }
+//
+//
+//                   }
+//                  if (verificador==false){
+//                      preguntaTestDTO=materiaTestDTO.getPreguntasTest().get(aleatorio);
+//                      aleatorios.add(aleatorio);
+//                  }
+//
+//                   contador++;
+//               }while (verificador);
 
+               for (PreguntaTestDTO preguntaTestDTO: setPreguntas){
 
                    TestAPregunta testAPregunta=new TestAPregunta();
                    testAPregunta.setTitulo(preguntaTestDTO.getTitulo());

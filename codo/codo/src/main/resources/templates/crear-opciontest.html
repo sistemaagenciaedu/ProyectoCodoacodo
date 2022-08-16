@@ -17,7 +17,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <title>Document</title>
+        <title>Codo a codo🚀</title>
 </head>
 
 <body>
@@ -52,7 +52,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         <tbody>
             <tr th:each="f, it : ${opciones}"  th:if="${opciones != null}"  >
                 <td th:text="${f.id}" th:id="'id'+${it.index}">ss</td>
-                <td class="acciones-tabla"><a th:href="@{'/opciontest/delete?id='+${f.id}+'&idMat='+${idMat}+'&idTest='+${idTest}+'&idPreg='+${idPreg}+'&tOpcion='+${tOpcion}}"><img class="accion-ico" th:src="@{/iconos/iconos-usabilidad/eliminar.webp}" alt=""></a></td>
+                <td class="acciones-tabla"><a th:href="@{'/admin/opciontest/delete?id='+${f.id}+'&idMat='+${idMat}+'&idTest='+${idTest}+'&idPreg='+${idPreg}+'&tOpcion='+${tOpcion}}"><img class="accion-ico" th:src="@{/iconos/iconos-usabilidad/eliminar.webp}" alt=""></a></td>
                 <td th:text="${f.tipoOpcion}" th:id="'tipoOpcion'+${it.index}">dd</td>
                 <td th:text="${f.esCorrecta}"   th:id="'esCorrecta'+${it.index}">cc</td>
                 <td th:text="${f.opcionText}"   th:id="'opcionText'+${it.index}">cc</td>

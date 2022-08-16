@@ -448,7 +448,7 @@ public String exportar(Model model,
 
     return "tablaingresantes";
 }
-//Controlador de exportacion a excel
+//Controlador de exportacion a excel con filtrado
 @GetMapping("/filtrar/ing.xlsx")
     public void downloadCsvFiltrado(
         HttpServletResponse response, @RequestParam(required = false, name = "num")Long num,
@@ -499,6 +499,49 @@ public String exportar(Model model,
                 lista = ingres.getByFilter(query, desde,  hasta,  genero,  encuesta,tIngles, tProgramacion,tLogica , order);
             }
         }
+
+//            model.addAttribute("preguntas",preguntas);
+        List<Ingresante> ingresantex=new ArrayList<>();
+        for (Ingresante in: lista) {
+            if (in.getFormAlum()!=null){
+                Ingresante ingre=new Ingresante();
+                ingre=in;
+
+                ingresantex.add(in);
+            }
+        }
+//            model.addAttribute("ingre",ingresantex);
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=ing.xlsx");
+
+//            ByteArrayInputStream stream = ExcelFileExporter.ingresantesExcelExpoter(preguntas,ingresantex);
+        XSSFWorkbook workbook= ExcelFileExporter.ingresantesExcelExpoter(tdtos.findTestById(1L),fs.findFormById(1L),ingresantex);
+
+//            System.out.println("llego");
+//            workbook.write(response.getOutputStream());
+        ServletOutputStream outputStream = response.getOutputStream();
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+    }
+    //controlador de exportacion sin filtado
+    @GetMapping("/ing.xlsx")
+    public void downloadCsv(
+            HttpServletResponse response, @RequestParam(required = false, name = "num")Long num,
+            @RequestParam(required = false, name = "desde") String desde,
+            @RequestParam(required = false, name = "query") String query,
+            @RequestParam(required = false, name = "hasta") String hasta,
+            @RequestParam(required = false, name = "genero") String genero,
+            @RequestParam(required = false, name = "encuesta") String encuesta,
+            @RequestParam(required = false, name = "tIngles") String tIngles,
+            @RequestParam(required = false, name = "tProgramacion") String tProgramacion,
+            @RequestParam(required = false, name = "tLogica") String tLogica,
+            @RequestParam(required = false, defaultValue = "ASC") String order,
+            @RequestParam(required = false,  defaultValue = "no") String no
+
+    ) throws IOException {
+        List<Ingresante> lista = new ArrayList<>();
+       lista=ingres.findAllIngresante();
 
 //            model.addAttribute("preguntas",preguntas);
         List<Ingresante> ingresantex=new ArrayList<>();
@@ -582,6 +625,41 @@ public String exportar(Model model,
         formDTO.setFechaM(new Date().toString());
         formDTO.setNombre("Formulario de Preguntas Personales");
         fs.saveForm(formDTO);
+        TestDTO test=new TestDTO();
+        test.setFechaM(new Date().toString());
+        test.setNombre("test inizializado");
+        test.setTiempo(60);
+        tdtos.saveTest(test);
         return "redirect:/admin";
     }
+    //controlador que elimina usuario
+    @GetMapping("/ingresante/delete")
+    public String delete(@RequestParam(required = false, name = "id") Long id){
+        ingres.deleteIngresante(id);
+
+        return "redirect:/admin/filtrar";
+    }
+    //controlador que elimina todos los usuarios
+    @GetMapping("/resetingresantes")
+    public String deleteAllingresantes(Model model){
+          ArrayList<Long>ids=new ArrayList<>();
+          for (Ingresante ingre: ingres.findAllIngresante()){
+              ids.add(ingre.getId());
+          }
+          for (Long id:ids){
+              ingres.deleteIngresante(id);
+          }
+
+           ArrayList<Provincia> provinciax= (ArrayList<Provincia>) prs.findAllProvincia();
+
+            model.addAttribute("listaNacionalidades", lis.devolverNacionalidades());
+            model.addAttribute("provincias",provinciax);
+            model.addAttribute("ingresante",new Ingresante());
+            return "paneladministrador";
+
+
+
+    }
+
+
 }

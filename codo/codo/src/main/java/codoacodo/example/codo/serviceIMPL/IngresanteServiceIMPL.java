@@ -90,4 +90,10 @@ public class IngresanteServiceIMPL implements IngresanteService {
         List <Ingresante>lista=ir.findAll(ingresanteSpecification.getByFilters(ifd));
         return lista;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Ingresante findIngresanteByDoc(String numDoc) {
+        return ir.findByNumDoc(numDoc);
+    }
 }

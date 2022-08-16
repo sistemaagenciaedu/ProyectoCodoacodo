@@ -49,4 +49,12 @@ public class EstadisticaServiceIMPL implements EstadisticaService {
        saveEstadistica(estadistica);
 
     }
+
+    @Override
+    public void sumarIngresantesFormulario(Ingresante ingre) {
+        Estadistica estadistica=findEstadisticaById(1L);
+        estadistica.setFormularioTerminado(estadistica.getFormularioTerminado()+1);
+        saveEstadistica(estadistica);
+    }
+
 }

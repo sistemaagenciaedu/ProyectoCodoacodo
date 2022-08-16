@@ -61,6 +61,20 @@ html{
     width: 85%;
 
 }
+.advertencia-error{
+    position: absolute;
+    top: 10px;
+    width: 50vw;
+    height: 50px;
+    background-color: #e76056 ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px grey;
+}
 .subtitulo-inspirador{
     width: fit-content;
     font-weight: bold;

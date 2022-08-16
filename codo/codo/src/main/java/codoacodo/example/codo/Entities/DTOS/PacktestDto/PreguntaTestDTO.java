@@ -6,10 +6,11 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="preguntatestdto")
-public class PreguntaTestDTO {
+public class PreguntaTestDTO implements Comparable<PreguntaTestDTO>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,5 +136,23 @@ public class PreguntaTestDTO {
 
     public void setMateria(MateriaTestDTO materia) {
         this.materia = materia;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PreguntaTestDTO that = (PreguntaTestDTO) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(PreguntaTestDTO o) {
+        return (int) (id - o.id);
     }
 }

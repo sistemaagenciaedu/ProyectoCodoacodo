@@ -1,6 +1,7 @@
 package codoacodo.example.codo.utiles;
 
 import codoacodo.example.codo.Entities.AlumnoEntities.FormAlumPack.PreguntaAlum;
+import codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack.TestAMateria;
 import codoacodo.example.codo.Entities.DTOS.PackFormDTO.FormDTO;
 import codoacodo.example.codo.Entities.DTOS.PackFormDTO.PreguntaDTO;
 import codoacodo.example.codo.Entities.DTOS.PacktestDto.MateriaTestDTO;
@@ -144,6 +145,19 @@ public class ExcelFileExporter {
                             dataRow.createCell(indiceCol).setCellValue(" ");
                         }
                         System.out.println(r.getRespuesta());
+                    }
+                    TreeSet <TestAMateria>materiasAlum=new TreeSet<>();
+                    for (TestAMateria mat: in.getTestAlumno().getMateriasAlumno()){
+                        materiasAlum.add(mat);
+                    }
+                    for (TestAMateria r: materiasAlum) {
+                        indiceCol++;
+                        if (r.getPuntos()!=null){
+                            dataRow.createCell(indiceCol).setCellValue(r.getPuntos());
+                        }else{
+                            dataRow.createCell(indiceCol).setCellValue(" ");
+                        }
+                        System.out.println(r.getPuntos());
                     }
                     indiceFilas++;
                 }

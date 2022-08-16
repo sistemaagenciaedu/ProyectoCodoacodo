@@ -94,14 +94,13 @@ transition: all 3s ;
   opacity: 0;
 }
 .listar-formularios{
-   
+    position: relative;
     width: 100%;
-  max-height: 100%;
+    height: calc(100vh - 100px);
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-   overflow: scroll;
-   overflow-y: scroll;
+   overflow: hidden;
     
 }
 table,tr,th,td{
@@ -151,60 +150,34 @@ tr{
     justify-content: center;
     align-items: center;
     align-content: center;
-   
+    display: none;
    
 }
 .form-creador form{
     position: inherit;
-    width: 60%;
-    min-height: 35%;
+    width: 30%;
+    height: 45%;
     background-color: #fdd306;
-    box-shadow: 0 0 100000px 1000000px  rgba(0, 0, 0, 0.863);
+    box-shadow: 0 0 100000px 1000000px   rgba(0, 0, 0, 0.863);
     border-radius: 0.4em;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     border: 1px solid #333;
-    padding-top: 1em;
-    padding-bottom: 1em;
    
 }
-.campos{
+.form-creador form div{
     display: flex;
     flex-direction: column;
     width: 90%;
-    gap: 10px;   
+    gap: 10px;
+
+   
 }
-.varias-opciones {
-    display: flex;
-   flex-wrap: wrap;
-   justify-content: center;
-    width: 90%;
-    gap: 15px; 
-}
-.varias-opciones div{
-    display: flex;
-   flex-wrap: wrap;
-   justify-content: space-between;
-    width: 100%;
-    gap: 15px; 
-}
-.varias-opciones div textarea{
-   min-width: 100%;
-   min-height: 200px;
-   font-size: 16px;
-}
-.campos-dobles{
-    display: flex;
-    width: 90%;
-    align-items: center;
-    align-content: center;
-    gap: 20px;
-}
-.form-creador form  input, .form-creador form select{
+.form-creador form  input{
    background: white ;
    height: 25px;
    border: none;
@@ -237,154 +210,48 @@ td:hover {
     font-weight: bold;
     transition: all 0.4s;
 }
-.visualizador{
+.panel-container{
     width: 100%;
-    height: 90vh;
-    display: flex;
-    padding-bottom: 2em;
-}
-/***************revisar****************/
-.acciones-exportar{
-width: 30%;
-overflow: hidden;
-}
-.acciones-exportar form
-{
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    margin: auto;
-}
-
-.acciones-exportar form label,
-.acciones-agregar form label {
-    font-size: 0.7em;
-    margin-top: 20px;
-}
-.lupita{
-    display: none;
-}
-.acciones-exportar form label,
-.acciones-exportar form select,
-.acciones-exportar form input[type=date],
-.acciones-exportar form input,
-.acciones-agregar form label,
-.acciones-agregarform select,
-.acciones-agregar form input[type=date],
-.acciones-agregar form input {
-    color: #717170;
-    outline: 0px;
-
-
-}
-
-.acciones-exportar form select,
-.acciones-exportar form input[type=date],
-.acciones-exportar form input,
-.acciones-agregar form select,
-.acciones-agregar form input[type=date],
-.acciones-agregar form input {
-    color: #717170;
-    border: none;
-    outline: 0px !;
-    padding: 0.5em !;
-    border-bottom: 1px solid #717170;
-}
-
-#e_egresadoDe,
-#e_establecimiento {
-    color: #717170;
-    border: none;
-    outline: 0px;
-    padding: 0.5em;
-    border-bottom: 1px solid #717170;
-}
-
-.fechas {
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     
-
+    align-items: center;
+    align-content: center;
 }
-
-.contenedor-desde,
-.contenedor-hasta {
+.container-items{
     display: flex;
-    flex-direction: column;
-    position: relative;
-    margin-left: 1em;
-    margin-right: 1em;
-}
-
-
-
-
-
-input[type=date]::-webkit-calendar-picker-indicator {
-    color: #717170;
-    opacity: 1;
-    font-size: x-large;
-
-
-
-}
-
-
-.botones-exportar {
-    margin-top: 30px;
-    display: flex;
-    width: 100%;
-    gap: 40px;
     justify-content: center;
+    gap: 25px;
 }
-
-.botones-exportar input {
-    border: none !important;
+.encuesta{
+    position: relative;
+    display: flex;
+    gap: 10px;
+    margin-top: 3em;
+    width: 300px;
+    background-color:#e5e5e5 ;
     padding: 1em;
-    padding-left: 2em;
-    padding-right: 2em;
-    background: none;
-    border: none;
-    color: white !important;
-
-    border-radius: 5px;
-    box-shadow: 0 0 8px #c5c5c5;
+    border-radius: 10px;
+    cursor: pointer;
+    
 }
-.botones-exportar input {
-    border: none !important;
-    padding: 1em;
-    padding-left: 2em;
-    padding-right: 2em;
-    background: none;
-    border: none;
-    color: white !important;
-      width:200px;
-    border-radius: 5px;
-    box-shadow: 0 0 8px #c5c5c5;
+.completado{
+    position: absolute;
+    width: 40px !important;
+    top: -20px;
+    right: 0;
 }
-
-.verde {
-    background-color: #99c25f !important;
-
-}
-
-.rojo {
-    background-color: #e76056 !important;
-
-}
-
-.verde:hover {
-    background-color: #88bf48 !important;
+.encuesta:hover{
+ 
     transform: scale(1.1);
     transition: all 0.5s;
 }
+.encuesta img{
+    width: 100px;
 
-.rojo:hover {
-    background-color: #e74c3c !important;
-    transform: scale(1.1);
-    transition: all 0.5s;
 }
-/*****************fin revisar*************/
+
 @media(max-width: 990px){
  
 .logo-nav{
@@ -401,11 +268,11 @@ input[type=date]::-webkit-calendar-picker-indicator {
 .form-creador form{
     position: inherit;
     width: 90%;
-    min-height: 70%;
+    height: 40%;
     background-color: #fdd306;
     box-shadow: 0 0 100000px 1000000px  rgba(0, 0, 0, 0.863);
     border-radius: 0.4em;
-     overflow: hidden;
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -423,20 +290,4 @@ th{
 .listar-formularios{
     overflow: scroll;
 }
-
-}
-@media(max-width:900px){
-    .acciones-exportar{
-        position: absolute !important;
-        z-index: +3 !important;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color:white;
-        display: none;
-    }
-    .lupita{
-        display: block;
-    }
 }

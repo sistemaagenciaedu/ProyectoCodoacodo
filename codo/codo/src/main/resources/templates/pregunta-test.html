@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css-cuestionario/cuentionario.css">
-    <link rel="stylesheet" th:href="@{/css-cuestionario/cuentionario.css}">
+    <link rel="stylesheet" href="/static/css-visualizador/visualizador.css">
+    <link rel="stylesheet" th:href="@{/css-visualizador/visualizador.css}">
    
     
   
@@ -30,35 +30,46 @@
 <div class="container-registro">
     <div class="containerPregunta">
         <div class="conceptos">
-            <P th:text="${respuesta.enunciado}">Titulo</P>
+            <P th:text="${pregunta.titulo}">Titulo</P>
        
         </div>
-        <form th:action="@{/ingresante/cuestionario/save}" method="post" id="myForm" th:object="${respuesta}">
-            <input type="number" name="idIngresante" id="idIngresante" th:value="${idIngresante}" hidden>
-            <input type="number" name="id" id="id" th:field="*{id}"   hidden>
-        <div class="campoAlfanumerico" th:if="${respuesta.tipo == 'ALFANUMERICO'}">
-           
-            <input type="text" placeholder="Ingresa tu respuesta" name="rx" required> 
-        
+        <div class="conceptos" th:if="${pregunta.tipoPortada == 'Video Youtube'}">
+            <!-- <iframe class="video-visualizador" src="https://www.youtube.com/embed/wzkCVWmEeGI" title="10 Sistemas de Construcción de Casas más Sorprendentes del Mundo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+            <iframe width="400" height="300" th:src="${pregunta.portadaVideo}" title="10 Sistemas de Construcción de Casas más Sorprendentes del Mundo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+       
         </div>
-        <div class="campodeopciones" th:if="${respuesta.tipo == 'OPCION SIMPLE'}">
-           <div th:each="p, it : ${respuesta.opciones}" th:if="${respuesta.opciones != null}">
-            <label class="etiqueta"  th:for="'opcion'+${it.index}" th:id="'labelop'+${it.index}" th:onclick="cambiarColor([[${it.index}]],20)" th:text="${p.descripcion}">Opcion 1</label>
-            <input class="chequeado"  type="checkbox" name="rx"  th:value="${p.descripcion}" th:id="'opcion'+${it.index}" >
+        <div class="conceptos" th:if="${pregunta.tipoPortada == 'Imagen'}">
+            <img class="img_preguntas" th:src="@{'/imagen/img?id='+${pregunta.portadaImaId}}" alt="">
+            <!-- <img class="img_preguntas" src="/static/iconos/logos/loco-cac-webp-lineal.webp" alt="">        -->
+        </div>
+        <div class="conceptos">
+            <P th:text="${pregunta.pregunta}">Titulo</P>
+       
+        </div>
+        <form th:action="@{/ingresante/test/save}" method="post" id="myForm" th:object="${pregunta}">
+            
+            <input type="number" name="id" id="id" th:field="*{id}"   hidden>           
+            <input type="number" name="idIngresante" id="idIngresante" th:value="${idIngresante}"   hidden>           
+       
+        <div class="campodeopciones" th:if="${pregunta.tipoOpcion == 'Texto Plano'}">
+           <div th:each="p, it : ${pregunta.opcionestestalumno}" th:if="${pregunta.opcionestestalumno != null}">
+            <label class="etiqueta"  th:for="'opcion'+${it.index}" th:id="'labelop'+${it.index}" th:onclick="cambiarColor([[${it.index}]],20)" th:text="${p.opcionText}">Opcion 1</label>
+            <input class="chequeado"  type="checkbox" name="rx"  th:value="${p.id}" th:id="'opcion'+${it.index}" >
            </div>
          
  
         </div>
-        <div class="campodelista" th:if="${respuesta.tipo == 'LISTA'}">
-            <select name="rx" id="respuestaLista"  required>
-                <option value="" disabled selected>Seleccione</option>
-                <option th:value="${p.descripcion}" th:each="p, it : ${respuesta.opciones}" th:if="${respuesta.opciones != null}" th:text="${p.descripcion}">1</option>
-             
-            </select>
+        <div class="campodeopciones-img" th:if="${pregunta.tipoOpcion == 'Imagen'}">
+           <div th:each="p, it : ${pregunta.opcionestestalumno}" th:if="${pregunta.opcionestestalumno != null}">
+            <label class="etiqueta"  th:for="'opcion'+${it.index}" th:id="'labelop'+${it.index}" th:onclick="cambiarColor([[${it.index}]],20)" ><img class="img-opcion" th:src="@{'/imagen/img?id='+${p.opcionImgid}}" alt=""></label>
+            <input class="chequeado"  type="checkbox" name="rx"  th:value="${p.id}" th:id="'opcion'+${it.index}" >
+           </div>         
+ 
         </div>
+        
        
         <input type="submit" value="enviar" id="enviar" hidden>
-       
+        
     </form>
     <div class="enviar">
         <label for="enviar">Enviar</label>
@@ -69,8 +80,16 @@
 
 </div>
 
-
-
+<div class="cronometro">
+    <p class="titulo2"> Tiempo restante:</p>
+    <span hidden class="days"></span>
+    <span > <span hidden class="hours">1</span>
+        <span class="minutes"></span>
+        <span class="seconds"></span></span>
+    <span>minutos</span>
+</div>
+<p id="fin" th:text="${fin}">19,55</p>
+<p id="ahora" th:text="${ahora}">19,55</p>
 <footer class="footer-mobile">
     <link rel="stylesheet" href="/css footer/footer-mobile.css">
     <div class="footer-img-vamosba">
@@ -235,6 +254,8 @@
   <script th:src="@{/js/cuestionario.js}"></script>
   <script th:src="@{/js/scrip2.js}"></script>
   <script src="/static/js/scrip2.js"></script>
+  <script src="/static/js/temporizador.js"></script>
+  <script th:src="@{/js/temporizador.js}"></script>
 </body>
 
 </html>

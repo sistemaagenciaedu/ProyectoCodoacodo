@@ -55,4 +55,18 @@ public class ProvinciaServiceIMPL implements ProvinciaService {
             }
         }
     }
+
+    @Override
+    public void sumarIngresantesFormulario(Ingresante ingre) {
+        List<Provincia>provincias=findAllProvincia();
+        for (Provincia prov: provincias){
+            if (prov.getNombre().equalsIgnoreCase(ingre.getProvincia())){
+
+
+                prov.setFormularioTerminado(prov.getFormularioTerminado()+1);
+                saveProvincia(prov);
+            }
+        }
+    }
+
 }

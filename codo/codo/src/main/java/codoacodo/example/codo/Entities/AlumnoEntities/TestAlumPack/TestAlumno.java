@@ -13,7 +13,8 @@ public class TestAlumno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-    private String fechaM=new Date().toGMTString();;
+    private String fechaM=new Date().toGMTString();
+    private Long fechaFin;
     private Integer tiempo;
     private Boolean estado=false;
     private Integer puntos=0;
@@ -23,10 +24,11 @@ public class TestAlumno {
     public TestAlumno() {
     }
 
-    public TestAlumno(Long id, String nombre, String fechaM, Integer tiempo, Boolean estado, Integer puntos, Set<TestAMateria> materiasAlumno) {
+    public TestAlumno(Long id, String nombre, String fechaM, Long fechaFin, Integer tiempo, Boolean estado, Integer puntos, Set<TestAMateria> materiasAlumno) {
         this.id = id;
         this.nombre = nombre;
         this.fechaM = fechaM;
+        this.fechaFin = fechaFin;
         this.tiempo = tiempo;
         this.estado = estado;
         this.puntos = puntos;
@@ -55,6 +57,14 @@ public class TestAlumno {
 
     public void setFechaM(String fechaM) {
         this.fechaM = fechaM;
+    }
+
+    public Long getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Long fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     public Integer getTiempo() {
