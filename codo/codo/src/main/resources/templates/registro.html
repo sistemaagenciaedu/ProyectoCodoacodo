@@ -48,9 +48,10 @@
                               <h2 class="card-curso" th:text="${t.curso}">Curso</h2>
                               <p class="description"  th:text="${t.comentario}">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
         
-                              <div><a th:href="@{${t.github}}"><span class="iconify github" data-icon="akar-icons:github-fill"></span></a>
+                              <div>
+                                <a th:href="@{${t.github}}"><span class="iconify github" data-icon="akar-icons:github-fill"></span></a>
                                   <a th:href="@{${t.linkedin}}"><span class="iconify linkedin" data-icon="entypo-social:linkedin-with-circle"></span></a>
-                                
+                              </div>
                           </div>
                       </div>
                       
