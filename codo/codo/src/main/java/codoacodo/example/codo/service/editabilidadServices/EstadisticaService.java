@@ -14,4 +14,5 @@ public interface EstadisticaService {
     public Estadistica findEstadisticaById(Long id);
     public void sumarIngresantes(Ingresante ingre);
     public void sumarIngresantesFormulario(Ingresante ingre);
+    public void sumarIngresantesTest(Ingresante ingre);
 }

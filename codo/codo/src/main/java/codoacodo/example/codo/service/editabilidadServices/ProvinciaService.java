@@ -14,4 +14,5 @@ public interface ProvinciaService {
     public Provincia findProvinciaById(Long id);
     public void sumarIngresantes(Ingresante ingre);
     public void sumarIngresantesFormulario(Ingresante ingre);
+    public void sumarIngresantesTest(Ingresante ingre);
 }

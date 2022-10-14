@@ -95,8 +95,6 @@ public class IngresanteController {
             model.addAttribute("advertenvia", "el registro ya existe por favor ingrese");
             return "ingreso-alumno";
         }
-
-
     }
 
     @GetMapping("/ingreso")
@@ -256,7 +254,7 @@ public class IngresanteController {
         boolean falta = false;
         if (rx.isEmpty()) {
 
-            r.setRespuesta(Long.parseLong(pregunta.getRespuesta()));
+            r.setRespuesta(null);
         } else {
             String respu = "";
             for (String p : rx) {
@@ -335,6 +333,8 @@ public class IngresanteController {
        }
         if (finalizado){
             ingresante= inser.findIngresanteById(idIngresante);
+           es.sumarIngresantesTest(ingresante);
+           provs.sumarIngresantesTest(ingresante);
             model.addAttribute("ingresante", ingresante);
             return "panel-ingresante";
         }else{

@@ -45,3 +45,11 @@ function noverFomulario(){
 function ventanaSecundaria (URL){ 
     window.open(URL,"ventana1","width=120,height=300,scrollbars=NO") 
  } 
+
+
+ var input1=document.getElementById("")
+ var input1=document.getElementById("")
+ input1.setAttribute("Style","border-radius: 10px !important")
+ input2.setAttribute("Style","border-radius: 10px !important")
+ input1.setAttribute("Style","border: 1px solid red !important")
+ input2.setAttribute("Style","border: 1px solid red !important")

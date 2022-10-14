@@ -57,4 +57,11 @@ public class EstadisticaServiceIMPL implements EstadisticaService {
         saveEstadistica(estadistica);
     }
 
+    @Override
+    public void sumarIngresantesTest(Ingresante ingre) {
+        Estadistica estadistica=findEstadisticaById(1L);
+        estadistica.setTestTerminado(estadistica.getTestTerminado()+1);
+        saveEstadistica(estadistica);
+    }
+
 }

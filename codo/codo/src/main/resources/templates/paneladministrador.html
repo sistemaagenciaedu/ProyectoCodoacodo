@@ -20,20 +20,69 @@
 </head>
 
 <body>
+    <style>
+        .navbar-index{
+    width: 100%;
+    height: 100px;
+    background-color: #fdd306;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+   
+    overflow: hidden;
+}
+.navbar-index label img{
+   width: 40px;
+}
+.navbar-index label {
+   margin-right: 50px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   align-content: center;
+}
+.navbar-index label:hover {
+   transform: scale(1.1);
+}
+.logo-nav{height: 80%;
+overflow: hidden;
+margin-left: 1em;
+}
+    </style>
     <nav class="navbar-index">
+        <!-- este es el java -->
         <img class="logo-nav" th:src="@{/iconos/logos/logos-nav.webp}" alt="logo agencia de aprendizaje">
+        
+        <!-- este es el chrome -->
+        <!-- <img class="logo-nav" src="/static/iconos/logos/logos-nav.webp" alt="logo agencia de aprendizaje"> -->
+        <label for="salir-form"><img th:src="@{/iconos/iconos-usabilidad/logout.webp}" alt="">Logout</label>
     </nav>
+    <div class="advertencia-eliminar" id="advertencia-eliminar">
+        <form th:action="@{/admin/resetingresantes}"  method="get">
+            <p>Advertencia</p>
+            <img th:src="@{/iconos/iconos-usabilidad/advertencia.webp}" alt="">
+            <p>Si desea continuar con el borrado total haga clic en continuar</p>
+            <p>de lo contrario haga clic en cancelar</p>
+           <div class="botones-reseteo">
+            <input class="continuar-reseteo" type="submit" value="CONTINUAR">
+            <input class="cancelar-reseteo" type="button" value="CANCELAR" onclick="noveradvertencia()">
+           </div>
+        </form>
+    </div>
     <div class="crear-user-container" id="crear-user-container">
         <div class="crear-user">
             <div class="contenedor-fomulario">
-                
+                            
                 <form th:action="@{/ingresante/save}" class="formu-registro" method="post" id="myForm" th:object="${ingresante}">
-        
+        <div><h2>Agregar Ingresante</h2></div>
                     <div class="campos-dobles">
                         <div class="campos">
                             <label for="nombre">Nombre</label>
                             <input type="text" name="nombre" id="nombre" th:field="*{nombre}" required>
                         </div>
+                      
         
                         <div class="campos">
                             <label for="apellido">Apellido</label>
@@ -118,13 +167,13 @@
                             <label for="celu">Celular</label>
                             <input type="text" name="celu" id="celu"  th:field="*{celu}" required>
                         </div>
-                        <div class="campos">
-                            <label for="rol">Rol</label>
+                        <div class="campos" >
+                            <label for="rol" style="display: none;">Rol</label>
                             
-                            <select name="rol" id="rol"  th:field="*{rol}" required>
-                              <option value="" selected >Seleccione</option>
-                              <option value="ADMIN">ADMINISTADOR</option>
-                              <option value="USER">INGRESANTE</option>
+                            <select name="rol" id="rol"  th:field="*{rol}"  style="display: none;">
+                              
+                              <option value="ADMIN"  >ADMINISTADOR</option>
+                              <option value="USER" selected>INGRESANTE</option>
                             </select>
                         </div>
         
@@ -154,11 +203,16 @@
                         alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/formularioIco.webp}" alt=""></a>
                 <span>Admin Fomulario</span></button>
-            <button class="btn-agragar-formulario" onclick="verRegistro()"><img
+            <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn-agragar-formulario"><a th:href="@{/admin/listausuarios}"><img
+                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/userAdmin.webp}"
+                        alt=""><img class="plus-azul"
+                        th:src="@{/iconos/iconos-usabilidad/userAdmin.webp}" alt=""></a>
+                <span>Agregar Usuario</span></button>
+            <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn-agragar-formulario" onclick="verRegistro()"><img
                         class="plus-verde" th:src="@{/iconos/iconos-usabilidad/user.webp}"
                         alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/user.webp}" alt="">
-                <span>Agregar Usuario</span></button>
+                <span>Agregar Ingresante</span></button>
             <button class="btn-agragar-formulario"><a th:href="@{/admin/testimonio/list}"><img
                         class="plus-verde" th:src="@{/iconos/iconos-usabilidad/testimonio.webp}"
                         alt=""><img class="plus-azul"
@@ -178,15 +232,14 @@
                         class="plus-verde" th:src="@{/iconos/iconos-usabilidad/filtrar.webp}"
                         alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/filtrar.webp}" alt=""></a>
-                <span>Filtrar Usuarios</span></button>
+                <span>Filtrar ingresantes</span></button>
             <button class="btn-agragar-formulario"><a th:href="@{/admin/ing.xlsx}"><img
                         class="plus-verde" th:src="@{/iconos/iconos-usabilidad/excel.webp}"
                         alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/excel.webp}" alt=""></a>
                 <span>Descargar Excel</span></button>
-            <button class="btn-agragar-formulario"><a th:href="@{/admin/resetingresantes}"><img
-                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/reset.webp}"
-                        alt=""><img class="plus-azul"
+            <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn-agragar-formulario" onclick="veradvertencia()"><img class="plus-azul"
+                        th:src="@{/iconos/iconos-usabilidad/reset.webp}" alt=""><img class="plus-verde"
                         th:src="@{/iconos/iconos-usabilidad/reset.webp}" alt=""></a>
                 <span>Resetear</span></button>
             
@@ -196,27 +249,27 @@
        <div class="container-estadistica">
         <div class="flex-container-estadisticas">
             <div class="titEsta">
-            <P>50000</P>
+            <P th:text="${estadistica.registrosTotales}">50000</P>
             <p>Total Registrado</p>
             </div>
             <div class="titEsta">
-                <p>25</p>
+                <p th:text="${estadistica.noBinario}">25</p>
                 <p>No binarios</p> 
             </div>
             <div class="titEsta">
-                <p>50</p>
+                <p th:text="${estadistica.femenino}">50</p>
                 <p>Femenino</p>
             </div>
             <div class="titEsta">
-                <p>80</p>
+                <p th:text="${estadistica.masculino}">80</p>
                 <p>Masculino</p>  
             </div>
             <div class="titEsta">
-                <p>1000</p>
+                <p th:text="${estadistica.formularioTerminado}">1000</p>
                 <p>Formulario Terminado</p>
             </div>
             <div class="titEsta">
-                <p>2000</p>
+                <p th:text="${estadistica.testTerminado}">2000</p>
                 <p>Test terminado</p>
             </div>
         </div>
@@ -225,12 +278,12 @@
                 <img th:src="@{'/provinciaswebp/'+${pro.imagenNombre}}" alt="">
                 <!-- <img src="/static/provinciaswebp/buenosaires.webp" alt=""> -->
                 <p class="card-pro-titulo" th:text="${pro.nombre}">Ciudad Autonoma de buenos aires</p>
-                <p>Total Registrado</p>
-                <p>Formulario Terminado</p>
-                <p>Test terminado</p>
-                <p>No binarios</p>
-                <p>Femenino</p>
-                <p>Masculino</p>            
+                <p>Total Registrado: <span th:text="${pro.registrosTotales}"></span></p>
+                <p>Formulario Terminado: <span th:text="${pro.formularioTerminado}"></span></p>
+                <p>Test terminado: <span th:text="${pro.testTerminado}"></span></p>
+                <p>No binarios: <span th:text="${pro.noBinario}"></span></p>
+                <p>Femenino: <span th:text="${pro.femenino}"></span></p>
+                <p>Masculino: <span th:text="${pro.masculino}"></span></p>            
                
             </div>
            

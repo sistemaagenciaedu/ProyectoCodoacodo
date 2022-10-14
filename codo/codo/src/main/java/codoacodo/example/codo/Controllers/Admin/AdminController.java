@@ -9,10 +9,12 @@ import codoacodo.example.codo.Entities.DTOS.PacktestDto.OpcionTestDTO;
 import codoacodo.example.codo.Entities.DTOS.PacktestDto.PreguntaTestDTO;
 import codoacodo.example.codo.Entities.DTOS.PacktestDto.TestDTO;
 import codoacodo.example.codo.Entities.Ingresante;
+import codoacodo.example.codo.Entities.Usuario;
 import codoacodo.example.codo.Entities.editabilidad.Curso;
 import codoacodo.example.codo.Entities.editabilidad.Estadistica;
 import codoacodo.example.codo.Entities.editabilidad.Provincia;
 import codoacodo.example.codo.Entities.editabilidad.Testimonio;
+import codoacodo.example.codo.repositories.UsuarioRepository;
 import codoacodo.example.codo.service.DTOSServices.PFormDTOServices.FormDTOService;
 import codoacodo.example.codo.service.DTOSServices.PFormDTOServices.OpcionDTOService;
 import codoacodo.example.codo.service.DTOSServices.PFormDTOServices.PreguntaDTOService;
@@ -25,6 +27,7 @@ import codoacodo.example.codo.service.editabilidadServices.*;
 import codoacodo.example.codo.utiles.ExcelFileExporter;
 import codoacodo.example.codo.utiles.GenerarListaConTexto;
 import codoacodo.example.codo.utiles.Listas;
+import codoacodo.example.codo.web.EncriptarPassword;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -79,6 +82,8 @@ public class AdminController {
     private OpcionTestDTOService optestdtos;
     @Autowired
     private IngresanteService ingres;
+    @Autowired
+    private UsuarioRepository ur;
 //controlador panel de administracion
     @GetMapping("")
     public String panelAdmin(Model model, Ingresante ingresante){
@@ -88,6 +93,7 @@ public class AdminController {
         }else{
             model.addAttribute("listaNacionalidades", lis.devolverNacionalidades());
             model.addAttribute("provincias",provinciax);
+            model.addAttribute("estadistica",es.findEstadisticaById(1L));
             model.addAttribute("ingresante",ingresante);
             return "paneladministrador";
         }
@@ -199,6 +205,7 @@ public String listarTesti(Model model){
     }
 
 //Controlladores de curso
+
     @GetMapping("/curso/list")
     public String listarCurso(Model model){
         model.addAttribute("cursos",cs.findAllCurso());
@@ -206,7 +213,6 @@ public String listarTesti(Model model){
 
         return "crear-curso";
     }
-
 
     @PostMapping("/curso/save")
     public String saveCurso(Curso curse,  Model model,  MultipartFile imagenx){
@@ -650,13 +656,80 @@ public String exportar(Model model,
               ingres.deleteIngresante(id);
           }
 
-           ArrayList<Provincia> provinciax= (ArrayList<Provincia>) prs.findAllProvincia();
 
+for (Provincia pro:prs.findAllProvincia()){
+    pro.setTestTerminado(0);
+    pro.setNoBinario(0);
+    pro.setFormularioTerminado(0);
+    pro.setFemenino(0);
+    pro.setMasculino(0);
+    pro.setRegistrados(0);
+    pro.setRegistrosTotales(0);
+    prs.saveProvincia(pro);
+}
+for (Estadistica pro:es.findAllEstadistica()){
+    pro.setTestTerminado(0);
+    pro.setNoBinario(0);
+    pro.setFormularioTerminado(0);
+    pro.setFemenino(0);
+    pro.setMasculino(0);
+    pro.setRegistrados(0);
+    pro.setRegistrosTotales(0);
+  es.saveEstadistica(pro);
+}
+
+    ArrayList<Provincia> provinciax= (ArrayList<Provincia>) prs.findAllProvincia();
             model.addAttribute("listaNacionalidades", lis.devolverNacionalidades());
             model.addAttribute("provincias",provinciax);
+        model.addAttribute("estadistica",es.findEstadisticaById(1L));
             model.addAttribute("ingresante",new Ingresante());
             return "paneladministrador";
 
+
+
+    }
+
+    @PostMapping("/guardar-user")
+    public String superUser(Usuario usuario) {
+
+
+        Usuario usu = new Usuario();
+        usu.setAlta(new Date());
+        usu.setApellido(usuario.getApellido());
+        usu.setNombre(usuario.getNombre());
+        usu.setEmail(usuario.getEmail());
+        usu.setUsername(usu.getEmail());
+        usu.setClave(EncriptarPassword.encriptarPassword(usuario.getClave()));
+        usu.setPermisos(usuario.getPermisos());
+        ur.save(usu);
+        return "redirect:/admin/listausuarios";
+
+
+    }
+    @GetMapping("/listausuarios")
+    private String listaUser(Model model){
+
+        model.addAttribute("usuario",new Usuario());
+        model.addAttribute("lisusuarios",ur.findAll());
+
+        return "usuarios";
+    }
+
+    @GetMapping("/eliminar-user")
+    public String deleteUser(@RequestParam(required = false, name = "id") Long id) {
+        Usuario eliminado = ur.findById(id).orElse(null);
+
+        if (eliminado != null) {
+
+            ur.delete(eliminado);
+
+
+            return "redirect:/admin/listausuarios";
+
+        } else {
+            return "redirect:/admin/listausuarios";
+
+        }
 
 
     }

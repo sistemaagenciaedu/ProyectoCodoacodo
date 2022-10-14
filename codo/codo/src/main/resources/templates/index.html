@@ -35,8 +35,7 @@
   <div class="queesCodo">
     <div class="queesCodoDiv">
       <p>¿Que es codo a codo?</p>
-      <p>Es un programa de la agencia de aprendizaje a lo largo de la vida, con mas de 1258520 egresados. Aplicado las
-        nuevas tegnologias....</p>
+      <p>Codo a Codo 4.0 es un Programa de enseñanza en Programación, destinado a personas jóvenes y adultas, que cuenten con título secundario. Tiene como objetivo brindar herramientas que faciliten la inserción laboral en el sector IT, necesarias para mejorar la empleabilidad de las personas.</p>
     </div>
   </div>
   <div class="modalidad">
@@ -80,8 +79,8 @@
                       <h2 class="card-curso" th:text="${t.curso}">Curso</h2>
                       <p class="description"  th:text="${t.comentario}">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
 
-                      <div><a th:href="${t.github}"><span class="iconify github" data-icon="akar-icons:github-fill"></span></a>
-                        <a th:href="${t.linkedin}"><span class="iconify linkedin" data-icon="entypo-social:linkedin-with-circle"></span></a>
+                      <div><a th:href="@{${t.github}}"><span class="iconify github" data-icon="akar-icons:github-fill"></span></a>
+                        <a th:href="@{${t.linkedin}}"><span class="iconify linkedin" data-icon="entypo-social:linkedin-with-circle"></span></a>
                         </div>
                   </div>
               </div>
