@@ -17,6 +17,7 @@ public class TestAPregunta implements Comparable<TestAPregunta>{
     private Long id;
 
     private String titulo;
+    @Lob
     private String pregunta;
     private String tipoPortada;
     private String tipoOpcion;
