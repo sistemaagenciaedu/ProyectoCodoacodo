@@ -18,4 +18,6 @@ public interface IngresanteRepository extends JpaRepository<Ingresante,Long>, Jp
     List<Ingresante> findAll(Specification<Ingresante> spec);
     @Query("SELECT a FROM Ingresante a WHERE a.numDoc=:doc")
     Ingresante findByNumDoc(@Param("doc") String doc);
+    @Query("SELECT a FROM Ingresante a WHERE a.numDoc=:doc")
+    List<Ingresante>buscarTodosLosQueTenganEseDni(@Param("doc") String doc);
 }

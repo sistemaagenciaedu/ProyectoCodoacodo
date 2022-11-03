@@ -15,5 +15,6 @@ public interface IngresanteService {
     public void eliminarRespuestasIngresante(Ingresante ingre);
     public List<Ingresante>getByFilter(String query, String desde, String hasta, String genero, String encuesta,String tIngles,String tProgramacion,String tLogica ,String order);
     public Ingresante findIngresanteByDoc(String numDoc);
+    public List<Ingresante>buscarTodosLosDNIQueMacheen(String numDoc);
 
 }

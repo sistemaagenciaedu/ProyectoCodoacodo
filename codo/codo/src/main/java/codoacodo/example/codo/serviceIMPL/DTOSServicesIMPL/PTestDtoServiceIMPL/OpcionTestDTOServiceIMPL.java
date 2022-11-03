@@ -31,15 +31,23 @@ private OpcionTestDTORepository optr;
     public List<OpcionTestDTO> findAllOpcionTestXPregunta(Long id){
         List<OpcionTestDTO>nueva=new ArrayList<>();
         List<OpcionTestDTO>original=findAllOpcionTest();
+
         System.out.println("el Identificador de la pregunta es "+ id);
         System.out.println("el tamaño de la lista de opciones es "+ original.size());
-        if (original.size()!=0){
+ Integer idnuevo=id.intValue();
+        if (!original.isEmpty()){
             for (OpcionTestDTO opt:original){
-                if(opt.getPreguntastest().getId()==id){
+                if(opt.getPreguntastest().getId()==idnuevo.longValue()){
                     nueva.add(opt);
                     System.out.println(opt.getId());
                 }
             }
+        }
+        for (OpcionTestDTO opt: nueva) {
+            System.out.println(opt.getOpcionText());
+            System.out.println(opt.getEsCorrecta());
+            System.out.println(opt.getPreguntastest());
+            System.out.println(opt.getId());
         }
         return nueva;
     }

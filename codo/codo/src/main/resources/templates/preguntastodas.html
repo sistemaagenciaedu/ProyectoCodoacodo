@@ -1,65 +1,137 @@
 <!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css.panel-ingresante/panel-ingresante.css}">
+
     <link rel="stylesheet" th:href="@{/css footer/footer-mobile.css}">
     <link rel="stylesheet" th:href="@{/css footer/footer-web.css}">
-    <link rel="stylesheet" href="/static/css.panel-ingresante/panel-ingresante.css">
+    <link rel="stylesheet" href="/static/css-crear-preguntatest/crear-preguntatest.css">
+    <link rel="stylesheet" th:href="@{/css-crear-preguntatest/crear-preguntatest.css}">
     <link rel="stylesheet" href="/static/css footer/footer-mobile.css">
     <link rel="stylesheet" href="/static/css footer/footer-web.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <title>Codo a codo🚀</title>
+        <title>Codo a codo🚀</title>
 </head>
 
 <body>
-
+  
     <nav class="navbar-index">
         <img class="logo-nav" th:src="@{/iconos/logos/logos-nav.webp}" alt="logo agencia de aprendizaje">
     </nav>
-    <div class="panel-container">
-        <h1 th:text="${ingresante.nombre}+' '+${ingresante.apellido}">Jorge Martin Dominguez Diaz</h1>
-        <div class="container-items">
-            <div class="encuesta" th:onclick="window.location.href=this.getAttribute('data-url')"
-                th:data-url="@{'/ingresante/cuestionario?idIngresante='+${ingresante.id}}">
-                <img th:if="${ingresante.formAlum.estado} == true" class="completado"
-                    th:src="@{/iconos/iconos-usabilidad/comprobado.webp}" alt="">
-                <img th:src="@{/iconos/iconos-usabilidad/encuesta.webp}" alt="">
-                <p><B>Paso 1:</B> para iniciar el proceso de preinscripcion completa este formulario</p>
-            </div>
-            <div class="encuesta" th:onclick="window.location.href=this.getAttribute('data-url')"
-                th:data-url="@{'/ingresante/test?idIngresante='+${ingresante.id}}">
-                <img class="completado" th:if="${ingresante.testAlumno.estado} == true"
-                    th:src="@{/iconos/iconos-usabilidad/comprobado.webp}" alt="">
-                <img th:src="@{/iconos/iconos-usabilidad/testnivelacion.webp}" alt="">
-                <p><B>Paso 2:</B> para continuar el proceso de preinscripcion completa el siguiente test</p>
-            </div>
-        </div>
-        <style>
-            .aviso-exito {
-                width: 80%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                align-content: center;
-                min-height: 200px;
-                font-weight: bold;
-                text-align: center;
-            }
-        </style>
-        <!-- th:if="${ingresante.testAlumno.estado == true and ingresante.formAlum.estado == true }"
-        class="aviso-exito" -->
-        <div class="aviso-exito" >
-            <p>Una vez completados los paso 1 y 2 ,  deberás aguardar a Febrero a que nos comuniquemos vía mail. Al finalizar la etapa de inscripciones, se otorgarán las vacantes y te llegará un correo explicando cómo seguir</p>
-        </div>
-    </div>
+   <div class="lista-formularios">
+<div class="barra-control">
+    <button class="btn-agragar-formulario" ><a th:href="@{'/admin/materia/list?idTest='+${idTest}}"><img class="plus-verde" th:src="@{/iconos/iconos-usabilidad/volver.webp}" alt=""><img class="plus-azul" th:src="@{/iconos/iconos-usabilidad/volver.webp}" alt=""></a> <span>Volver</span></button>
 
+    
+    <!-- <button class="btn-agragar-formulario" onclick="mostrarFormulario()"><img class="plus-verde" th:src="@{/iconos/iconos-usabilidad/plusnegro.webp}" alt=""><img class="plus-azul" th:src="@{/iconos/iconos-usabilidad/plusnegro.webp}" alt=""><span>Agregar Pregunta</span> </button> -->
+    
+</div>
+
+<div class="listar-formularios">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Acciones</th>
+                 <th>Titulo</th>
+                <th>Pregunta</th>
+                <th>Tipo de portada</th>
+                <th>Tipo de Opcion</th>
+                <th>Portada Video</th>
+                <th>Portada Imagen</th>
+                <th>Opciones</th>               
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="f, it : ${preguntas}"  th:if="${preguntas != null}" th:ondblclick="window.location.href=this.getAttribute('data-url')" th:data-url="@{'/admin/opciontest/list?idPreg='+${f.id}+'&idTest='+${idTest}+'&idMat='+${idMat}+'&tOpcion='+${f.tipoOpcion}}" >
+                <td th:text="${f.id}" th:id="'id'+${it.index}">ss</td>
+                <td class="acciones-tabla">
+                    <div>
+                        <a th:href="@{'/admin/opciontest/list?idPreg='+${f.id}+'&idTest='+${idTest}+'&idMat='+${idMat}+'&tOpcion='+${f.tipoOpcion}}"><img class="accion-ico-ingresar" th:src="@{/iconos/iconos-usabilidad/ingresar.webp}" alt=""></a>
+                     <a th:href="@{'/admin/preguntatest/delete?id='+${f.id}+'&idMat='+${idMat}+'&idTest='+${idTest}}"><img class="accion-ico" th:src="@{/iconos/iconos-usabilidad/eliminar.webp}" alt=""></a>
+                     <a th:href="@{'/admin/preguntatest/previsualizar?id='+${f.id}+'&idTest='+${idTest}+'&idMat='+${idMat}}"><img class="accion-ico" th:src="@{/iconos/iconos-usabilidad/ojito.webp}" alt=""></a>
+                    </div>
+                    </td>
+                <td th:text="${f.titulo}" th:id="'titulo'+${it.index}">dd</td>
+                <td th:text="${f.pregunta}"   th:id="'pregunta'+${it.index}">cc</td>
+                <td th:text="${f.tipoPortada}"   th:id="'tipoPortada'+${it.index}">cc</td>
+                <td th:text="${f.tipoOpcion}"   th:id="'tipoOpcion'+${it.index}">cc</td>
+                
+                <td ><iframe width="200" height="100" th:src="${f.portadaVideo}" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></td>
+                
+                <td ><img class="img_pregunta" th:src="@{'/imagen/img?id='+${f.portadaImaId}}" th:if="${f.portadaImaId != null}" alt=""></td>
+                <td th:each="opt, it : ${f.opcionestest}" th:text="${opt.opcionText}"></td>
+                
+                
+                <!-- <td th:text="${f.fechaM}"   th:id="'fechaM'+${it.index}">cc</td>           -->
+                
+                
+                
+            </tr>
+<tr th:if="${#lists.isEmpty(preguntas)}" >
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td>No existen preguntas cargadas actualmente  </td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+
+        </tbody>
+    </table>
+   </div>
+  
+</div>
+
+<div class="form-creador" id="form-creador">
+    <form th:action="@{/admin/preguntatest/save}" method="post" id="myForm" th:object="${pregunta}" enctype="multipart/form-data">
+        <input type="number" name="id" id="id" th:field="*{id}" hidden>
+        <input type="number" name="idMat" id="idMat" th:value="${idMat}" hidden>
+        <input type="number" name="idTest" id="idTest" th:value="${idTest}" hidden>
+        <div>
+            <h2>Crear / Modificar </h2>
+        </div>
+       <div>
+        <label for="titulo">Titulo</label>
+        <input type="text" name="titulo" th:field="*{titulo}" id="titulo22" onchange="verificarComillasdoblestitulo()" />
+        <label for="pregunta">Pregunta</label>
+        <input type="text" name="pregunta" th:field="*{pregunta}" id="pregunta22" onchange="verificarComillasdoblespregunta()"/>
+        <label for="tipoPortada">Tipo de portada</label>
+        <select name="tipoPortada" id="tipoPortada" th:field="*{tipoPortada}" onchange="verPortada()" required>
+            <option value="" selected>Seleccione</option>
+            <option value="Sin Portada" >Sin Portada</option>
+            <option value="Imagen" >Imagen</option>
+            <option value="Video Youtube" >Video Youtube</option>            
+        </select>
+        <label for="tipoOpcion">Tipo de Opciones</label>
+        <select name="tipoOpcion" id="tipoOpcion" th:field="*{tipoOpcion}"  required>
+            <option value="" selected>Seleccione</option>
+            <option value="Texto Plano">Texto Plano 🧾</option>           
+            <option value="Imagen">Imagen 📷</option>           
+        </select>
+        <label for="portadaVideo" id="labelportadaVideo">Url Portada Video de You-Tube 📺</label>
+        <input type="text" name="portadaVideo" th:field="*{portadaVideo}" id="portadaVideo"/>
+
+        <label for="imagenx" id="labelimagenx">Portada Imagen</label>
+        <input type="file" name="imagenx" id="imagenx">
+    </div>
+       <div>
+        <input class="guardar" type="submit" value="Guardar">
+        <input class="cancelar" type="reset" value="Cancelar" onclick="noverFomulario()">
+       </div>
+    </form>
+</div>
     <footer class="footer-mobile">
         <link rel="stylesheet" th:href="@{/css footer/footer-mobile.css}">
         <div class="footer-img-vamosba">
@@ -97,8 +169,7 @@
             <div class="redes-iconos">
                 <a href="https://www.facebook.com/GCBA/"><img th:src="@{/iconos/redes/facebook-f-500.png}" alt=""></a>
                 <a href="https://twitter.com/gcba"><img th:src="@{/iconos/redes/twitter-500.png}" alt=""></a>
-                <a href="https://www.instagram.com/buenosaires/"><img th:src="@{/iconos/redes/instagram-384.png}"
-                        alt=""></a>
+                <a href="https://www.instagram.com/buenosaires/"><img th:src="@{/iconos/redes/instagram-384.png}" alt=""></a>
                 <a href="https://www.youtube.com/user/GCBA"><img th:src="@{/iconos/redes/youtube-500.png}" alt=""></a>
             </div>
         </div>
@@ -213,8 +284,9 @@
             </div>
         </div>
     </footer>
-    <script th:src="@{/js/verOcrearTest.js}"></script>
-
+    <script th:src="@{/js/verocrearpreguntatest.js}"></script>
+    <script src="/static/js/verocrearpreguntatest.js"></script>
+    
 </body>
 
 </html>

@@ -27,10 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 @Controller
 
@@ -106,6 +103,18 @@ public class IngresanteController {
 
     @PostMapping("/login")
     public String login(String email, String doc, Model model) {
+        List<Ingresante>verificacionDeDuplicados=inser.buscarTodosLosDNIQueMacheen(doc);
+        List<Long>dnisDuplicados=new ArrayList<>();
+        if (verificacionDeDuplicados.size()>1){
+            for (int i = 0; i <verificacionDeDuplicados.size() ; i++) {
+                if(i>0){
+                    dnisDuplicados.add(verificacionDeDuplicados.get(i).getId());
+                }
+            }
+            for (Long dni:dnisDuplicados){
+                inser.deleteIngresante(dni);
+            }
+        }
         Ingresante busqueda = inser.findIngresanteByDoc(doc);
         if (busqueda != null && busqueda.getMail().equalsIgnoreCase(email)) {
             model.addAttribute("ingresante", busqueda);
@@ -249,95 +258,100 @@ public class IngresanteController {
 
     @PostMapping("/test/save")
     public String testSave(@RequestParam(required = false, name = "idIngresante") Long idIngresante, PreguntaAlum pregunta, @RequestParam(required = false, name = "rx") List<String> rx, Model model) {
-        TestAPregunta r = taps.findPreguntaTestById(pregunta.getId());
+        try {
+            TestAPregunta r = taps.findPreguntaTestById(pregunta.getId());
 
-        boolean falta = false;
-        if (rx.isEmpty()) {
+            boolean falta = false;
+            if (rx.isEmpty()) {
 
-            r.setRespuesta(null);
-        } else {
-            String respu = "";
-            for (String p : rx) {
-                respu = p;
+                r.setRespuesta(null);
+            } else {
+                String respu = "";
+                for (String p : rx) {
+                    respu = p;
+                }
+
+                r.setRespuesta(Long.parseLong(respu));
+                r.setEstado(true);
+                int res=r.getRespuesta().intValue();
+                for (TestAOpcion op: r.getOpcionestestalumno()){
+                    if(op.getEsCorrecta().equalsIgnoreCase("si")){
+                        int id=op.getId().intValue();
+                        if (res==id){
+                            r.setPunto(1);
+                        }else{
+                            r.setPunto(0);
+                        }
+                    }
+                }
             }
 
-            r.setRespuesta(Long.parseLong(respu));
-            r.setEstado(true);
-            Long res=r.getRespuesta();
-            for (TestAOpcion op: r.getOpcionestestalumno()){
-              if(op.getEsCorrecta().equalsIgnoreCase("si")){
-                  if (r.getRespuesta()==op.getId()){
-                      r.setPunto(1);
-                  }else{
-                      r.setPunto(0);
-                  }
-              }
+            taps.savePreguntaTest(r);
+            Ingresante ingresante= inser.findIngresanteById(idIngresante);
+            for (TestAMateria mate:ingresante.getTestAlumno().getMateriasAlumno()){
+                if(mate.getEstado()==false){
+                    int tamanio=mate.getPreguntasAlumno().size();
+                    int contador=0;
+                    int puntos=0;
+                    for (TestAPregunta pre:mate.getPreguntasAlumno()){
+                        if(pre.getEstado()==true){
+                            contador++;
+                            puntos=puntos+pre.getPunto();
+                        }
+                        if(contador==tamanio){
+                            mate.setEstado(true);
+                            mate.setPuntos(puntos);
+                            tams.saveMateriaTest(mate);
+                        }
+                    }
+
+                }
             }
-        }
-
-        taps.savePreguntaTest(r);
-       Ingresante ingresante= inser.findIngresanteById(idIngresante);
-       for (TestAMateria mate:ingresante.getTestAlumno().getMateriasAlumno()){
-           if(mate.getEstado()==false){
-               int tamanio=mate.getPreguntasAlumno().size();
-               int contador=0;
-               int puntos=0;
-               for (TestAPregunta pre:mate.getPreguntasAlumno()){
-                   if(pre.getEstado()==true){
-                       contador++;
-                       puntos=puntos+pre.getPunto();
-                   }
-                   if(contador==tamanio){
-                       mate.setEstado(true);
-                       mate.setPuntos(puntos);
-                       tams.saveMateriaTest(mate);
-                   }
-               }
-
-           }
-       }
-        boolean verificador=false;
-        ingresante= inser.findIngresanteById(idIngresante);
-       for (TestAMateria materias: ingresante.getTestAlumno().getMateriasAlumno()){
-           int contadorMate=0;
-           int tamanioMate=ingresante.getTestAlumno().getMateriasAlumno().size();
-           int puntosMate=0;
-           if(materias.getEstado()==true){
-               contadorMate++;
-               puntosMate=puntosMate+materias.getPuntos();
-           }
-           System.out.println("materias finalizadas van:"+contadorMate);
-           System.out.println("el tamaño de las terias es"+tamanioMate);
-           if (contadorMate==tamanioMate){
-               ingresante.getTestAlumno().setEstado(true);
-               ingresante.getTestAlumno().setPuntos(puntosMate);
-               tas.saveTestAlumno(ingresante.getTestAlumno());
-
-           }
-       }
-        ingresante= inser.findIngresanteById(idIngresante);
-       boolean finalizado=false;
-       int contadorFin=0;
-       int puntaje=0;
-       for (TestAMateria tam: ingresante.getTestAlumno().getMateriasAlumno()){
-           if (tam.getEstado()==true){
-               contadorFin++;
-               puntaje=puntaje+tam.getPuntos();
-           }
-       }
-       if (contadorFin==ingresante.getTestAlumno().getMateriasAlumno().size()){
-       ingresante.getTestAlumno().setEstado(true);
-       ingresante.getTestAlumno().setPuntos(puntaje);
-       tas.saveTestAlumno(ingresante.getTestAlumno());
-       finalizado=true;
-       }
-        if (finalizado){
+            boolean verificador=false;
             ingresante= inser.findIngresanteById(idIngresante);
-           es.sumarIngresantesTest(ingresante);
-           provs.sumarIngresantesTest(ingresante);
-            model.addAttribute("ingresante", ingresante);
-            return "panel-ingresante";
-        }else{
+            for (TestAMateria materias: ingresante.getTestAlumno().getMateriasAlumno()){
+                int contadorMate=0;
+                int tamanioMate=ingresante.getTestAlumno().getMateriasAlumno().size();
+                int puntosMate=0;
+                if(materias.getEstado()==true){
+                    contadorMate++;
+                    puntosMate=puntosMate+materias.getPuntos();
+                }
+                System.out.println("materias finalizadas van:"+contadorMate);
+                System.out.println("el tamaño de las terias es"+tamanioMate);
+                if (contadorMate==tamanioMate){
+                    ingresante.getTestAlumno().setEstado(true);
+                    ingresante.getTestAlumno().setPuntos(puntosMate);
+                    tas.saveTestAlumno(ingresante.getTestAlumno());
+
+                }
+            }
+            ingresante= inser.findIngresanteById(idIngresante);
+            boolean finalizado=false;
+            int contadorFin=0;
+            int puntaje=0;
+            for (TestAMateria tam: ingresante.getTestAlumno().getMateriasAlumno()){
+                if (tam.getEstado()==true){
+                    contadorFin++;
+                    puntaje=puntaje+tam.getPuntos();
+                }
+            }
+            if (contadorFin==ingresante.getTestAlumno().getMateriasAlumno().size()){
+                ingresante.getTestAlumno().setEstado(true);
+                ingresante.getTestAlumno().setPuntos(puntaje);
+                tas.saveTestAlumno(ingresante.getTestAlumno());
+                finalizado=true;
+            }
+            if (finalizado){
+                ingresante= inser.findIngresanteById(idIngresante);
+                es.sumarIngresantesTest(ingresante);
+                provs.sumarIngresantesTest(ingresante);
+                model.addAttribute("ingresante", ingresante);
+                return "panel-ingresante";
+            }else{
+                return "redirect:/ingresante/test?idIngresante="+idIngresante;
+            }
+        }catch (Exception e){
             return "redirect:/ingresante/test?idIngresante="+idIngresante;
         }
 

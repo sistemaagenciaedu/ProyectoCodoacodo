@@ -53,3 +53,59 @@ function ventanaSecundaria (URL){
  input2.setAttribute("Style","border-radius: 10px !important")
  input1.setAttribute("Style","border: 1px solid red !important")
  input2.setAttribute("Style","border: 1px solid red !important")
+
+ var expre=new RegExp('/"/g')
+
+ function verificarComillasdoblestitulo(){
+    var titulo=document.getElementById("titulo22")
+    var texto="";
+    var cantidad=0
+    for (let index = 0; index < titulo.value.length; index++) {
+        var element = titulo.value.charAt(index)
+        if(expre.search(element)!=(0)){
+            texto=texto+element;
+        }else{
+            texto=texto+"&";
+            // for (let index2 = 0; index2 < texto.length; index2++) {
+            //     var element2 = texto.charAt(index2)
+            //     if(cantidad===0){
+            //         texto=texto+"“+";
+            //         cantidad++;
+            //     }else{
+            //         texto=texto+"+”";
+            //     }
+            // }
+            
+        }
+        
+    }
+    
+    titulo.value=texto;
+ }
+
+
+function verificarComillasdoblespregunta(){
+    var pregunta=document.getElementById("pregunta22")
+    var texto="";
+    var cantidad=0
+    for (let index = 0; index < pregunta.value.length; index++) {
+        var element = pregunta.value.charAt(index)
+        if(expre.search(element)!=(0)){
+            texto=texto+element;
+        }else{
+            // for (let index2 = 0; index2 < texto.length; index2++) {
+            //     var element2 = texto.charAt(index2)
+            //     if(cantidad===0){
+            //         texto=texto+"“+";
+            //         cantidad++;
+            //     }else{
+            //         texto=texto+"+”";
+            //     }
+            // }
+            texto=texto+"&";
+        }
+        
+    }
+   
+    pregunta.value=texto;
+ }

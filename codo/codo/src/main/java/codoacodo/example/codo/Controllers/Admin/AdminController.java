@@ -131,6 +131,14 @@ public class AdminController {
         return "crear-pregunta";
     }
 
+    @GetMapping("/verpreguntastodas")
+    public String verpreguntastodas(Model model){
+        model.addAttribute("preguntas",ptests.findAllPreguntaTest());
+
+
+        return "preguntastodas";
+    }
+
     @PostMapping("/pregunta/save")
     public String savepregunta(PreguntaDTO preg,Long idForm,String opcionesDePreguntas, Model model){
         FormDTO formu=fs.findFormById(idForm);
@@ -345,8 +353,15 @@ public String listarTesti(Model model){
 
 //Controlador Opciones de test
 @GetMapping("/opciontest/list")
-public String listar(Long idMat,Long idTest,Long idPreg , Model model,String tOpcion){
+public String listar(Long idMat,Long idTest,Long idPreg, Model model,String tOpcion){
     model.addAttribute("opciones",optestdtos.findAllOpcionTestXPregunta(idPreg));
+    for (OpcionTestDTO option: optestdtos.findAllOpcionTestXPregunta(idPreg) ) {
+        System.out.println(option.getOpcionText());
+        System.out.println(option.getEsCorrecta());
+        System.out.println(option.getPreguntastest());
+        System.out.println(option.getId());
+
+    }
     model.addAttribute("opcion",new OpcionTestDTO());
     model.addAttribute("idMat",idMat);
     model.addAttribute("idTest",idTest);
@@ -684,8 +699,6 @@ for (Estadistica pro:es.findAllEstadistica()){
         model.addAttribute("estadistica",es.findEstadisticaById(1L));
             model.addAttribute("ingresante",new Ingresante());
             return "paneladministrador";
-
-
 
     }
 

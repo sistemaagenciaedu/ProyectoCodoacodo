@@ -80,7 +80,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   <td></td>
   <td></td>
   <td></td>
-  <td>No existen preguntas cargadas actualmente</td>
+  <td>No existen preguntas cargadas actualmente  </td>
   <td></td>
   <td></td>
   <td></td>
@@ -102,9 +102,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
         </div>
        <div>
         <label for="titulo">Titulo</label>
-        <input type="text" name="titulo" th:field="*{titulo}" id="titulo"/>
+        <input type="text" name="titulo" th:field="*{titulo}" id="titulo22" onchange="verificarComillasdoblestitulo()" />
         <label for="pregunta">Pregunta</label>
-        <input type="text" name="pregunta" th:field="*{pregunta}" id="pregunta"/>
+        <input type="text" name="pregunta" th:field="*{pregunta}" id="pregunta22" onchange="verificarComillasdoblespregunta()"/>
         <label for="tipoPortada">Tipo de portada</label>
         <select name="tipoPortada" id="tipoPortada" th:field="*{tipoPortada}" onchange="verPortada()" required>
             <option value="" selected>Seleccione</option>

@@ -100,7 +100,7 @@ transition: all 3s ;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-   overflow: hidden;
+   overflow: auto;
     
 }
 table,tr,th,td{
@@ -272,7 +272,7 @@ th{
     
 }
 .listar-formularios{
-    overflow: scroll;
+    overflow: auto;
 }
 
 }

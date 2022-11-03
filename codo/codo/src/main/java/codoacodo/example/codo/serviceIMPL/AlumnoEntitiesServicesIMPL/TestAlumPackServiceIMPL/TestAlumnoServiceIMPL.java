@@ -14,6 +14,7 @@ import codoacodo.example.codo.service.AlumnoEntitiesServices.TestAlumPackService
 import codoacodo.example.codo.service.AlumnoEntitiesServices.TestAlumPackService.TestAOpcionService;
 import codoacodo.example.codo.service.AlumnoEntitiesServices.TestAlumPackService.TestAPreguntaService;
 import codoacodo.example.codo.service.AlumnoEntitiesServices.TestAlumPackService.TestAlumnoService;
+import codoacodo.example.codo.service.DTOSServices.PTestDtoService.PreguntaTestDTOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,8 @@ private TestAMateriaService ts;
 private TestAPreguntaService ps;
 @Autowired
 private TestAOpcionService ops;
+@Autowired
+private PreguntaTestDTOService ptdtos;
     @Override
     public TestAlumno saveTestAlumno(TestAlumno testAlumno)  {
         return tr.save(testAlumno);
@@ -79,34 +82,7 @@ private TestAOpcionService ops;
            }while (setPreguntas.size()!=materiaTestDTO.getnPreguntas());
 
 
-//           for (int i = 0; i < materiaTestDTO.getnPreguntas(); i++) {
-//               System.out.println("se van a cargar "+materiaTestDTO.getnPreguntas());
-//               PreguntaTestDTO preguntaTestDTO=new PreguntaTestDTO();
-//               int tamanio=materiaTestDTO.getPreguntasTest().size()-1;
-//               boolean verificador=false;
-//               do {
-//                  verificador=false;
-//                   int aleatorio=(int)(Math.random()*tamanio);
-//                   System.out.println("El numero aleatorio es "+ aleatorio);
-//                   if (contador==0){
-//                       preguntaTestDTO=materiaTestDTO.getPreguntasTest().get(aleatorio);
-//                       aleatorios.add(aleatorio);
-//
-//                   }else{
-//                       for (Integer id:aleatorios){
-//                           if(id==aleatorio);
-//                           verificador=true;
-//                       }
-//
-//
-//                   }
-//                  if (verificador==false){
-//                      preguntaTestDTO=materiaTestDTO.getPreguntasTest().get(aleatorio);
-//                      aleatorios.add(aleatorio);
-//                  }
-//
-//                   contador++;
-//               }while (verificador);
+
 
                for (PreguntaTestDTO preguntaTestDTO: setPreguntas){
 
@@ -135,4 +111,57 @@ private TestAOpcionService ops;
        }
        return testAlumno;
     }
+//    @Override
+//    public TestAlumno TestDtoTotestAlumno(TestDTO testDTO) {
+//        TestAlumno testAlumno=new TestAlumno();
+//        testAlumno.setNombre(testDTO.getNombre());
+//        testAlumno.setFechaM(new Date().toString());
+//        testAlumno.setTiempo(testDTO.getTiempo());
+//        testAlumno.setMateriasAlumno(new TreeSet<>());
+//
+//
+//        for (MateriaTestDTO materiaTestDTO:testDTO.getMaterias()) {
+//            TestAMateria testAMateria = new TestAMateria();
+//            testAMateria.setNombre(materiaTestDTO.getNombre());
+//            testAMateria.setMateriaId(materiaTestDTO.getId());
+//            testAMateria.setFechaM(new Date().toString());
+//            testAMateria.setnPreguntas(materiaTestDTO.getnPreguntas());
+//            testAMateria.setTestalumno(testAlumno);
+//            //testAMateria=ts.saveMateriaTest(testAMateria);
+//            testAlumno.getMateriasAlumno().add(testAMateria);
+//        }
+//        List<PreguntaTestDTO>listaDePreguntas=new ArrayList<>();
+//
+//        for(TestAMateria materia:testAlumno.getMateriasAlumno()){
+//            List<PreguntaTestDTO>preguntasTodasOriginales=ptdtos.findAllPreguntaTestXmateriaID2(materia.getMateriaId());
+//            Collections.shuffle(preguntasTodasOriginales);
+//            for (int i = 0; i < materia.getnPreguntas(); i++) {
+//                PreguntaTestDTO preguntaTestDTO=preguntasTodasOriginales.get(i);
+//                TestAPregunta testAPregunta=new TestAPregunta();
+//                testAPregunta.setTitulo(preguntaTestDTO.getTitulo());
+//                testAPregunta.setPregunta(preguntaTestDTO.getPregunta());
+//                testAPregunta.setTipoPortada(preguntaTestDTO.getTipoPortada());
+//                testAPregunta.setTipoOpcion(preguntaTestDTO.getTipoOpcion());
+//                testAPregunta.setPortadaVideo(preguntaTestDTO.getPortadaVideo());
+//                testAPregunta.setPortadaImaId(preguntaTestDTO.getPortadaImaId());
+//                testAPregunta.setMateriaalumno(materia);
+//                for (OpcionTestDTO opcionTestDTO :preguntaTestDTO.getOpcionestest()){
+//                    TestAOpcion testAOpcion=new TestAOpcion();
+//                    testAOpcion.setEsCorrecta(opcionTestDTO.getEsCorrecta());
+//                    testAOpcion.setOpcionText(opcionTestDTO.getOpcionText());
+//                    testAOpcion.setTipoOpcion(opcionTestDTO.getTipoOpcion());
+//                    testAOpcion.setOpcionImgid(opcionTestDTO.getOpcionImgid());
+//                    testAOpcion.setPreguntastestalumno(testAPregunta);
+//                    testAPregunta.getOpcionestestalumno().add(testAOpcion);
+//                    testAOpcion.setPreguntastestalumno(testAPregunta);
+//                }
+//                Collections.shuffle(testAPregunta.getOpcionestestalumno());
+//                materia.getPreguntasAlumno().add(testAPregunta);
+//            }
+//
+//        }
+//        testAlumno=saveTestAlumno(testAlumno);
+//
+//        return testAlumno;
+//    }
 }

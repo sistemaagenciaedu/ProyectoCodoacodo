@@ -96,4 +96,9 @@ public class IngresanteServiceIMPL implements IngresanteService {
     public Ingresante findIngresanteByDoc(String numDoc) {
         return ir.findByNumDoc(numDoc);
     }
+
+    @Override
+    public List<Ingresante> buscarTodosLosDNIQueMacheen(String numDoc) {
+        return ir.buscarTodosLosQueTenganEseDni(numDoc);
+    }
 }

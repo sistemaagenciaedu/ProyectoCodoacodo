@@ -10,6 +10,8 @@ public interface PreguntaTestDTOService {
     public void deletePreguntaTest(Long id);
     public List<PreguntaTestDTO> findAllPreguntaTest();
     public List<PreguntaTestDTO> findAllPreguntaTestXmateria(Long id);
+    public List<PreguntaTestDTO> findAllPreguntaTestXmateriaID2(Long id);
     public PreguntaTestDTO findPreguntaTestById(Long id);
+
 
 }

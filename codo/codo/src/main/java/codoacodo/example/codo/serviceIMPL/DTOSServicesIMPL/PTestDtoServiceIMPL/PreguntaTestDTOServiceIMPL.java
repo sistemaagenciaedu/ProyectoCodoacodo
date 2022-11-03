@@ -51,6 +51,11 @@ public class PreguntaTestDTOServiceIMPL implements PreguntaTestDTOService {
     }
 
     @Override
+    public List<PreguntaTestDTO> findAllPreguntaTestXmateriaID2(Long id) {
+        return ptr.findByMateriaID(id);
+    }
+
+    @Override
     public PreguntaTestDTO findPreguntaTestById(Long id)  {
         return ptr.findById(id).orElse(null);
     }
