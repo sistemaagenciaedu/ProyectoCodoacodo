@@ -68,11 +68,9 @@
     </div>
     <div class="container-registro-de">
         
-        <div class="contenedor-fomulario">
-            <h2>Página web en mantenimiento</h2>
-        <p>Estamos trabajando en mejorar para vos, gracias por tu comprensión</p>
-        <img th:src="@{/iconos/logos/logovamosbuenos.webp}" alt="">
-            <!-- <img class="logo-cac-form" th:src="@{/iconos/logos/logo-CAC-2.webp}" alt="">
+        <div class="contenedor-fomulario" th:if="${formulario == 'si'}">
+            
+            <img class="logo-cac-form" th:src="@{/iconos/logos/logo-CAC-2.webp}" alt="">
             <p class="subtitulo-inspirador">Aca empieza tu carrera al futuro 🚀</p>
             <p>Completa el siguiente formulario para la preinscripcion</p>
             <form th:action="@{/ingresante/save}" class="formu-registro" method="post" id="myForm" th:object="${ingresante}">
@@ -172,7 +170,13 @@
 
                 <input class="btn" type="submit" value="ENVIAR">
             </form>
-            <a th:href="@{/ingresante/ingreso}">Si ya esta registrado vaya a este sitio</a> -->
+            <a th:href="@{/ingresante/ingreso}">Si ya esta registrado vaya a este sitio</a>
+        </div>
+        <div class="contenedor-fomulario" th:if="${formulario == 'no'}">
+            <img class="logo-cac-form" th:src="@{/iconos/logos/logo-CAC-2.webp}" alt="">
+            <h2>Las inscripciones han finalizado</h2>
+        <p>Proximamente tendras novedades del siguiente periodo de inscripción</p>
+        <img th:src="@{/iconos/logos/logovamosbuenos.webp}" alt="">
         </div>
     </div>
 

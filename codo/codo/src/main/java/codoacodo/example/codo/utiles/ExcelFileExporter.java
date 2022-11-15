@@ -7,17 +7,32 @@ import codoacodo.example.codo.Entities.DTOS.PackFormDTO.PreguntaDTO;
 import codoacodo.example.codo.Entities.DTOS.PacktestDto.MateriaTestDTO;
 import codoacodo.example.codo.Entities.DTOS.PacktestDto.TestDTO;
 import codoacodo.example.codo.Entities.Ingresante;
+import codoacodo.example.codo.Entities.editabilidad.RutasExcel;
+import codoacodo.example.codo.repositories.RutasExcelRepository;
+import codoacodo.example.codo.serviceIMPL.RutaExcelServiceIMPLE;
 import org.apache.poi.ss.usermodel.*;
     import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Component;
 
+import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.concurrent.CompletableFuture;
+
 
 
 public class ExcelFileExporter {
 
-        public static XSSFWorkbook  ingresantesExcelExpoter(TestDTO testDTO, FormDTO formDTO, List<Ingresante> ingresantes) {
+@Async("threadPoolExecutor")
+public String ingresantesExcelExpoter(TestDTO testDTO, FormDTO formDTO, List<Ingresante> ingresantes) {
 //            try(Workbook workbook = new XSSFWorkbook()){
+
             XSSFWorkbook  workbook = new XSSFWorkbook();
                 Sheet sheet = workbook.createSheet("ing");
 
@@ -113,16 +128,17 @@ public class ExcelFileExporter {
                 // Creating data rows for each customer
                 int indiceFilas=1;
                 for (Ingresante in:ingresantes) {
+                    System.out.println("entro Work en ingre"+in.getNumDoc());
                     Row dataRow = sheet.createRow(indiceFilas);
 
                     dataRow.createCell(0).setCellValue(in.getId());
-                    System.out.println(in.getId());
+                   // System.out.println(in.getId());
                     dataRow.createCell(1).setCellValue(in.getMail());
-                    System.out.println(in.getMail());
+                   // System.out.println(in.getMail());
                     dataRow.createCell(2).setCellValue(in.getCelu());
-                    System.out.println(in.getCelu());
+                   // System.out.println(in.getCelu());
                     dataRow.createCell(3).setCellValue(in.gettDoc());
-                    System.out.println(in.gettDoc());
+                   // System.out.println(in.gettDoc());
                     dataRow.createCell(4).setCellValue(in.getNumDoc());
                     dataRow.createCell(5).setCellValue(in.getApellido());
                     dataRow.createCell(6).setCellValue(in.getNombre());
@@ -144,7 +160,7 @@ public class ExcelFileExporter {
                         }else{
                             dataRow.createCell(indiceCol).setCellValue(" ");
                         }
-                        System.out.println(r.getRespuesta());
+                        System.out.println(r.getRespuesta()+in.getNumDoc());
                     }
                     TreeSet <TestAMateria>materiasAlum=new TreeSet<>();
                     for (TestAMateria mat: in.getTestAlumno().getMateriasAlumno()){
@@ -157,7 +173,7 @@ public class ExcelFileExporter {
                         }else{
                             dataRow.createCell(indiceCol).setCellValue(" ");
                         }
-                        System.out.println(r.getPuntos());
+//                        System.out.println(r.getPuntos());
                     }
                     indiceFilas++;
                 }
@@ -171,12 +187,47 @@ public class ExcelFileExporter {
 //                outputStream.close();
 //                System.out.println("finalizo bien");
 
-                return workbook;
+             String ruta =exportarAServidor(workbook);
+
 //            } catch (IOException ex) {
 //                System.out.println("se metio en el cath");
 //                ex.printStackTrace();
 //                return null;
 //            }
+    return ruta;
+        }
+
+
+        public static String exportarAServidor(XSSFWorkbook woorbook){
+
+            Date ahora=new Date();
+            LocalDate ahorasi=LocalDate.now();
+            String fecha="-"+(ahora.getYear()+1900)+"-"+(ahora.getMonth()+1)+"-"+ahora.getDate()+"-"+ahora.getHours()+""+ahora.getMinutes()+"hs";
+
+            System.out.println(ahora);
+            String nombreArchivo="Ingresantes"+fecha+".xlsx";
+           File directorioActual=new File(".");
+
+           String ubicacion=directorioActual.getAbsolutePath();
+           String ubicacion2=directorioActual.getPath();
+            System.out.println(ubicacion);
+
+
+           //String ubicacionSalida=ubicacion.substring(0,ubicacion.length()-1)+nombreArchivo;
+          // String ubicacionSalida="/home/educacionuser/Downloads/uploads/"+nombreArchivo;
+           String ubicacionSalida="C:/uploads/"+nombreArchivo;
+           System.out.println(ubicacionSalida);
+           FileOutputStream outputStream;
+          try {
+              outputStream=new FileOutputStream(ubicacionSalida);
+              woorbook.write(outputStream);
+              woorbook.close();
+          } catch (FileNotFoundException e) {
+              throw new RuntimeException(e);
+          } catch (IOException e) {
+              throw new RuntimeException(e);
+          }
+          return  nombreArchivo;
         }
     }
 

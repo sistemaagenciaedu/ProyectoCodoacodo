@@ -12,6 +12,7 @@ public class IngresanteFilterDto {
     private String desde;
     private String hasta;
     private String encuesta;
+    private String test;
     private String tIngles;
     private String tProgramacion;
     private String tLogica;
@@ -20,7 +21,7 @@ public class IngresanteFilterDto {
     public IngresanteFilterDto() {
     }
 
-    public IngresanteFilterDto(String nombre, String numDoc, String apellido, String nacionalidad, String genero, String mail, String pais, String provincia, String desde, String hasta, String encuesta, String tIngles, String tProgramacion, String tLogica, String order) {
+    public IngresanteFilterDto(String nombre, String numDoc, String apellido, String nacionalidad, String genero, String mail, String pais, String provincia, String desde, String hasta, String encuesta, String test, String tIngles, String tProgramacion, String tLogica, String order) {
         this.nombre = nombre;
         this.numDoc = numDoc;
         this.apellido = apellido;
@@ -32,6 +33,7 @@ public class IngresanteFilterDto {
         this.desde = desde;
         this.hasta = hasta;
         this.encuesta = encuesta;
+        this.test = test;
         this.tIngles = tIngles;
         this.tProgramacion = tProgramacion;
         this.tLogica = tLogica;
@@ -43,6 +45,14 @@ public class IngresanteFilterDto {
     }
     public boolean isDESC(){
         return this.order.compareToIgnoreCase("DESC")==0;
+    }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
     }
 
     public String getEncuesta() {

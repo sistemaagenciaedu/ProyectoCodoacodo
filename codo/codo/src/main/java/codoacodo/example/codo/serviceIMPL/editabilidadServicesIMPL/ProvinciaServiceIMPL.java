@@ -55,6 +55,26 @@ public class ProvinciaServiceIMPL implements ProvinciaService {
             }
         }
     }
+ @Override
+    public void restarIngresantes(Ingresante ingre) {
+        List<Provincia>provincias=findAllProvincia();
+        for (Provincia prov: provincias){
+            if (prov.getNombre().equalsIgnoreCase(ingre.getProvincia())){
+
+
+                prov.setRegistrosTotales(prov.getRegistrosTotales()-1);
+                if (ingre.getGenero().equalsIgnoreCase("Masculino")){
+                    prov.setMasculino(prov.getMasculino()-1);
+                }else   if (ingre.getGenero().equalsIgnoreCase("Femenino")){
+                    prov.setFemenino(prov.getFemenino()-1);
+
+                }else{
+                    prov.setNoBinario(prov.getNoBinario()-1);
+                }
+                saveProvincia(prov);
+            }
+        }
+    }
 
     @Override
     public void sumarIngresantesFormulario(Ingresante ingre) {

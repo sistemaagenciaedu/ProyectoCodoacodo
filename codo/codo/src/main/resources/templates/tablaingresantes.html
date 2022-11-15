@@ -36,7 +36,7 @@
                     class="plus-verde" th:src="@{/iconos/iconos-usabilidad/excel.webp}"
                     alt=""><img class="plus-azul"
                     th:src="@{/iconos/iconos-usabilidad/excel.webp}" alt="">
-            <span>Descargar Excel</span></button>
+            <span>Generar Reporte</span></button>
             <button class="btn-agragar-formulario lupita" onclick="verFiltro()"><img
                 class="plus-verde" th:src="@{/iconos/iconos-usabilidad/lupa.webp}"
                 alt=""><img class="plus-azul"
@@ -135,9 +135,15 @@
                     </select>
 
                     <label for="encuesta">Encuesta Terminada</label>
-                    <select name="encuesta" id="encuesta">
-                        <option value="" selected>Seleccione</option>
-                        <option value="si">Si</option>
+                    <select name="encuesta" id="encuesta" > 
+                        <option  value="" selected>Seleccione</option>
+                        <option value="si" >Si</option>
+                        <option value="no">No</option>
+                    </select>
+                    <label for="test">Test Terminado</label>
+                    <select name="test" id="test" >
+                        <option  value="" selected>Seleccione</option>
+                        <option value="si" >Si</option>
                         <option value="no">No</option>
                     </select>
                     <label for="tIngles" style="display: none;">Ingles Terminado</label>
@@ -192,6 +198,7 @@
         <input type="date" name="hasta" id="des-hasta" th:value="${has}">
         <input type="text" name="genero" id="des-genero" th:value="${gen}">
        <input type="text" name="encuesta" id="des-encuesta" th:value="${enc}">
+       <input type="text" name="test" id="des-test" th:value="${tes}">
        <input type="text" name="tIngles" id="des-tIngles" th:value="${tIng}">
         <input type="text" name="tLogica" id="des-tLogica" th:value="${tLog}">
         <input type="text" name="tProgramacion" id="des-tProgramacion" th:value="${tPro}">

@@ -7,6 +7,7 @@ import codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack.TestAOpcion;
 import codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack.TestAPregunta;
 import codoacodo.example.codo.Entities.DTOS.PacktestDto.TestDTO;
 import codoacodo.example.codo.Entities.Ingresante;
+import codoacodo.example.codo.Entities.editabilidad.Estadistica;
 import codoacodo.example.codo.service.AlumnoEntitiesServices.FormAlumPackService.FormAlumService;
 import codoacodo.example.codo.service.AlumnoEntitiesServices.FormAlumPackService.PreguntaAlumService;
 import codoacodo.example.codo.service.AlumnoEntitiesServices.TestAlumPackService.TestAMateriaService;
@@ -65,7 +66,9 @@ public class IngresanteController {
     @GetMapping("/reg")
     public String verRegistro(Model model) {
         Ingresante ingresante = new Ingresante();
+        Estadistica estadistica=es.findEstadisticaById(1L);
         model.addAttribute("ingresante", ingresante);
+        model.addAttribute("formulario", estadistica.getFormuHabilitado());
         model.addAttribute("listaNacionalidades", lis.devolverNacionalidades());
         model.addAttribute("testimonios", testimonioService.findAllTesti());
         return "registro";
@@ -73,25 +76,30 @@ public class IngresanteController {
 
     @PostMapping("/save")
     public String saveIngre(Ingresante ingresante, Model model) {
+        Estadistica estadistica=es.findEstadisticaById(1L);
+if (estadistica.getFormuHabilitado().equalsIgnoreCase("si")){
 
-        Ingresante busqueda = inser.findIngresanteByDoc(ingresante.getNumDoc());
-        if (busqueda == null) {
-            FormAlum formAlum = fars.FormDtoTOFormAlum(fdtos.findFormById(1L));
-            ingresante.setFormAlum(formAlum);
-            ingresante = inser.saveIngresante(ingresante);
-            provs.sumarIngresantes(ingresante);
-            estas.sumarIngresantes(ingresante);
-            TestDTO testDTO = tdtos.findTestById(1L);
-            if (testDTO.getMaterias().size() != 0) {
-                ingresante.setTestAlumno(tas.TestDtoTotestAlumno(testDTO));
-                inser.saveIngresante(ingresante);
-            }
-
-            return "redirect:/ingresante/ingreso";
-        } else {
-            model.addAttribute("advertenvia", "el registro ya existe por favor ingrese");
-            return "ingreso-alumno";
+    Ingresante busqueda = inser.findIngresanteByDoc(ingresante.getNumDoc());
+    if (busqueda == null) {
+        FormAlum formAlum = fars.FormDtoTOFormAlum(fdtos.findFormById(1L));
+        ingresante.setFormAlum(formAlum);
+        ingresante = inser.saveIngresante(ingresante);
+        provs.sumarIngresantes(ingresante);
+        estas.sumarIngresantes(ingresante);
+        TestDTO testDTO = tdtos.findTestById(1L);
+        if (testDTO.getMaterias().size() != 0) {
+            ingresante.setTestAlumno(tas.TestDtoTotestAlumno(testDTO));
+            inser.saveIngresante(ingresante);
         }
+
+        return "redirect:/ingresante/ingreso";
+    } else {
+        model.addAttribute("advertenvia", "el registro ya existe por favor ingrese");
+        return "ingreso-alumno";
+    }
+}else{
+    return "redirect:/ingresante/reg";
+}
     }
 
     @GetMapping("/ingreso")
@@ -103,26 +111,34 @@ public class IngresanteController {
 
     @PostMapping("/login")
     public String login(String email, String doc, Model model) {
-        List<Ingresante>verificacionDeDuplicados=inser.buscarTodosLosDNIQueMacheen(doc);
-        List<Long>dnisDuplicados=new ArrayList<>();
-        if (verificacionDeDuplicados.size()>1){
-            for (int i = 0; i <verificacionDeDuplicados.size() ; i++) {
-                if(i>0){
-                    dnisDuplicados.add(verificacionDeDuplicados.get(i).getId());
+        Estadistica estadistica=es.findEstadisticaById(1L);
+        if (estadistica.getFormuHabilitado().equalsIgnoreCase("si")){
+            List<Ingresante>verificacionDeDuplicados=inser.buscarTodosLosDNIQueMacheen(doc);
+            List<Long>dnisDuplicados=new ArrayList<>();
+            if (verificacionDeDuplicados.size()>1){
+                for (int i = 0; i <verificacionDeDuplicados.size() ; i++) {
+                    if(i>0){
+                        dnisDuplicados.add(verificacionDeDuplicados.get(i).getId());
+                        prs.restarIngresantes(verificacionDeDuplicados.get(i));
+                        es.restarIngresantes(verificacionDeDuplicados.get(i));
+                    }
+                }
+                for (Long dni:dnisDuplicados){
+                    inser.deleteIngresante(dni);
                 }
             }
-            for (Long dni:dnisDuplicados){
-                inser.deleteIngresante(dni);
+            Ingresante busqueda = inser.findIngresanteByDoc(doc);
+            if (busqueda != null && busqueda.getMail().equalsIgnoreCase(email)) {
+                model.addAttribute("ingresante", busqueda);
+                return "panel-ingresante";
+            } else {
+                model.addAttribute("testimonios", testimonioService.findAllTesti());
+                return "ingreso-alumno";
             }
+        }else{
+            return "redirect:/ingresante/reg";
         }
-        Ingresante busqueda = inser.findIngresanteByDoc(doc);
-        if (busqueda != null && busqueda.getMail().equalsIgnoreCase(email)) {
-            model.addAttribute("ingresante", busqueda);
-            return "panel-ingresante";
-        } else {
 
-            return "ingreso-alumno";
-        }
 
     }
 
@@ -130,127 +146,151 @@ public class IngresanteController {
     @GetMapping("/cuestionario")
     public String cuestionario(@RequestParam(required = false, name = "idIngresante") Long idIngresante, Model model) {
         Ingresante pd = inser.findIngresanteById(idIngresante);
-        if (pd.getFormAlum().getEstado() == false) {
-            for (PreguntaAlum r : pd.getFormAlum().getPreguntas()) {
-                System.out.println(r.toString());
-            }
-            TreeSet<PreguntaAlum> preguntas = new TreeSet<>();
-            for (PreguntaAlum d : pd.getFormAlum().getPreguntas()) {
-                preguntas.add(d);
-            }
-            for (PreguntaAlum res : preguntas) {
-                System.out.println(res.toString());
-                if (res.getRespuesta() == null) {
-                    model.addAttribute("idIngresante", idIngresante);
-                    model.addAttribute("respuesta", res);
-                    break;
+        Estadistica estadistica=es.findEstadisticaById(1L);
+        if (estadistica.getFormuHabilitado().equalsIgnoreCase("si")) {
+            if (pd.getFormAlum().getEstado() == false) {
+                for (PreguntaAlum r : pd.getFormAlum().getPreguntas()) {
+                    System.out.println(r.toString());
                 }
+                TreeSet<PreguntaAlum> preguntas = new TreeSet<>();
+                for (PreguntaAlum d : pd.getFormAlum().getPreguntas()) {
+                    preguntas.add(d);
+                }
+                for (PreguntaAlum res : preguntas) {
+                    System.out.println(res.toString());
+                    if (res.getRespuesta() == null) {
+                        model.addAttribute("idIngresante", idIngresante);
+                        model.addAttribute("respuesta", res);
+                        break;
+                    }
 
+                }
+                return "cuestionario";
+            } else {
+                model.addAttribute("ingresante", pd);
+                return "panel-ingresante";
             }
-            return "cuestionario";
-        } else {
-            model.addAttribute("ingresante", pd);
-            return "panel-ingresante";
+        }else{
+            return "redirect:/ingresante/reg";
         }
-
 
     }
 
     @PostMapping("/cuestionario/save")
     public String cuestionarioSave(@RequestParam(required = false, name = "idIngresante") Long idIngresante, PreguntaAlum respuesta, @RequestParam(required = false, name = "rx") List<String> rx, Model model) {
         PreguntaAlum r = pas.findPregById(respuesta.getId());
+        Estadistica estadistica=es.findEstadisticaById(1L);
+        if (estadistica.getFormuHabilitado().equalsIgnoreCase("si")) {
+            boolean falta = false;
+            if (rx.isEmpty()) {
 
-        boolean falta = false;
-        if (rx.isEmpty()) {
+                r.setRespuesta(respuesta.getRespuesta());
+            } else {
+                String respu = "";
+                for (String p : rx) {
+                    respu = p;
+                }
 
-            r.setRespuesta(respuesta.getRespuesta());
-        } else {
-            String respu = "";
-            for (String p : rx) {
-                respu = p;
+                r.setRespuesta(respu);
             }
-
-            r.setRespuesta(respu);
-        }
-        pas.savePreg(r);
-        Ingresante contador = inser.findIngresanteById(idIngresante);
-        for (PreguntaAlum rt : contador.getFormAlum().getPreguntas()) {
-            if (rt.getRespuesta() == null) {
-                falta = true;
-                break;
+            pas.savePreg(r);
+            Ingresante contador = inser.findIngresanteById(idIngresante);
+            for (PreguntaAlum rt : contador.getFormAlum().getPreguntas()) {
+                if (rt.getRespuesta() == null) {
+                    falta = true;
+                    break;
+                }
             }
+            if (falta) {
+
+                return "redirect:/ingresante/cuestionario?idIngresante=" + idIngresante;
+            } else {
+
+                FormAlum formAlum = fars.findFormById(contador.getFormAlum().getId());
+
+                formAlum.setEstado(true);
+                fars.saveForm(formAlum);
+                formAlum = fars.findFormById(contador.getFormAlum().getId());
+                contador = inser.findIngresanteById(idIngresante);
+                contador.setEncuesta(true);
+                contador = inser.saveIngresante(contador);
+                prs.sumarIngresantesFormulario(contador);
+                es.sumarIngresantesFormulario(contador);
+                model.addAttribute("ingresante", contador);
+                return "panel-ingresante";
+            }
+        }else{
+            return "redirect:/ingresante/reg";
         }
-        if (falta) {
 
-            return "redirect:/ingresante/cuestionario?idIngresante=" + idIngresante;
-        } else {
-
-            FormAlum formAlum = fars.findFormById(contador.getFormAlum().getId());
-
-            formAlum.setEstado(true);
-            fars.saveForm(formAlum);
-            formAlum = fars.findFormById(contador.getFormAlum().getId());
-            contador = inser.findIngresanteById(idIngresante);
-            contador.setEncuesta(true);
-            contador = inser.saveIngresante(contador);
-            prs.sumarIngresantesFormulario(contador);
-            es.sumarIngresantesFormulario(contador);
-            model.addAttribute("ingresante", contador);
-            return "panel-ingresante";
-        }
     }
 
     @GetMapping("/test")
     public String test(@RequestParam(required = false, name = "idIngresante") Long idIngresante, Model model) {
-        Ingresante pd = inser.findIngresanteById(idIngresante);
-        TestAMateria materiaalumno = new TestAMateria();
-        TestAPregunta pregunta = new TestAPregunta();
-        if (pd.getTestAlumno().getEstado() == false) {
-            if(pd.getTestAlumno().getFechaFin()==null){
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(new Date());
-                calendar.add(Calendar.MINUTE, pd.getTestAlumno().getTiempo());
+        Estadistica estadistica=es.findEstadisticaById(1L);
+        if (estadistica.getFormuHabilitado().equalsIgnoreCase("si")) {
+            Ingresante pd = inser.findIngresanteById(idIngresante);
+            long hoy =new Date().getTime();
+            if(pd.getTestAlumno().getFechaFin()==null || hoy<pd.getTestAlumno().getFechaFin()){
+                TestAMateria materiaalumno = new TestAMateria();
+                TestAPregunta pregunta = new TestAPregunta();
+                if (pd.getTestAlumno().getEstado() == false) {
+                    if(pd.getTestAlumno().getFechaFin()==null){
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(new Date());
+                        calendar.add(Calendar.MINUTE, pd.getTestAlumno().getTiempo());
 
-                 pd.getTestAlumno().setFechaFin(calendar.getTime().getTime());
-                pd=inser.saveIngresante(pd);
-            }
-            TreeSet<TestAMateria> materias = new TreeSet<>();
-            for (TestAMateria mate : pd.getTestAlumno().getMateriasAlumno()) {
-                materias.add(mate);
-            }
-            for (TestAMateria mate : materias) {
-                if (mate.getEstado() == false) {
-                    materiaalumno = mate;
-                } else {
-                    continue;
-                }
+                        pd.getTestAlumno().setFechaFin(calendar.getTime().getTime());
+                        pd=inser.saveIngresante(pd);
+                    }
+                    TreeSet<TestAMateria> materias = new TreeSet<>();
+                    for (TestAMateria mate : pd.getTestAlumno().getMateriasAlumno()) {
+                        materias.add(mate);
+                    }
+                    for (TestAMateria mate : materias) {
+                        if (mate.getEstado() == false) {
+                            materiaalumno = mate;
+                        } else {
+                            continue;
+                        }
 
-            }
-            TreeSet<TestAPregunta> preguntas = new TreeSet<>();
-            for (TestAPregunta p : materiaalumno.getPreguntasAlumno()) {
-                preguntas.add(p);
-            }
-            for (TestAPregunta pregun : preguntas) {
-                if (pregun.getEstado() == false) {
-                    pregunta = pregun;
-                }
-            }
-            System.out.println(pregunta.getPregunta());
-            System.out.println(pregunta.getId());
-            System.out.println(pregunta.getPortadaImagen());
-            System.out.println(pregunta.getTipoOpcion());
-            System.out.println(pregunta.getTipoPortada());
-            model.addAttribute("idIngresante", idIngresante);
-            model.addAttribute("pregunta", pregunta);
+                    }
+                    TreeSet<TestAPregunta> preguntas = new TreeSet<>();
+                    for (TestAPregunta p : materiaalumno.getPreguntasAlumno()) {
+                        preguntas.add(p);
+                    }
+                    for (TestAPregunta pregun : preguntas) {
+                        if (pregun.getEstado() == false) {
+                            pregunta = pregun;
+                        }
+                    }
+                    System.out.println(pregunta.getPregunta());
+                    System.out.println(pregunta.getId());
+                    System.out.println(pregunta.getPortadaImagen());
+                    System.out.println(pregunta.getTipoOpcion());
+                    System.out.println(pregunta.getTipoPortada());
+                    model.addAttribute("idIngresante", idIngresante);
+                    model.addAttribute("pregunta", pregunta);
 //            Long fin=new Date(pd.getTestAlumno().getFechaFin()).getTime();
-            model.addAttribute("ahora",new Date().getTime());
-            model.addAttribute("fin", pd.getTestAlumno().getFechaFin());
+                    model.addAttribute("ahora",new Date().getTime());
+                    model.addAttribute("fin", pd.getTestAlumno().getFechaFin());
 
-            return "pregunta-test";
+                    return "pregunta-test";
+                }else{
+                    model.addAttribute("ingresante", pd);
+                    return "panel-ingresante";
+                }
+            }else{
+                pd.getTestAlumno().setEstado(true);
+                pd.setTest(true);
+                inser.saveIngresante(pd);
+                model.addAttribute("ingresante", pd);
+                return "panel-ingresante";
+            }
         }else{
-            model.addAttribute("ingresante", pd);
-            return "panel-ingresante";
+            return "redirect:/ingresante/reg";
         }
+
 
 
     }
@@ -321,6 +361,7 @@ public class IngresanteController {
                 System.out.println("el tamaño de las terias es"+tamanioMate);
                 if (contadorMate==tamanioMate){
                     ingresante.getTestAlumno().setEstado(true);
+                    ingresante.setTest(true);
                     ingresante.getTestAlumno().setPuntos(puntosMate);
                     tas.saveTestAlumno(ingresante.getTestAlumno());
 
@@ -336,8 +377,9 @@ public class IngresanteController {
                     puntaje=puntaje+tam.getPuntos();
                 }
             }
-            if (contadorFin==ingresante.getTestAlumno().getMateriasAlumno().size()){
+            if (contadorFin==ingresante.getTestAlumno().getMateriasAlumno().size() ){
                 ingresante.getTestAlumno().setEstado(true);
+                ingresante.setTest(true);
                 ingresante.getTestAlumno().setPuntos(puntaje);
                 tas.saveTestAlumno(ingresante.getTestAlumno());
                 finalizado=true;

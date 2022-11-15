@@ -49,6 +49,21 @@ public class EstadisticaServiceIMPL implements EstadisticaService {
        saveEstadistica(estadistica);
 
     }
+    @Override
+    public void restarIngresantes(Ingresante ingre) {
+        Estadistica estadistica=findEstadisticaById(1L);
+      estadistica.setRegistrosTotales(estadistica.getRegistrosTotales()-1);
+       if (ingre.getGenero().equalsIgnoreCase("Masculino")){
+                    estadistica.setMasculino(estadistica.getMasculino()-1);
+       }else   if (ingre.getGenero().equalsIgnoreCase("Femenino")){
+                    estadistica.setFemenino(estadistica.getFemenino()-1);
+
+        }else{
+         estadistica.setNoBinario(estadistica.getNoBinario()-1);
+        }
+       saveEstadistica(estadistica);
+
+    }
 
     @Override
     public void sumarIngresantesFormulario(Ingresante ingre) {

@@ -16,11 +16,12 @@ public class Estadistica {
     private Integer registrados=0;
     private Integer formularioTerminado=0;
     private Integer testTerminado=0;
+    private  String formuHabilitado="no";
 
     public Estadistica() {
     }
 
-    public Estadistica(Long id, Integer registrosTotales, Integer masculino, Integer femenino, Integer noBinario, Integer registrados, Integer formularioTerminado, Integer testTerminado) {
+    public Estadistica(Long id, Integer registrosTotales, Integer masculino, Integer femenino, Integer noBinario, Integer registrados, Integer formularioTerminado, Integer testTerminado, String formuHabilitado) {
         this.id = id;
         this.registrosTotales = registrosTotales;
         this.masculino = masculino;
@@ -29,10 +30,19 @@ public class Estadistica {
         this.registrados = registrados;
         this.formularioTerminado = formularioTerminado;
         this.testTerminado = testTerminado;
+        this.formuHabilitado = formuHabilitado;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getFormuHabilitado() {
+        return formuHabilitado;
+    }
+
+    public void setFormuHabilitado(String formuHabilitado) {
+        this.formuHabilitado = formuHabilitado;
     }
 
     public void setId(Long id) {

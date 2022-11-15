@@ -1,6 +1,9 @@
 package codoacodo.example.codo.Controllers.Admin;
 
 
+import codoacodo.example.codo.CodoaApplication;
+import codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack.TestAMateria;
+import codoacodo.example.codo.Entities.AlumnoEntities.TestAlumPack.TestAPregunta;
 import codoacodo.example.codo.Entities.DTOS.PackFormDTO.FormDTO;
 import codoacodo.example.codo.Entities.DTOS.PackFormDTO.OpcionDTO;
 import codoacodo.example.codo.Entities.DTOS.PackFormDTO.PreguntaDTO;
@@ -10,10 +13,7 @@ import codoacodo.example.codo.Entities.DTOS.PacktestDto.PreguntaTestDTO;
 import codoacodo.example.codo.Entities.DTOS.PacktestDto.TestDTO;
 import codoacodo.example.codo.Entities.Ingresante;
 import codoacodo.example.codo.Entities.Usuario;
-import codoacodo.example.codo.Entities.editabilidad.Curso;
-import codoacodo.example.codo.Entities.editabilidad.Estadistica;
-import codoacodo.example.codo.Entities.editabilidad.Provincia;
-import codoacodo.example.codo.Entities.editabilidad.Testimonio;
+import codoacodo.example.codo.Entities.editabilidad.*;
 import codoacodo.example.codo.repositories.UsuarioRepository;
 import codoacodo.example.codo.service.DTOSServices.PFormDTOServices.FormDTOService;
 import codoacodo.example.codo.service.DTOSServices.PFormDTOServices.OpcionDTOService;
@@ -24,12 +24,15 @@ import codoacodo.example.codo.service.DTOSServices.PTestDtoService.PreguntaTestD
 import codoacodo.example.codo.service.DTOSServices.PTestDtoService.TestDTOService;
 import codoacodo.example.codo.service.IngresanteService;
 import codoacodo.example.codo.service.editabilidadServices.*;
+import codoacodo.example.codo.serviceIMPL.RutaExcelServiceIMPLE;
 import codoacodo.example.codo.utiles.ExcelFileExporter;
 import codoacodo.example.codo.utiles.GenerarListaConTexto;
 import codoacodo.example.codo.utiles.Listas;
 import codoacodo.example.codo.web.EncriptarPassword;
+import com.graphbuilder.math.func.EFunction;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,11 +43,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 @Controller
 
@@ -84,6 +86,9 @@ public class AdminController {
     private IngresanteService ingres;
     @Autowired
     private UsuarioRepository ur;
+@Autowired
+private RutaExcelServiceIMPLE resi;
+
 //controlador panel de administracion
     @GetMapping("")
     public String panelAdmin(Model model, Ingresante ingresante){
@@ -99,6 +104,19 @@ public class AdminController {
         }
 
     }
+
+
+    @GetMapping("/listasExcels")
+    public String listarExcels(Model model, Ingresante ingresante){
+        ArrayList<RutasExcel> rutas= (ArrayList<RutasExcel>) resi.listallRutas();
+
+
+            model.addAttribute("rutas",rutas);
+            return "excels";
+
+
+    }
+
     //Controldores de formulario dto
     @GetMapping("/formulario/list")
     public String listarFormulario(Model model){
@@ -420,6 +438,7 @@ public String exportar(Model model,
                        @RequestParam(required = false, name = "genero") String genero,
                        @RequestParam(required = false, name = "encuesta") String encuesta,
                        @RequestParam(required = false, name = "tIngles") String tIngles,
+                       @RequestParam(required = false, name = "test") String test,
                        @RequestParam(required = false, name = "tProgramacion") String tProgramacion,
                        @RequestParam(required = false, name = "tLogica") String tLogica,
                        @RequestParam(required = false, defaultValue = "ASC") String order,
@@ -434,8 +453,11 @@ public String exportar(Model model,
             lista = ingres.findAllIngresante();
         } else {
 
-            if (encuesta.equalsIgnoreCase("")) {
+            if (encuesta.equalsIgnoreCase("")||encuesta.isEmpty()||encuesta.length()==0) {
                 encuesta = null;
+            }
+            if (test.equalsIgnoreCase("")) {
+                test = null;
             }
             if (tIngles.equalsIgnoreCase("")) {
                 tIngles = null;
@@ -452,7 +474,7 @@ public String exportar(Model model,
             }
             System.out.println(desde);
             System.out.println(hasta);
-            lista = ingres.getByFilter(query, desde,  hasta,  genero,  encuesta,tIngles, tProgramacion,tLogica , order);
+            lista = ingres.getByFilter(query, desde,  hasta,  genero,  encuesta,test,tIngles, tProgramacion,tLogica , order);
         }
     }
 
@@ -462,6 +484,7 @@ public String exportar(Model model,
     model.addAttribute("has", hasta);
     model.addAttribute("gen", genero);
     model.addAttribute("enc", encuesta);
+    model.addAttribute("tes", test);
     model.addAttribute("tIng", tIngles);
     model.addAttribute("tPro", tProgramacion);
     model.addAttribute("tLog", tLogica);
@@ -478,6 +501,7 @@ public String exportar(Model model,
         @RequestParam(required = false, name = "hasta") String hasta,
         @RequestParam(required = false, name = "genero") String genero,
         @RequestParam(required = false, name = "encuesta") String encuesta,
+        @RequestParam(required = false, name = "test") String test,
         @RequestParam(required = false, name = "tIngles") String tIngles,
         @RequestParam(required = false, name = "tProgramacion") String tProgramacion,
         @RequestParam(required = false, name = "tLogica") String tLogica,
@@ -485,6 +509,12 @@ public String exportar(Model model,
         @RequestParam(required = false,  defaultValue = "no") String no
 
     ) throws IOException {
+    Estadistica estadistica=es.findEstadisticaById(1L);
+    String estaba=estadistica.getFormuHabilitado();
+    if (estaba.equalsIgnoreCase("si")){
+        estadistica.setFormuHabilitado("no");
+        es.saveEstadistica(estadistica);
+    }
         List<Ingresante> lista = new ArrayList<>();
         if(no.equalsIgnoreCase("no")){
 
@@ -495,6 +525,9 @@ public String exportar(Model model,
 
                 if (encuesta.equalsIgnoreCase("")) {
                     encuesta = null;
+                }
+                if (test.equalsIgnoreCase("")) {
+                    test = null;
                 }
                 if (tIngles.equalsIgnoreCase("")) {
                     tIngles = null;
@@ -517,7 +550,7 @@ public String exportar(Model model,
                 }
                 System.out.println(desde);
                 System.out.println(hasta);
-                lista = ingres.getByFilter(query, desde,  hasta,  genero,  encuesta,tIngles, tProgramacion,tLogica , order);
+                lista = ingres.getByFilter(query, desde,  hasta,  genero,  encuesta,test,tIngles, tProgramacion,tLogica , order);
             }
         }
 
@@ -531,43 +564,44 @@ public String exportar(Model model,
                 ingresantex.add(in);
             }
         }
-//            model.addAttribute("ingre",ingresantex);
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=ing.xlsx");
+////            model.addAttribute("ingre",ingresantex);
+//        response.setContentType("application/octet-stream");
+//        response.setHeader("Content-Disposition", "attachment; filename=ing.xlsx");
 
 //            ByteArrayInputStream stream = ExcelFileExporter.ingresantesExcelExpoter(preguntas,ingresantex);
-        XSSFWorkbook workbook= ExcelFileExporter.ingresantesExcelExpoter(tdtos.findTestById(1L),fs.findFormById(1L),ingresantex);
-
+    ExcelFileExporter esx=new ExcelFileExporter();
+    String ruta=esx.ingresantesExcelExpoter (tdtos.findTestById(1L),fs.findFormById(1L),ingresantex);
+    RutasExcel nueva=new RutasExcel();
+    nueva.setNombre(ruta);
+    resi.save(nueva);
+    estadistica.setFormuHabilitado(estaba);
+    es.saveEstadistica(estadistica);
 //            System.out.println("llego");
 //            workbook.write(response.getOutputStream());
-        ServletOutputStream outputStream = response.getOutputStream();
-        workbook.write(outputStream);
-        workbook.close();
-        outputStream.close();
+//        ServletOutputStream outputStream = response.getOutputStream();
+//        workbook.write(outputStream);
+//        workbook.close();
+//        outputStream.close();
     }
     //controlador de exportacion sin filtado
-    @GetMapping("/ing.xlsx")
-    public void downloadCsv(
-            HttpServletResponse response, @RequestParam(required = false, name = "num")Long num,
-            @RequestParam(required = false, name = "desde") String desde,
-            @RequestParam(required = false, name = "query") String query,
-            @RequestParam(required = false, name = "hasta") String hasta,
-            @RequestParam(required = false, name = "genero") String genero,
-            @RequestParam(required = false, name = "encuesta") String encuesta,
-            @RequestParam(required = false, name = "tIngles") String tIngles,
-            @RequestParam(required = false, name = "tProgramacion") String tProgramacion,
-            @RequestParam(required = false, name = "tLogica") String tLogica,
-            @RequestParam(required = false, defaultValue = "ASC") String order,
-            @RequestParam(required = false,  defaultValue = "no") String no
 
-    ) throws IOException {
+    @GetMapping("/descargarTodo")
+
+    public void downloadCsv( Model model) throws IOException {
+Estadistica estadistica=es.findEstadisticaById(1L);
+String estaba=estadistica.getFormuHabilitado();
+if (estaba.equalsIgnoreCase("si")){
+    estadistica.setFormuHabilitado("no");
+    es.saveEstadistica(estadistica);
+}
         List<Ingresante> lista = new ArrayList<>();
        lista=ingres.findAllIngresante();
 
+
 //            model.addAttribute("preguntas",preguntas);
         List<Ingresante> ingresantex=new ArrayList<>();
         for (Ingresante in: lista) {
-            if (in.getFormAlum()!=null){
+            if (in.getFormAlum()!=null && in.getTest()!=null){
                 Ingresante ingre=new Ingresante();
                 ingre=in;
 
@@ -575,18 +609,25 @@ public String exportar(Model model,
             }
         }
 //            model.addAttribute("ingre",ingresantex);
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=ing.xlsx");
+//        response.setContentType("application/octet-stream");
+//        response.setHeader("Content-Disposition", "attachment; filename=ing.xlsx");
+//
+        //XSSFWorkbook workbook= ExcelFileExporter.ingresantesExcelExpoter(tdtos.findTestById(1L),fs.findFormById(1L),lista);
+        ExcelFileExporter esx=new ExcelFileExporter();
+        String ruta=esx.ingresantesExcelExpoter(tdtos.findTestById(1L),fs.findFormById(1L),ingresantex);
 
-//            ByteArrayInputStream stream = ExcelFileExporter.ingresantesExcelExpoter(preguntas,ingresantex);
-        XSSFWorkbook workbook= ExcelFileExporter.ingresantesExcelExpoter(tdtos.findTestById(1L),fs.findFormById(1L),ingresantex);
+        RutasExcel nueva=new RutasExcel();
+        nueva.setNombre(ruta);
+        resi.save(nueva);
+        estadistica.setFormuHabilitado(estaba);
+        es.saveEstadistica(estadistica);
 
-//            System.out.println("llego");
-//            workbook.write(response.getOutputStream());
-        ServletOutputStream outputStream = response.getOutputStream();
-        workbook.write(outputStream);
-        workbook.close();
-        outputStream.close();
+////
+//        ServletOutputStream outputStream = response.getOutputStream();
+//        workbook.write(outputStream);
+//        workbook.close();
+//        outputStream.close();
+//        return "redirect:/admin/";
     }
 
     //controladores que inicializa las provincias
@@ -693,12 +734,7 @@ for (Estadistica pro:es.findAllEstadistica()){
   es.saveEstadistica(pro);
 }
 
-    ArrayList<Provincia> provinciax= (ArrayList<Provincia>) prs.findAllProvincia();
-            model.addAttribute("listaNacionalidades", lis.devolverNacionalidades());
-            model.addAttribute("provincias",provinciax);
-        model.addAttribute("estadistica",es.findEstadisticaById(1L));
-            model.addAttribute("ingresante",new Ingresante());
-            return "paneladministrador";
+        return "redirect:/admin/";
 
     }
 
@@ -746,6 +782,93 @@ for (Estadistica pro:es.findAllEstadistica()){
 
 
     }
+  @GetMapping("/eliminarDuplicados")
+    public String eliminarDuplicados(){
+        List<Ingresante>listaoriginal=ingres.findAllIngresante();
+        Set<Ingresante>listaverificada=new TreeSet<>();
+       for (Ingresante ingre:listaoriginal){
+           listaverificada.add(ingre);
+       };
 
+      System.out.println("tamaño lista original"+listaoriginal.size());
+      System.out.println("tamaño lista verificada"+listaverificada.size());
+      System.out.println("diferencia"+(listaoriginal.size()-listaverificada.size()));
+List<Ingresante>aEliminar=new ArrayList<>();
+   Iterator<Ingresante>iteradorIngre=listaoriginal.iterator();
+   while (iteradorIngre.hasNext()){
+       Ingresante comparador=iteradorIngre.next();
+       for (Ingresante ingre:listaverificada){
+           if(comparador.getId()==ingre.getId()){
+              iteradorIngre.remove();
+           }
+       }
+   }
+
+      System.out.println("tamaño final de la lista original es"+listaoriginal.size());
+for (Ingresante ingre:listaoriginal){
+
+         prs.restarIngresantes(ingre);
+         es.restarIngresantes(ingre);
+         ingres.deleteIngresante(ingre.getId());
+}
+
+        return "redirect:/admin/";
+  }
+
+
+//    @GetMapping("/verificarpreguntas")
+//    public void verificarPreguntas() throws IOException{
+//      List<Ingresante>listaIngre=ingres.findAllIngresante();
+//      Set<Ingresante> listaIngre2=new TreeSet<>();
+//      List<String>nombre=new ArrayList<>();
+//      for (Ingresante in:listaIngre){
+//         listaIngre2.add(in);
+//
+//      }
+// String ruta="C:/Users/jorge/Documents/ingresantes/listaingresantes.txt";
+//      FileWriter listaingresantes=new FileWriter(ruta);
+//      int contador=1;
+//       for (Ingresante ingre:listaIngre2){
+//        listaingresantes.write("********************"+contador+"***********************"+"\n");
+//        listaingresantes.write(ingre.getNombre()+" "+ingre.getApellido()+" con DNI:"+ingre.getNumDoc()+"\n");
+//        for(TestAMateria mat:ingre.getTestAlumno().getMateriasAlumno()){
+//            String nombreMateria=mat.getNombre().toUpperCase();
+//            int tamanio=mat.getPreguntasAlumno().size();
+//            listaingresantes.write(nombreMateria+" tiene "+tamanio+" preguntas"+"\n");
+//
+//
+//        }
+//contador ++;
+//
+//
+//       }
+//        listaingresantes.close();
+//
+//    }
+   @Async
+    @GetMapping("/validarTest")
+    public String validar(){
+        List<Ingresante>ingresantes=ingres.findAllIngresante();
+        for (Ingresante ingre: ingresantes){
+           if(ingre.getTest()==null){
+               ingre.setTest(ingre.getTestAlumno().getEstado());
+               ingres.saveIngresante(ingre);
+           }
+        }
+        return "redirect:/admin/";
+    }
+    @GetMapping("/habilitar-formulario")
+    public String habilitarformulario(){
+        Estadistica estadistica=es.findEstadisticaById(1L);
+        if(estadistica.getFormuHabilitado()==null){
+            estadistica.setFormuHabilitado("no");
+        }else if(estadistica.getFormuHabilitado().equalsIgnoreCase("si")){
+            estadistica.setFormuHabilitado("no");
+        }else if(estadistica.getFormuHabilitado().equalsIgnoreCase("no")){
+            estadistica.setFormuHabilitado("si");
+        }
+        es.saveEstadistica(estadistica);
+        return "redirect:/admin/";
+    }
 
 }

@@ -18,6 +18,7 @@ public class TestAlumno {
     private Integer tiempo;
     private Boolean estado=false;
     private Integer puntos=0;
+
     @OneToMany(mappedBy = "testalumno",cascade = CascadeType.ALL)
     private Set<TestAMateria> materiasAlumno=new TreeSet<>();
 

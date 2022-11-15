@@ -16,91 +16,99 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-        <title>Codo a codo🚀</title>
+    <title>Codo a codo🚀</title>
 </head>
 
 <body>
     <style>
-        .navbar-index{
-    width: 100%;
-    height: 100px;
-    background-color: #fdd306;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  
-   
-    overflow: hidden;
-}
-.navbar-index label img{
-   width: 40px;
-}
-.navbar-index label {
-   margin-right: 50px;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   align-content: center;
-}
-.navbar-index label:hover {
-   transform: scale(1.1);
-}
-.logo-nav{height: 80%;
-overflow: hidden;
-margin-left: 1em;
-}
+        .navbar-index {
+            width: 100%;
+            height: 100px;
+            background-color: #fdd306;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+
+            overflow: hidden;
+        }
+
+        .navbar-index label img {
+            width: 40px;
+        }
+
+        .navbar-index label {
+            margin-right: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+        }
+
+        .navbar-index label:hover {
+            transform: scale(1.1);
+        }
+
+        .logo-nav {
+            height: 80%;
+            overflow: hidden;
+            margin-left: 1em;
+        }
     </style>
     <nav class="navbar-index">
         <!-- este es el java -->
         <img class="logo-nav" th:src="@{/iconos/logos/logos-nav.webp}" alt="logo agencia de aprendizaje">
-        
+
         <!-- este es el chrome -->
         <!-- <img class="logo-nav" src="/static/iconos/logos/logos-nav.webp" alt="logo agencia de aprendizaje"> -->
         <label for="salir-form"><img th:src="@{/iconos/iconos-usabilidad/logout.webp}" alt="">Logout</label>
     </nav>
     <div class="advertencia-eliminar" id="advertencia-eliminar">
-        <form th:action="@{/admin/resetingresantes}"  method="get">
+        <form th:action="@{/admin/resetingresantes}" method="get">
             <p>Advertencia</p>
             <img th:src="@{/iconos/iconos-usabilidad/advertencia.webp}" alt="">
             <p>Si desea continuar con el borrado total haga clic en continuar</p>
             <p>de lo contrario haga clic en cancelar</p>
-           <div class="botones-reseteo">
-            <input class="continuar-reseteo" type="submit" value="CONTINUAR">
-            <input class="cancelar-reseteo" type="button" value="CANCELAR" onclick="noveradvertencia()">
-           </div>
+            <div class="botones-reseteo">
+                <input class="continuar-reseteo" type="submit" value="CONTINUAR">
+                <input class="cancelar-reseteo" type="button" value="CANCELAR" onclick="noveradvertencia()">
+            </div>
         </form>
     </div>
     <div class="crear-user-container" id="crear-user-container">
         <div class="crear-user">
             <div class="contenedor-fomulario">
-                            
-                <form th:action="@{/ingresante/save}" class="formu-registro" method="post" id="myForm" th:object="${ingresante}">
-        <div><h2>Agregar Ingresante</h2></div>
+
+                <form th:action="@{/ingresante/save}" class="formu-registro" method="post" id="myForm"
+                    th:object="${ingresante}">
+                    <div>
+                        <h2>Agregar Ingresante</h2>
+                    </div>
                     <div class="campos-dobles">
                         <div class="campos">
                             <label for="nombre">Nombre</label>
                             <input type="text" name="nombre" id="nombre" th:field="*{nombre}" required>
                         </div>
-                      
-        
+
+
                         <div class="campos">
                             <label for="apellido">Apellido</label>
-                            <input type="text" name="apellido" id="apellido"  th:field="*{apellido}" required>
+                            <input type="text" name="apellido" id="apellido" th:field="*{apellido}" required>
                         </div>
                     </div>
-        
-        
+
+
                     <div class="campos-dobles">
                         <div class="campos">
                             <label for="t-doc">Tipo de documento</label>
                             <select name="tipo-doc" id="t-doc" th:field="*{tDoc}" required>
-        
+
                                 <option value="" selected>Selecciona</option>
-                                <option value="DNI" >DNI</option>
-                                <option value="PASAPORTE" >PASAPORTE</option>
-                                <option value="CUIL/CUIT" >CUIL / CUIT</option>
-                                <option value="OTRO" >OTRO</option>
+                                <option value="DNI">DNI</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
+                                <option value="CUIL/CUIT">CUIL / CUIT</option>
+                                <option value="OTRO">OTRO</option>
                             </select>
                         </div>
                         <div class="campos">
@@ -110,54 +118,56 @@ margin-left: 1em;
                         <div class="campos">
                             <label for="genero">Género</label>
                             <select name="genero" id="genero" th:field="*{genero}" required>
-        
+
                                 <option value="" selected>Selecciona</option>
-                                <option value="No binario" >🌈No binario</option>
-                                <option value="Femenino" >👩Femenino</option>
-                                <option value="Masculino" >🧑Masculino</option>
-                                <option value="Prefiero no decirlo" >🤐Prefiero no decirlo</option>
+                                <option value="No binario">🌈No binario</option>
+                                <option value="Femenino">👩Femenino</option>
+                                <option value="Masculino">🧑Masculino</option>
+                                <option value="Prefiero no decirlo">🤐Prefiero no decirlo</option>
                             </select>
                         </div>
                     </div>
-        <div class="campos-dobles">
-         <div class="campos"> <label for="nacimiento">Fecha de Nacimiento</label>
-             <input type="date" name="nacimiento" th:field="*{fNacimiento}" id="nacimiento" required>
-         </div>
-        
-         <div class="campos">
-             <label for="nacionalidad">Nacionalidad</label>
-             <select name="nacionalidad" th:field="*{nacionalidad}" id="nacionalidad" required>
-                 <option value="" selected>Selecciona</option>
-                 <option th:each="lns : ${listaNacionalidades}" th:value="${lns}" th:text="${lns}"></option>
-             </select>
-        
-         </div>
-        </div>
-        
-        
+                    <div class="campos-dobles">
+                        <div class="campos"> <label for="nacimiento">Fecha de Nacimiento</label>
+                            <input type="date" name="nacimiento" th:field="*{fNacimiento}" id="nacimiento" required>
+                        </div>
+
+                        <div class="campos">
+                            <label for="nacionalidad">Nacionalidad</label>
+                            <select name="nacionalidad" th:field="*{nacionalidad}" id="nacionalidad" required>
+                                <option value="" selected>Selecciona</option>
+                                <option th:each="lns : ${listaNacionalidades}" th:value="${lns}" th:text="${lns}">
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+
+
                     <div class="campos-dobles">
                         <div class="campos">
                             <label for="provincia">Provincia</label>
-                            <select name="provincia" th:field="*{provincia}" id="provincia" onchange="cargarLocalidad()" required>
+                            <select name="provincia" th:field="*{provincia}" id="provincia" onchange="cargarLocalidad()"
+                                required>
                                 <option value="" selected>Selecciona</option>
-                                
+
                             </select>
-                           
+
                         </div>
                         <div class="campos">
                             <label for="localidad">Localidad / Barrio</label>
                             <select name="localidad" th:field="*{localidadResi}" id="localidad" required>
                                 <option value="" selected>Selecciona</option>
-                                
+
                             </select>
                         </div>
                         <div class="campos">
                             <label for="domicilio">Domicilio</label>
                             <input type="text" name="domicilio" id="domicilio" th:field="*{domicilio}" required>
                         </div>
-        
+
                     </div>
-        
+
                     <div class="campos-dobles">
                         <div class="campos">
                             <label for="mail">Email</label>
@@ -165,197 +175,229 @@ margin-left: 1em;
                         </div>
                         <div class="campos">
                             <label for="celu">Celular</label>
-                            <input type="text" name="celu" id="celu"  th:field="*{celu}" required>
+                            <input type="text" name="celu" id="celu" th:field="*{celu}" required>
                         </div>
-                        <div class="campos" >
+                        <div class="campos">
                             <label for="rol" style="display: none;">Rol</label>
-                            
-                            <select name="rol" id="rol"  th:field="*{rol}"  style="display: none;">
-                              
-                              <option value="ADMIN"  >ADMINISTADOR</option>
-                              <option value="USER" selected>INGRESANTE</option>
+
+                            <select name="rol" id="rol" th:field="*{rol}" style="display: none;">
+
+                                <option value="ADMIN">ADMINISTADOR</option>
+                                <option value="USER" selected>INGRESANTE</option>
                             </select>
                         </div>
-        
+
                     </div>
-                    
-        
-                   
+
+
+
                     <input class="btn amarillo" type="submit" value="ENVIAR">
                     <button class="btn rojo2" onclick="noVerRegistro()">CANCELAR</button>
-                   
+
                 </form>
             </div>
         </div>
-        </div>
+    </div>
 
-      
-    <div class="lista-formularios" >
-        
+
+    <div class="lista-formularios">
+
         <div class="barra-control">
             <!-- <button class="btn-agragar-formulario"><a th:href="@{/formulario/list}"><img
                         class="plus-verde" th:src="@{/iconos/iconos-usabilidad/home_icon-icons.com_73532.webp}"
                         alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/home_icon-icons.com_73532.webp}" alt=""></a>
                 <span>Fomularios</span></button> -->
-            <button class="btn-agragar-formulario"><a th:href="@{/admin/pregunta/list?id=1}"><img
-                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/formularioIco.webp}"
-                        alt=""><img class="plus-azul"
+            <button class="btn-agragar-formulario"><a th:href="@{/admin/pregunta/list?id=1}"><img class="plus-verde"
+                        th:src="@{/iconos/iconos-usabilidad/formularioIco.webp}" alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/formularioIco.webp}" alt=""></a>
                 <span>Admin Fomulario</span></button>
-            <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn-agragar-formulario"><a th:href="@{/admin/listausuarios}"><img
-                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/userAdmin.webp}"
-                        alt=""><img class="plus-azul"
+            <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn-agragar-formulario"><a
+                    th:href="@{/admin/listausuarios}"><img class="plus-verde"
+                        th:src="@{/iconos/iconos-usabilidad/userAdmin.webp}" alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/userAdmin.webp}" alt=""></a>
                 <span>Agregar Usuario</span></button>
             <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn-agragar-formulario" onclick="verRegistro()"><img
-                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/user.webp}"
-                        alt=""><img class="plus-azul"
-                        th:src="@{/iconos/iconos-usabilidad/user.webp}" alt="">
+                    class="plus-verde" th:src="@{/iconos/iconos-usabilidad/user.webp}" alt=""><img class="plus-azul"
+                    th:src="@{/iconos/iconos-usabilidad/user.webp}" alt="">
                 <span>Agregar Ingresante</span></button>
-            <button class="btn-agragar-formulario"><a th:href="@{/admin/testimonio/list}"><img
-                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/testimonio.webp}"
-                        alt=""><img class="plus-azul"
+            <button class="btn-agragar-formulario"><a th:href="@{/admin/testimonio/list}"><img class="plus-verde"
+                        th:src="@{/iconos/iconos-usabilidad/testimonio.webp}" alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/testimonio.webp}" alt=""></a>
                 <span>Agregar Testimonios</span></button>
-            <button class="btn-agragar-formulario"><a th:href="@{/admin/curso/list}"><img
-                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/curso.webp}"
-                        alt=""><img class="plus-azul"
+            <button class="btn-agragar-formulario"><a th:href="@{/admin/curso/list}"><img class="plus-verde"
+                        th:src="@{/iconos/iconos-usabilidad/curso.webp}" alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/curso.webp}" alt=""></a>
                 <span>Agregar Curso</span></button>
-            <button class="btn-agragar-formulario"><a th:href="@{/admin/test/list}"><img
-                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/test.webp}"
-                        alt=""><img class="plus-azul"
+            <button class="btn-agragar-formulario"><a th:href="@{/admin/test/list}"><img class="plus-verde"
+                        th:src="@{/iconos/iconos-usabilidad/test.webp}" alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/test.webp}" alt=""></a>
                 <span>Admin Test</span></button>
-            <button class="btn-agragar-formulario"><a th:href="@{/admin/filtrar}"><img
-                        class="plus-verde" th:src="@{/iconos/iconos-usabilidad/filtrar.webp}"
-                        alt=""><img class="plus-azul"
+            <button class="btn-agragar-formulario"><a th:href="@{/admin/filtrar}"><img class="plus-verde"
+                        th:src="@{/iconos/iconos-usabilidad/filtrar.webp}" alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/filtrar.webp}" alt=""></a>
                 <span>Filtrar ingresantes</span></button>
-            <button class="btn-agragar-formulario"><a th:href="@{/admin/ing.xlsx}"><img
+            <button class="btn-agragar-formulario" onclick="descargarM()"><img class="plus-verde"
+                    th:src="@{/iconos/iconos-usabilidad/excel.webp}" alt=""><img class="plus-azul"
+                    th:src="@{/iconos/iconos-usabilidad/excel.webp}" alt="">
+                <span>Generar Reporte</span></button>
+
+           
+            <!-- <button class="btn-agragar-formulario"><a th:href="@{/admin/ing.xlsx}"><img
                         class="plus-verde" th:src="@{/iconos/iconos-usabilidad/excel.webp}"
                         alt=""><img class="plus-azul"
                         th:src="@{/iconos/iconos-usabilidad/excel.webp}" alt=""></a>
-                <span>Descargar Excel</span></button>
-            <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn-agragar-formulario" onclick="veradvertencia()"><img class="plus-azul"
-                        th:src="@{/iconos/iconos-usabilidad/reset.webp}" alt=""><img class="plus-verde"
-                        th:src="@{/iconos/iconos-usabilidad/reset.webp}" alt=""></a>
+                <span>Descargar Excel</span></button> -->
+                <button   class="btn-agragar-formulario"><a th:href="@{/admin/listasExcels}"><img
+                    class="plus-azul" th:src="@{/iconos/iconos-usabilidad/reportes.webp}" alt=""><img class="plus-verde"
+                    th:src="@{/iconos/iconos-usabilidad/reportes.webp}" alt=""></a>
+                <span>Lista de Reportes</span></button>
+            <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn-agragar-formulario" onclick="veradvertencia()"><img
+                    class="plus-azul" th:src="@{/iconos/iconos-usabilidad/reset.webp}" alt=""><img class="plus-verde"
+                    th:src="@{/iconos/iconos-usabilidad/reset.webp}" alt="">
                 <span>Resetear</span></button>
-            
+
+            <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${estadistica.formuHabilitado == 'no'}" class="btn-agragar-formulario"><a th:href="@{/admin/habilitar-formulario}"><img
+                    class="plus-azul" th:src="@{/iconos/iconos-usabilidad/formensendido.webp}" alt=""><img class="plus-verde"
+                    th:src="@{/iconos/iconos-usabilidad/formensendido.webp}" alt=""></a>
+                <span>Habilitar formulario</span></button>
+
+            <button sec:authorize="hasRole('ROLE_ADMIN')" th:if="${estadistica.formuHabilitado == 'si'}" class="btn-agragar-formulario"><a th:href="@{/admin/habilitar-formulario}"><img
+                    class="plus-azul" th:src="@{/iconos/iconos-usabilidad/formapagado.webp}" alt=""><img class="plus-verde"
+                    th:src="@{/iconos/iconos-usabilidad/formapagado.webp}" alt=""></a>
+                <span>Deshabilitar formulario</span></button>
            
 
+            <form th:action="@{/admin/descargarTodo}" id="form-descargar" method="get" style="display: none;">
+                <input type="submit" value="enviar">
+            </form>
+
         </div>
-       <div class="container-estadistica">
-        <div class="flex-container-estadisticas">
-            <div class="titEsta">
-            <P th:text="${estadistica.registrosTotales}">50000</P>
-            <p>Total Registrado</p>
+        
+        
+        <div class="container-estadistica">
+            <div class="flex-container-estadisticas">
+                <div class="titEsta">
+                    <P th:text="${estadistica.registrosTotales}">50000</P>
+                    <p>Total Registrado</p>
+                </div>
+                <div class="titEsta">
+                    <p th:text="${estadistica.noBinario}">25</p>
+                    <p>No binarios</p>
+                </div>
+                <div class="titEsta">
+                    <p th:text="${estadistica.femenino}">50</p>
+                    <p>Femenino</p>
+                </div>
+                <div class="titEsta">
+                    <p th:text="${estadistica.masculino}">80</p>
+                    <p>Masculino</p>
+                </div>
+                <div class="titEsta">
+                    <p th:text="${estadistica.formularioTerminado}">1000</p>
+                    <p>Formulario Terminado</p>
+                </div>
+                <div class="titEsta">
+                    <p th:text="${estadistica.testTerminado}">2000</p>
+                    <p>Test terminado</p>
+                </div>
             </div>
-            <div class="titEsta">
-                <p th:text="${estadistica.noBinario}">25</p>
-                <p>No binarios</p> 
-            </div>
-            <div class="titEsta">
-                <p th:text="${estadistica.femenino}">50</p>
-                <p>Femenino</p>
-            </div>
-            <div class="titEsta">
-                <p th:text="${estadistica.masculino}">80</p>
-                <p>Masculino</p>  
-            </div>
-            <div class="titEsta">
-                <p th:text="${estadistica.formularioTerminado}">1000</p>
-                <p>Formulario Terminado</p>
-            </div>
-            <div class="titEsta">
-                <p th:text="${estadistica.testTerminado}">2000</p>
-                <p>Test terminado</p>
+            <div class="estadisticas">
+                <div class="card-provincia" th:each="pro, it : ${provincias}" th:if="${provincias != null}">
+                    <img th:src="@{'/provinciaswebp/'+${pro.imagenNombre}}" alt="">
+                    <!-- <img src="/static/provinciaswebp/buenosaires.webp" alt=""> -->
+                    <p class="card-pro-titulo" th:text="${pro.nombre}">Ciudad Autonoma de buenos aires</p>
+                    <p>Total Registrado: <span th:text="${pro.registrosTotales}"></span></p>
+                    <p>Formulario Terminado: <span th:text="${pro.formularioTerminado}"></span></p>
+                    <p>Test terminado: <span th:text="${pro.testTerminado}"></span></p>
+                    <p>No binarios: <span th:text="${pro.noBinario}"></span></p>
+                    <p>Femenino: <span th:text="${pro.femenino}"></span></p>
+                    <p>Masculino: <span th:text="${pro.masculino}"></span></p>
+
+                </div>
+
+
             </div>
         </div>
-        <div class="estadisticas">
-            <div class="card-provincia" th:each="pro, it : ${provincias}" th:if="${provincias != null}">
-                <img th:src="@{'/provinciaswebp/'+${pro.imagenNombre}}" alt="">
-                <!-- <img src="/static/provinciaswebp/buenosaires.webp" alt=""> -->
-                <p class="card-pro-titulo" th:text="${pro.nombre}">Ciudad Autonoma de buenos aires</p>
-                <p>Total Registrado: <span th:text="${pro.registrosTotales}"></span></p>
-                <p>Formulario Terminado: <span th:text="${pro.formularioTerminado}"></span></p>
-                <p>Test terminado: <span th:text="${pro.testTerminado}"></span></p>
-                <p>No binarios: <span th:text="${pro.noBinario}"></span></p>
-                <p>Femenino: <span th:text="${pro.femenino}"></span></p>
-                <p>Masculino: <span th:text="${pro.masculino}"></span></p>            
-               
-            </div>
-           
-            
-            </div>
-       </div>
 
     </div>
 
-    
+    <script>
+        function descargarM() {
+            var mensaje;
+            var opcion = confirm("Si finalizo el periodo de inscripción y desea Generar el reporte completo haga clic en aceptar de lo contrario haga clic en cancelar y diríjase a FILTRAR INGRESANTES y descargue el reporte filtrado");
+            if (opcion == true) {
+                var validacion = confirm("Por favor cierre el la pestaña de administracion en 30 minutos se generará el reporte podra descargarlo en la seccion Lista de Reportes");
+              if(validacion==true){
+                let formu=document.getElementById("form-descargar");
+               formu.submit();
+              }
+            } 
+        }
+    </script>
     <footer class="footer-mobile">
         <link rel="stylesheet" href="/css footer/footer-mobile.css">
         <div class="footer-img-vamosba">
-          <img th:src="@{/iconos/imagenes footer/ba_vamosba_blanco.webp}" alt="">
+            <img th:src="@{/iconos/imagenes footer/ba_vamosba_blanco.webp}" alt="">
         </div>
-    
+
         <div class="footer-telefonos-utiles">
-          <p>Teléfonos Utiles</p>
-          <div class="footer-telefonos-utiles-numeros">
-            <div class="footer-tel-item-num"> <a href="tel:102"><span>102</span></a>
-              <p>Niñez y Adolescencia</p>
+            <p>Teléfonos Utiles</p>
+            <div class="footer-telefonos-utiles-numeros">
+                <div class="footer-tel-item-num"> <a href="tel:102"><span>102</span></a>
+                    <p>Niñez y Adolescencia</p>
+                </div>
+                <div class="footer-tel-item-num"> <a href="tel:103"><span>103</span></a>
+                    <p>Emergencias</p>
+                </div>
+                <div class="footer-tel-item-num"> <a href="tel:107"><span>107</span></a>
+                    <p>SAME</p>
+                </div>
+                <div class="footer-tel-item-num"> <a href="tel:911"><span>911</span></a>
+                    <p>Policía</p>
+                </div>
+                <div class="footer-tel-item-num"> <a href="tel:147"><span>147</span></a>
+                    <p>Atención ciudadana</p>
+                </div>
+                <div class="footer-tel-item-num"> <a href="tel:144"><span>144</span></a>
+                    <p>Violencia de género</p>
+                </div>
             </div>
-            <div class="footer-tel-item-num"> <a href="tel:103"><span>103</span></a>
-              <p>Emergencias</p>
-            </div>
-            <div class="footer-tel-item-num"> <a href="tel:107"><span>107</span></a>
-              <p>SAME</p>
-            </div>
-            <div class="footer-tel-item-num"> <a href="tel:911"><span>911</span></a>
-              <p>Policía</p>
-            </div>
-            <div class="footer-tel-item-num"> <a href="tel:147"><span>147</span></a>
-              <p>Atención ciudadana</p>
-            </div>
-            <div class="footer-tel-item-num"> <a href="tel:144"><span>144</span></a>
-              <p>Violencia de género</p>
-            </div>
-          </div>
         </div>
-        <div class="footer-ver-todos-tel"> <a href="https://www.buenosaires.gob.ar/laciudad/telefonosutiles"><span>Ver todos los Teléfonos</span></a></div>
+        <div class="footer-ver-todos-tel"> <a href="https://www.buenosaires.gob.ar/laciudad/telefonosutiles"><span>Ver
+                    todos los Teléfonos</span></a></div>
         <div class="footer-redes">
-    
-          <p>Redes de la Ciudad</p>
-          <div class="redes-iconos">
-            <a href="https://www.facebook.com/GCBA/"><img src="/iconos/redes/facebook-f-500.png" alt=""></a>
-            <a href="https://twitter.com/gcba"><img src="/iconos/redes/twitter-500.png" alt=""></a>
-            <a href="https://www.instagram.com/buenosaires/"><img src="/iconos/redes/instagram-384.png" alt=""></a>
-            <a href="https://www.youtube.com/user/GCBA"><img src="/iconos/redes/youtube-500.png" alt=""></a>
-          </div>
+
+            <p>Redes de la Ciudad</p>
+            <div class="redes-iconos">
+                <a href="https://www.facebook.com/GCBA/"><img src="/iconos/redes/facebook-f-500.png" alt=""></a>
+                <a href="https://twitter.com/gcba"><img src="/iconos/redes/twitter-500.png" alt=""></a>
+                <a href="https://www.instagram.com/buenosaires/"><img src="/iconos/redes/instagram-384.png" alt=""></a>
+                <a href="https://www.youtube.com/user/GCBA"><img src="/iconos/redes/youtube-500.png" alt=""></a>
+            </div>
         </div>
         <hr>
         <div class="footer-legales">
-          <img th:src="@{/iconos/imagenes footer/ciudad-ba.webp}" alt="">
-          <p>Los contenidos de buenosaires.gob.ar están licenciados bajo Creative Commons Reconocimiento 2.5 Argentina
-            License.</p>
-          <div class="footer-legales-items">
-            <a href="https://boletinoficial.buenosaires.gob.ar/"><span>Boletín Oficial</span></a>
-            <a href="https://www.buenosaires.gob.ar/innovacion/ciudadinteligente/terminos-y-condiciones"><span>Términos y condiciones</span></a>
-            <a href="https://www.buenosaires.gob.ar/privacidad"><span>Política de Privacidad</span></a>
-            <a href="https://www.buenosaires.gob.ar/oficiosjudiciales"><span>Oficios Judiciales</span></a>
-          </div>
+            <img th:src="@{/iconos/imagenes footer/ciudad-ba.webp}" alt="">
+            <p>Los contenidos de buenosaires.gob.ar están licenciados bajo Creative Commons Reconocimiento 2.5 Argentina
+                License.</p>
+            <div class="footer-legales-items">
+                <a href="https://boletinoficial.buenosaires.gob.ar/"><span>Boletín Oficial</span></a>
+                <a href="https://www.buenosaires.gob.ar/innovacion/ciudadinteligente/terminos-y-condiciones"><span>Términos
+                        y condiciones</span></a>
+                <a href="https://www.buenosaires.gob.ar/privacidad"><span>Política de Privacidad</span></a>
+                <a href="https://www.buenosaires.gob.ar/oficiosjudiciales"><span>Oficios Judiciales</span></a>
+            </div>
         </div>
-      </footer>
-      <footer class="footer-web">
+    </footer>
+    <footer class="footer-web">
         <script th:src="@{https://code.iconify.design/2/2.2.1/iconify.min.js}"></script>
-        <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>   
+        <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
         <div class="contenedor-fot-prin">
             <div class="fot-sup">
                 <div class="logo-ba-fot">
                     <a href="http://www.buenosaires.gob.ar/" target="blank">
-                        <img th:src="@{/iconos/imagenes footer/ba_vamosba_blanco.webp}"
-                            alt="Logo Vamos Buenos Aires">
+                        <img th:src="@{/iconos/imagenes footer/ba_vamosba_blanco.webp}" alt="Logo Vamos Buenos Aires">
                     </a>
                 </div>
                 <div class="fot-sup-cont">
@@ -391,7 +433,7 @@ margin-left: 1em;
                                 <a href="tel:144" target="blank"><span>144</span></a>
                                 <p>Violencia de género</p>
                             </div>
-    
+
                         </div>
                     </div>
                     <div class="fot-cont-inf">
@@ -438,21 +480,21 @@ margin-left: 1em;
                             Privacidad</span></a>
                     <a href="https://www.buenosaires.gob.ar/oficiosjudiciales" target="blank"><span>Oficios
                             judiciales</span></a>
-                            <form th:action="@{/logout}" method="POST" style="display: none;">
-                                <input type="submit" value="salir" id="salir-form">
-                            </form>
-           
+                    <form th:action="@{/logout}" method="POST" style="display: none;">
+                        <input type="submit" value="salir" id="salir-form">
+                    </form>
+
                 </div>
             </div>
         </div>
     </footer>
-   
+
     <script src="/static/js/preguntas.js"></script>
     <script th:src="@{/js/preguntas.js}"></script>
     <script th:src="@{/js/provinciasylocalidades.js}"></script>
-<script src="/static/js/provinciasylocalidades.js"></script>
-<script src="/static/js/paneldeadmin.js"></script>
-<script th:src="@{/js/paneldeadmin.js}"></script>
+    <script src="/static/js/provinciasylocalidades.js"></script>
+    <script src="/static/js/paneldeadmin.js"></script>
+    <script th:src="@{/js/paneldeadmin.js}"></script>
 
 </body>
 

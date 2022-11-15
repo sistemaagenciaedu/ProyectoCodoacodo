@@ -11,7 +11,7 @@ import java.util.*;
 @Entity
 
 @Table(name = "ingresante")
-public class Ingresante {
+public class Ingresante implements Comparable<Ingresante>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +33,7 @@ public class Ingresante {
     private String rol;
 
     private Boolean encuesta = false;
+    private Boolean test = false;
     private Boolean tIngles = false;
     private Boolean tProgramacion = false;
     private Boolean tLogica = false;
@@ -51,7 +52,7 @@ private TestAlumno testAlumno;
     public Ingresante() {
     }
 
-    public Ingresante(Long id, String mail, Long celu, String tDoc, String numDoc, String apellido, String nombre, String fNacimiento, String genero, String nacionalidad, String pais, String provincia, String localidadResi, String domicilio, String rol, Boolean encuesta, Boolean tIngles, Boolean tProgramacion, Boolean tLogica, int ingles, int programacion, int logica, int totalpuntos, Date fechaEncuenta, FormAlum formAlum, TestAlumno testAlumno) {
+    public Ingresante(Long id, String mail, Long celu, String tDoc, String numDoc, String apellido, String nombre, String fNacimiento, String genero, String nacionalidad, String pais, String provincia, String localidadResi, String domicilio, String rol, Boolean encuesta, Boolean test, Boolean tIngles, Boolean tProgramacion, Boolean tLogica, int ingles, int programacion, int logica, int totalpuntos, Date fechaEncuenta, FormAlum formAlum, TestAlumno testAlumno) {
         this.id = id;
         this.mail = mail;
         this.celu = celu;
@@ -68,6 +69,7 @@ private TestAlumno testAlumno;
         this.domicilio = domicilio;
         this.rol = rol;
         this.encuesta = encuesta;
+        this.test = test;
         this.tIngles = tIngles;
         this.tProgramacion = tProgramacion;
         this.tLogica = tLogica;
@@ -77,6 +79,7 @@ private TestAlumno testAlumno;
         this.totalpuntos = totalpuntos;
         this.fechaEncuenta = fechaEncuenta;
         this.formAlum = formAlum;
+
         this.testAlumno = testAlumno;
     }
 
@@ -90,6 +93,14 @@ private TestAlumno testAlumno;
 
     public String getMail() {
         return mail;
+    }
+
+    public Boolean getTest() {
+        return test;
+    }
+
+    public void setTest(Boolean test) {
+        this.test = test;
     }
 
     public void setMail(String mail) {
@@ -286,5 +297,56 @@ private TestAlumno testAlumno;
 
     public void setTestAlumno(TestAlumno testAlumno) {
         this.testAlumno = testAlumno;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingresante that = (Ingresante) o;
+        return numDoc.equals(that.numDoc);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numDoc);
+    }
+
+    @Override
+    public String toString() {
+        return "Ingresante{" +
+                "id=" + id +
+                ", mail='" + mail + '\'' +
+                ", celu=" + celu +
+                ", tDoc='" + tDoc + '\'' +
+                ", numDoc='" + numDoc + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", fNacimiento='" + fNacimiento + '\'' +
+                ", genero='" + genero + '\'' +
+                ", nacionalidad='" + nacionalidad + '\'' +
+                ", pais='" + pais + '\'' +
+                ", provincia='" + provincia + '\'' +
+                ", localidadResi='" + localidadResi + '\'' +
+                ", domicilio='" + domicilio + '\'' +
+                ", rol='" + rol + '\'' +
+                ", encuesta=" + encuesta +
+                ", tIngles=" + tIngles +
+                ", tProgramacion=" + tProgramacion +
+                ", tLogica=" + tLogica +
+                ", ingles=" + ingles +
+                ", programacion=" + programacion +
+                ", logica=" + logica +
+                ", totalpuntos=" + totalpuntos +
+                ", fechaEncuenta=" + fechaEncuenta +
+                ", formAlum=" + formAlum +
+                ", testAlumno=" + testAlumno +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Ingresante o) {
+        return this.numDoc.compareTo(o.getNumDoc());
     }
 }

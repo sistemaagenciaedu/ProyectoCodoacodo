@@ -125,6 +125,18 @@ public class IngresanteSpecification {
                 }
 
             }
+            if (ifd.getTest() != null){
+                if (ifd.getEncuesta().equalsIgnoreCase("si")) {
+                    predicates.add(
+                            criteriaBuilder.isTrue(root.get("test").as(Boolean.class)));
+
+
+                } else {
+                    predicates.add(
+                            criteriaBuilder.isFalse(root.get("test").as(Boolean.class)));
+                }
+
+            }
             if (ifd.gettIngles() != null){
                 if (ifd.gettIngles().equalsIgnoreCase("si")) {
                     predicates.add(

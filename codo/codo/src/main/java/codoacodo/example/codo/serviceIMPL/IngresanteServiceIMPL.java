@@ -56,7 +56,7 @@ public class IngresanteServiceIMPL implements IngresanteService {
     }
     @Transactional(readOnly = true)
     @Override
-    public List<Ingresante> getByFilter(String query, String desde, String hasta, String genero, String encuesta,String tIngles,String tProgramacion,String tLogica ,String order) {
+    public List<Ingresante> getByFilter(String query, String desde, String hasta, String genero, String encuesta,String test,String tIngles,String tProgramacion,String tLogica ,String order) {
         System.out.println(desde);
         System.out.println(hasta);
         IngresanteFilterDto ifd= new IngresanteFilterDto();
@@ -72,6 +72,7 @@ public class IngresanteServiceIMPL implements IngresanteService {
         ifd.setOrder(order);
         ifd.setPais(query);
         ifd.setEncuesta(encuesta);
+        ifd.setTest(test);
         ifd.settIngles(tIngles);
         ifd.settLogica(tLogica);
         ifd.settProgramacion(tProgramacion);
